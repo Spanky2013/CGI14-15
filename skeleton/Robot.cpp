@@ -32,21 +32,54 @@ Node *buildRobot(){
 			0, 0, 0);
   
   // XXX: implement more body/robot/whatever parts here
-  
-  // INSERT YOUR CODE HERE
 
-  // END XXX
-  
+  Node *head= new Node(0, 0, 0,
+			75, 75, 75,
+			0, 0, 0,
+			0, 0, 0);
+
+  Node *larm= new Node(0, 0, 0,
+			50, 150, 50,
+			0, 0, 0,
+			0, 0, 0);
+
+  Node *rarm= new Node(0, 0, 0,
+			50, 150, 50,
+			0, 0, 0,
+			0, 0, 0);
+
+  Node *lforearm= new Node(0, 0, 0,
+			50, 125, 50,
+			0, 0, 0,
+			0, 0, 0);
+
+  Node *rforearm= new Node(0, 0, 0,
+			50, 125, 50,
+			0, 0, 0,
+			0, 0, 0);
+
+  Node *lleg= new Node(0, 0, 0,
+			75, 175, 75,
+			0, 0, 0,
+			0, 0, 0);
+
+  Node *rleg= new Node(0, 0, 0,
+			75, 175, 75,
+			0, 0, 0,
+			0, 0, 0);
+
   // finally, attach the robot/model parts
   // example: leftArm->setParent(torso), etc...
   // BUILD THE SCENEGRAPH
-  
-  // XXX: attach body parts here
 
-  // INSERT YOUR CODE HERE
-  
-  // END XXX
-  
+  head->setParent(torso);
+  larm->setParent(torso);
+  rarm->setParent(torso);
+  lforearm->setParent(larm);
+  rforearm->setParent(rarm);
+  lleg->setParent(torso);
+  rleg->setParent(torso);
+
   // return root node
   return torso;
 }
