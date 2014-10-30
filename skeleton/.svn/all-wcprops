@@ -1,0 +1,101 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/cg1/!svn/ver/61/trunk/ex/cg1_ex1/skeleton
+END
+cg1_ex1.vcxproj
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/cg1/!svn/ver/61/trunk/ex/cg1_ex1/skeleton/cg1_ex1.vcxproj
+END
+cg1_ex1.sln
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/cg1/!svn/ver/38/trunk/ex/cg1_ex1/skeleton/cg1_ex1.sln
+END
+cg1_ex1.vcxproj.filters
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/cg1/!svn/ver/38/trunk/ex/cg1_ex1/skeleton/cg1_ex1.vcxproj.filters
+END
+Scenegraph.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/cg1/!svn/ver/59/trunk/ex/cg1_ex1/skeleton/Scenegraph.cpp
+END
+cg1_ex1.sdf
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/cg1/!svn/ver/38/trunk/ex/cg1_ex1/skeleton/cg1_ex1.sdf
+END
+Main.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/cg1/!svn/ver/46/trunk/ex/cg1_ex1/skeleton/Main.cpp
+END
+Context.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/cg1/!svn/ver/54/trunk/ex/cg1_ex1/skeleton/Context.cpp
+END
+Scenegraph.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/cg1/!svn/ver/45/trunk/ex/cg1_ex1/skeleton/Scenegraph.hpp
+END
+Robot.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/cg1/!svn/ver/53/trunk/ex/cg1_ex1/skeleton/Robot.cpp
+END
+Node.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/cg1/!svn/ver/59/trunk/ex/cg1_ex1/skeleton/Node.cpp
+END
+Makefile.macosx
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/cg1/!svn/ver/61/trunk/ex/cg1_ex1/skeleton/Makefile.macosx
+END
+Context.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/cg1/!svn/ver/47/trunk/ex/cg1_ex1/skeleton/Context.hpp
+END
+Node.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/cg1/!svn/ver/59/trunk/ex/cg1_ex1/skeleton/Node.hpp
+END
+readme.txt
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/cg1/!svn/ver/61/trunk/ex/cg1_ex1/skeleton/readme.txt
+END
+Makefile.linux
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/cg1/!svn/ver/61/trunk/ex/cg1_ex1/skeleton/Makefile.linux
+END
+Robot.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/cg1/!svn/ver/45/trunk/ex/cg1_ex1/skeleton/Robot.hpp
+END
