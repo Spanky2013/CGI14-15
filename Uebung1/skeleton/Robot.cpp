@@ -33,38 +33,38 @@ Node *buildRobot(){
   
   // XXX: implement more body/robot/whatever parts here
 
-  Node *head= new Node(0, 0, 0,
-			75, 75, 75,
+  Node *head= new Node(0, 215, 0,
+			80, 80, 80,
 			0, 0, 0,
 			0, 0, 0);
 
-  Node *larm= new Node(0, 0, 0,
+  Node *larm= new Node(-155, 75, 0,
 			50, 150, 50,
 			0, 0, 0,
 			0, 0, 0);
 
-  Node *rarm= new Node(0, 0, 0,
+  Node *rarm= new Node(155, 75, 0,
 			50, 150, 50,
 			0, 0, 0,
 			0, 0, 0);
 
-  Node *lforearm= new Node(0, 0, 0,
-			50, 125, 50,
+  Node *lforearm= new Node(0, -135, 0,
+			50, 100, 50,
 			0, 0, 0,
 			0, 0, 0);
 
-  Node *rforearm= new Node(0, 0, 0,
-			50, 125, 50,
+  Node *rforearm= new Node(0, -135, 0,
+			50, 100, 50,
 			0, 0, 0,
 			0, 0, 0);
 
-  Node *lleg= new Node(0, 0, 0,
-			75, 175, 75,
+  Node *lleg= new Node(-50, -260, 0,
+			80, 160, 80,
 			0, 0, 0,
 			0, 0, 0);
 
-  Node *rleg= new Node(0, 0, 0,
-			75, 175, 75,
+  Node *rleg= new Node(50, -260, 0,
+			80, 160, 80,
 			0, 0, 0,
 			0, 0, 0);
 

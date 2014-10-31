@@ -87,6 +87,7 @@ void Node::setParent(Node* parent){
   // XXX: NEEDS TO BE IMPLEMENTED
 void Node::render(){
  
+	
 	// note the order of the operations:
 	// the transformations are applied in "reverse" order
 	// of glRotate/glTranslate calls
@@ -119,7 +120,7 @@ void Node::render(){
 	// translate center of rotation into limb's origin
 	// XXX
 
-	// INSERT YOUR CODE HERE
+	glTranslatef(x,y,z);
 
 	// END XXX
 
