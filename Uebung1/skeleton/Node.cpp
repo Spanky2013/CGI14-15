@@ -95,7 +95,7 @@ void Node::render(){
 	
 	// translate to final position
 	// XXX
-	glPushMatrix();
+
 	glTranslatef(x,y,z);
 	
 	// END XXX
@@ -111,6 +111,8 @@ void Node::render(){
 	// XXX
 
 	glRotatef(rotx,1.0,0.0,0.0);
+	glRotatef(roty,0.0,1.0,0.0);
+	glRotatef(rotz,0.0,0.0,1.0);
 
 	// END XXX
 
@@ -119,10 +121,8 @@ void Node::render(){
 
 	// translate center of rotation into limb's origin
 	// XXX
-	glPopMatrix();
 	
-	glTranslatef(x,y,z);
-	glRotatef(rotx,1.0,0.0,0.0);
+	glTranslatef(-jointx,-jointy,-jointz);
 	// END XXX
 
 	// draw the node
