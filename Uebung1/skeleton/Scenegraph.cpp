@@ -89,19 +89,22 @@ void SceneGraph::traverse(Node *node){
   // store current modelview (transformation) matrix
   // XXX
   
-  // INSERT YOUR CODE HERE
+  glPushMatrix();
   
   // END XXX
   
   // apply local transformation
   // and draw current node
   node->render();
+  node->draw();
 	
   // continue concatenating transformations
   // if this node has children
   // XXX  
 
-  // INSERT YOUR CODE HERE
+  if(node->getChild() != NULL) {
+	  traverse(node->getChild());
+  }
 
   // END XXX
   
@@ -109,14 +112,16 @@ void SceneGraph::traverse(Node *node){
   // restore previous transformation
   // XXX
   
-  // INSERT YOUR CODE HERE
+  glPopMatrix();
   
   // END XXX
   
   // and traverse possible siblings
   // XXX
   
-  // INSERT YOUR CODE HERE
+  if(node->getNext() != NULL) {
+	  traverse(node->getNext());
+  }
   
   // END XXX
 }
