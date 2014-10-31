@@ -96,7 +96,7 @@ void Node::render(){
 	// translate to final position
 	// XXX
 
-	// INSERT YOUR CODE HERE
+	glTranslatef(x,y,z);
 
 	// END XXX
 
@@ -164,7 +164,7 @@ void Node::drawJoint(){
 	// (with glutwiredphere...)
 	// XXX
 
-	// INSERT YOUR CODE HERE
+	glutWireSphere(25.0,5,5);
 
 	// END XXX
 

@@ -33,9 +33,9 @@ Node *buildRobot(){
   
   // XXX: implement more body/robot/whatever parts here
 
-  Node *head= new Node(0, 215, 0,
+  Node *head= new Node(0, 245, 0,
 			80, 80, 80,
-			0, 200, 0,
+			0, -50, 0,
 			0, 0, 0);
 
   Node *larm= new Node(-155, 75, 0,
