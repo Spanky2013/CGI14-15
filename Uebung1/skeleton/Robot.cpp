@@ -35,7 +35,7 @@ Node *buildRobot(){
 
   Node *head= new Node(0, 215, 0,
 			80, 80, 80,
-			0, 0, 0,
+			0, 200, 0,
 			0, 0, 0);
 
   Node *larm= new Node(-155, 75, 0,
@@ -48,12 +48,12 @@ Node *buildRobot(){
 			0, 0, 0,
 			0, 0, 0);
 
-  Node *lforearm= new Node(0, -135, 0,
+  Node *lforearm= new Node(0, -155, 0,
 			50, 100, 50,
 			0, 0, 0,
 			0, 0, 0);
 
-  Node *rforearm= new Node(0, -135, 0,
+  Node *rforearm= new Node(0, -155, 0,
 			50, 100, 50,
 			0, 0, 0,
 			0, 0, 0);

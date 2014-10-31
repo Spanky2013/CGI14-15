@@ -92,7 +92,7 @@ void Node::render(){
 	// the transformations are applied in "reverse" order
 	// of glRotate/glTranslate calls
 	// (also see cg1 lecture notes on this topic)
-
+	glPushMatrix();
 	// translate to final position
 	// XXX
 
@@ -103,14 +103,14 @@ void Node::render(){
 	// translate node center to joint position
 	// XXX
 
-	// INSERT YOUR CODE HERE
+	glTranslatef(jointx,jointy,jointz);
 
 	// END XXX
 
 	// apply this node's rotation
 	// XXX
 
-        // INSERT YOUR CODE HERE
+	//glRotatef(5.0,0.0,0.0,1.0);
 
 	// END XXX
 
@@ -119,7 +119,7 @@ void Node::render(){
 
 	// translate center of rotation into limb's origin
 	// XXX
-
+	glPopMatrix();
 	glTranslatef(x,y,z);
 
 	// END XXX
