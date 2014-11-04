@@ -131,7 +131,6 @@ void Node::render(){
 
 // draw an individual node
 void Node::draw(){
-
 	// save lighting bit for red light
 	glPushAttrib(GL_LIGHTING_BIT);
 
@@ -152,7 +151,10 @@ void Node::draw(){
 // of an individual node
 // XXX: NEEDS TO BE IMPLEMENTED
 void Node::drawJoint(){
-
+	float x[3] = {50,0,0};
+	float y[3] = {0,50,0};
+	float z[3] = {0,0,50};
+	float ZERO[3] = {0,0,0};
 	// save enable bit for lighting
 	// and current bit for color
 	glPushAttrib(GL_ENABLE_BIT | GL_CURRENT_BIT);
@@ -164,8 +166,8 @@ void Node::drawJoint(){
 	// draw a sphere at center of rotation
 	// (with glutwiredphere...)
 	// XXX
-
-	glutWireSphere(20.0,10,5);
+	glColor3f(1,1,1);
+	glutWireSphere(20,10,5);
 
 	// END XXX
 
@@ -174,7 +176,18 @@ void Node::drawJoint(){
 	// XXX: DRAW X,Y AND Z AXES IN RED,GREEN AND BLUE
 	//      SEE PROVIDED cg1_ex1.exe (win32) AND cg1_ex1 (linux)
 
-	// INSERT YOUR CODE HERE
+	glColor3f(1,0,0);
+	glVertex3fv(&ZERO[0]);
+	glVertex3fv(&x[0]);
+
+	glColor3f(0,1,0);
+	glVertex3fv(&ZERO[0]);
+	glVertex3fv(&y[0]);
+
+	glColor3f(0,0,1);
+	glVertex3fv(&ZERO[0]);
+	glVertex3fv(&z[0]);
+
 
 	// END XXX
 

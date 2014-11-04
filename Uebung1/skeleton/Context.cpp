@@ -209,7 +209,10 @@ void Context::keyPressed(unsigned char key, int x, int y){
     sceneGraph->rotate(0, 0, -step);
     display();
     break;
-
+  case 'r':
+	sceneGraph->reset();
+	display();
+	break;
     // XXX: reset rotations
 
     // INSERT YOUR CODE HERE
@@ -264,6 +267,8 @@ void Context::menu(int id){
   case 1: 
     delete sceneGraph;
     exit(0);
+  case 2:
+	sceneGraph->reset();
   
     // XXX: reset rotations
 

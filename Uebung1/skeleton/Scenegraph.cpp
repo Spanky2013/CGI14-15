@@ -144,7 +144,7 @@ void SceneGraph::reset(Node* node){
   // reset rotations
   // XXX
   
-  // INSERT YOUR CODE HERE
+  node->rotate(0,0,0);
   
   // END XXX
 }
