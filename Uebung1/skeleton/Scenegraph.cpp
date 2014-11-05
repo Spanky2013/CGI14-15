@@ -143,8 +143,26 @@ void SceneGraph::reset(Node* node){
 
   // reset rotations
   // XXX
-  
-  node->rotate(0,0,0);
-  
+  if(node == NULL) return;
+
+  node->deselect();
+  if(node->getParent() == NULL) {
+	  selected = node;
+	  node->select();
+  }
+
+  glPushMatrix();
+
+  node->rotate(-(node->rotx),-(node->roty),-(node->rotz));
+
+  if(node->getChild() != NULL) {
+	  reset(node->getChild());
+  }
+
+  glPopMatrix();
+
+  if(node->getNext() != NULL) {
+	  reset(node->getNext());
+  }
   // END XXX
 }
