@@ -145,7 +145,8 @@ void SceneGraph::reset(Node* node){
   // XXX
   if(node == NULL) return;
 
-  node->deselect();
+
+ node->deselect();
   if(node->getParent() == NULL) {
 	  selected = node;
 	  node->select();

@@ -33,17 +33,17 @@ Node *buildRobot(){
   
   // XXX: implement more body/robot/whatever parts here
 
-  Node *head= new Node(0, 235, 0,
+  Node *head= new Node(0, 230, 0,
 			80, 80, 80,
 			0, -60, 0,
 			0, 0, 0);
 
-  Node *larm= new Node(-165, 75, 0,
+  Node *larm= new Node(-160, 75, 0,
 			40, 150, 40,
 			40, 60, 0,
 			0, 0, 0);
 
-  Node *rarm= new Node(165, 75, 0,
+  Node *rarm= new Node(160, 75, 0,
 			40, 150, 40,
 			-40, 60, 0,
 			0, 0, 0);
@@ -58,15 +58,29 @@ Node *buildRobot(){
 			0, 75, 0,
 			0, 0, 0);
 
-  Node *lleg= new Node(-50, -280, 0,
+  Node *lleg= new Node(-50, -270, 0,
 			80, 160, 80,
 			0, 100, 0,
 			0, 0, 0);
 
-  Node *rleg= new Node(50, -280, 0,
+  Node *rleg= new Node(50, -270, 0,
 			80, 160, 80,
 			0, 100, 0,
 			0, 0, 0);
+
+  Node *rfoot= new Node(0,-130,30,
+		80,20,140,
+		0,30,-30,
+		0,0,0);
+
+  Node *lfoot= new Node(0,-130,30,
+		80,20,140,
+		0,30,-30,
+		0,0,0);
+
+
+  
+
 
   // finally, attach the robot/model parts
   // example: leftArm->setParent(torso), etc...
@@ -79,6 +93,8 @@ Node *buildRobot(){
   rforearm->setParent(rarm);
   lleg->setParent(torso);
   rleg->setParent(torso);
+  rfoot->setParent(rleg);
+  lfoot->setParent(lleg);
 
   // return root node
   return torso;
