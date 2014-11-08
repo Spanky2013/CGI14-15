@@ -1,0 +1,113 @@
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/gtx
+END
+loader_dds9.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/gtx/loader_dds9.hpp
+END
+fetch.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/gtx/fetch.hpp
+END
+loader_dds10.inl
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/gtx/loader_dds10.inl
+END
+compression.inl
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/gtx/compression.inl
+END
+loader_tga.inl
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/gtx/loader_tga.inl
+END
+gradient.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/gtx/gradient.hpp
+END
+loader_tga.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/gtx/loader_tga.hpp
+END
+loader_dds10.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/gtx/loader_dds10.hpp
+END
+loader.inl
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/gtx/loader.inl
+END
+compression.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/gtx/compression.hpp
+END
+wavelet.inl
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/gtx/wavelet.inl
+END
+gl_texture2d.inl
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/gtx/gl_texture2d.inl
+END
+loader.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/gtx/loader.hpp
+END
+wavelet.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/gtx/wavelet.hpp
+END
+gl_texture2d.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/gtx/gl_texture2d.hpp
+END
+loader_dds9.inl
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/gtx/loader_dds9.inl
+END
+fetch.inl
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/gtx/fetch.inl
+END
+gradient.inl
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/gtx/gradient.inl
+END

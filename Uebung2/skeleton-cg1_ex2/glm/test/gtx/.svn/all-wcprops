@@ -1,0 +1,311 @@
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx
+END
+gtx_orthonormalize.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_orthonormalize.cpp
+END
+gtx_matrix_cross_product.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_matrix_cross_product.cpp
+END
+gtx_color_space_YCoCg.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_color_space_YCoCg.cpp
+END
+gtx_simd_vec4.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_simd_vec4.cpp
+END
+gtx_optimum_pow.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_optimum_pow.cpp
+END
+gtx_matrix_major_storage.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_matrix_major_storage.cpp
+END
+gtx_fast_square_root.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_fast_square_root.cpp
+END
+gtx_simd_mat4.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_simd_mat4.cpp
+END
+gtx_matrix_operation.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_matrix_operation.cpp
+END
+gtx_closest_point.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_closest_point.cpp
+END
+gtx_quaternion.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_quaternion.cpp
+END
+gtx_associated_min_max.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_associated_min_max.cpp
+END
+gtx_color_space.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_color_space.cpp
+END
+gtx_inertia.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_inertia.cpp
+END
+gtx_fast_exponential.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_fast_exponential.cpp
+END
+gtx_rotate_normalized_axis.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_rotate_normalized_axis.cpp
+END
+gtx_vector_angle.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_vector_angle.cpp
+END
+gtx_compatibility.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_compatibility.cpp
+END
+CMakeLists.txt
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/CMakeLists.txt
+END
+gtx_matrix_interpolation.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_matrix_interpolation.cpp
+END
+gtx_projection.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_projection.cpp
+END
+gtx_bit.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_bit.cpp
+END
+gtx_fast_trigonometry.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_fast_trigonometry.cpp
+END
+gtx_scalar_relational.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_scalar_relational.cpp
+END
+gtx_random.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_random.cpp
+END
+gtx_rotate_vector.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_rotate_vector.cpp
+END
+gtx_string_cast.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_string_cast.cpp
+END
+gtx_euler_angle.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_euler_angle.cpp
+END
+gtx_matrix_transform_2d.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_matrix_transform_2d.cpp
+END
+gtx_extend.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_extend.cpp
+END
+gtx_vector_query.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_vector_query.cpp
+END
+gtx_gradient_paint.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_gradient_paint.cpp
+END
+gtx_extented_min_max.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_extented_min_max.cpp
+END
+gtx_normal.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_normal.cpp
+END
+gtx_matrix_query.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_matrix_query.cpp
+END
+gtx_component_wise.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_component_wise.cpp
+END
+gtx_dual_quaternion.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_dual_quaternion.cpp
+END
+gtx_spline.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_spline.cpp
+END
+gtx_multiple.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_multiple.cpp
+END
+gtx_integer.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_integer.cpp
+END
+gtx_perpendicular.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_perpendicular.cpp
+END
+gtx_intersect.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_intersect.cpp
+END
+gtx_number_precision.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_number_precision.cpp
+END
+gtx_handed_coordinate_space.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_handed_coordinate_space.cpp
+END
+gtx_mixed_product.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_mixed_product.cpp
+END
+gtx_normalize_dot.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_normalize_dot.cpp
+END
+gtx_io.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_io.cpp
+END
+gtx_polar_coordinates.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_polar_coordinates.cpp
+END
+gtx_log_base.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_log_base.cpp
+END
+gtx_int_10_10_10_2.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_int_10_10_10_2.cpp
+END
+gtx_norm.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtx/gtx_norm.cpp
+END

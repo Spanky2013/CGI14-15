@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test
+END
+CMakeLists.txt
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/CMakeLists.txt
+END
+glm.cppcheck
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/glm.cppcheck
+END

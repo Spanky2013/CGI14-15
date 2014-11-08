@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm
+END
+copying.txt
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/copying.txt
+END
+CTestConfig.cmake
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/CTestConfig.cmake
+END
+readme.txt
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/readme.txt
+END
+CMakeLists.txt
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/CMakeLists.txt
+END

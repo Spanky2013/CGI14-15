@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtc
+END
+gtc_type_ptr.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtc/gtc_type_ptr.cpp
+END
+gtc_epsilon.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtc/gtc_epsilon.cpp
+END
+gtc_packing.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtc/gtc_packing.cpp
+END
+gtc_constants.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtc/gtc_constants.cpp
+END
+gtc_noise.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtc/gtc_noise.cpp
+END
+gtc_random.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtc/gtc_random.cpp
+END
+gtc_matrix_integer.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtc/gtc_matrix_integer.cpp
+END
+gtc_reciprocal.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtc/gtc_reciprocal.cpp
+END
+gtc_quaternion.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtc/gtc_quaternion.cpp
+END
+gtc_matrix_access.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtc/gtc_matrix_access.cpp
+END
+gtc_type_precision.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtc/gtc_type_precision.cpp
+END
+gtc_matrix_transform.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtc/gtc_matrix_transform.cpp
+END
+gtc_matrix_inverse.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtc/gtc_matrix_inverse.cpp
+END
+CMakeLists.txt
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtc/CMakeLists.txt
+END
+gtc_ulp.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/gtc/gtc_ulp.cpp
+END

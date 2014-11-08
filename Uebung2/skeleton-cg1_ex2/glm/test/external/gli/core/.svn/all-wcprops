@@ -1,0 +1,143 @@
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core
+END
+texture_cube.inl
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/texture_cube.inl
+END
+shared_ptr.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/shared_ptr.hpp
+END
+operator.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/operator.hpp
+END
+operation.inl
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/operation.inl
+END
+texture_cube_array.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/texture_cube_array.hpp
+END
+texture_cube.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/texture_cube.hpp
+END
+shared_array.inl
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/shared_array.inl
+END
+operation.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/operation.hpp
+END
+image2d.inl
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/image2d.inl
+END
+shared_array.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/shared_array.hpp
+END
+size.inl
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/size.inl
+END
+image2d.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/image2d.hpp
+END
+size.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/size.hpp
+END
+generate_mipmaps.inl
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/generate_mipmaps.inl
+END
+texture2d_array.inl
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/texture2d_array.inl
+END
+generate_mipmaps.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/generate_mipmaps.hpp
+END
+texture2d.inl
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/texture2d.inl
+END
+texture2d_array.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/texture2d_array.hpp
+END
+shared_ptr.inl
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/shared_ptr.inl
+END
+operator.inl
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/operator.inl
+END
+dummy.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/dummy.cpp
+END
+texture2d.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/texture2d.hpp
+END
+texture_cube_array.inl
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/texture_cube_array.inl
+END

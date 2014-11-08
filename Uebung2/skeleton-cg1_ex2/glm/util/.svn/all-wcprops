@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/util
+END
+FindGLM.cmake
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/util/FindGLM.cmake
+END
+glm.natvis
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/util/glm.natvis
+END
+autoexp.txt
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/util/autoexp.txt
+END
+autoexp.vc2010.dat
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/util/autoexp.vc2010.dat
+END
+usertype.dat
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/util/usertype.dat
+END
+CMakeLists.txt
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/util/CMakeLists.txt
+END
