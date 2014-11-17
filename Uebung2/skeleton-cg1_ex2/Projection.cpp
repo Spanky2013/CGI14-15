@@ -86,17 +86,17 @@ static Cell perspective[4] = {
 };
 
 static Cell frustum[6] = {
-  Cell(120, 80, -10.0, 10.0, -1.0, 0.1,
+  Cell(120, 80, -10.0, 10.0, -0.575, 0.1,
        "Specifies coordinate for left vertical clipping plane."),
-  Cell(180, 80, -10.0, 10.0, 1.0, 0.1,
+  Cell(180, 80, -10.0, 10.0, 0.575, 0.1,
        "Specifies coordinate for right vertical clipping plane."),
-  Cell(240, 80, -10.0, 10.0, -1.0, 0.1,
+  Cell(240, 80, -10.0, 10.0, -0.575, 0.1,
        "Specifies coordinate for bottom vertical clipping plane."),
-  Cell(300, 80, -10.0, 10.0, 1.0, 0.1,
+  Cell(300, 80, -10.0, 10.0, 0.575, 0.1,
        "Specifies coordinate for top vertical clipping plane."),
-  Cell(360, 80, 0.1, 5.0, 1.0, 0.01,
+  Cell(360, 80, 0.1, 10, 1.0, 0.05,
        "Specifies distance to near clipping plane."),
-  Cell(420, 80, 0.1, 5.0, 3.5, 0.01,
+  Cell(420, 80, 0.1, 10, 10, 0.05,
        "Specifies distance to far clipping plane."),
 };
 
@@ -156,12 +156,12 @@ void keyPressed(unsigned char key, int x, int y){
     ortho[3].setValue(1.0);
     ortho[4].setValue(1.0);
     ortho[5].setValue(3.5);
-    frustum[0].setValue(-1.0);
-    frustum[1].setValue(1.0);
-    frustum[2].setValue(-1.0);
-    frustum[3].setValue(1.0);
+    frustum[0].setValue(-0.575);
+    frustum[1].setValue(0.575);
+    frustum[2].setValue(-0.575);
+    frustum[3].setValue(0.575);
     frustum[4].setValue(1.0);
-    frustum[5].setValue(3.5);
+    frustum[5].setValue(10);
     lookat[0].setValue(0.0);
     lookat[1].setValue(0.0);
     lookat[2].setValue(2.0);
@@ -244,7 +244,6 @@ void World::reshape(int width, int height){
   // this defines a camera matrix
   glTranslatef(0.0, 0.0, -5.0);
   glRotatef(-45.0, 0.0, 1.0, 0.0);
-  glShadeModel(GL_SMOOTH);
 }
 
 void World::display(void){
@@ -270,6 +269,8 @@ void World::display(void){
   if(drawModel) {
     glEnable(GL_LIGHTING);
     glLightfv(GL_LIGHT0, GL_POSITION, &lightPos[0]);
+    // smooth shading 
+    glShadeModel(GL_SMOOTH);
     model.draw();
     glDisable(GL_LIGHTING);
   }
@@ -350,7 +351,7 @@ void World::display(void){
 
 char World::menuOptions[]= {'m'};
 string World::menuText[]= {"Toggle model"};
-int World::numOptions= sizeof(menuOptions)/sizeof(char);
+int World::numOptions= sizeof(World::menuOptions)/sizeof(char);
 
 void World::menu(int value){
 
@@ -373,7 +374,6 @@ void World::menu(int value){
 void Screen::reshape(int width, int height){
 
   glViewport(0, 0, width, height);
-  glShadeModel(GL_SMOOTH);
 }
 
 void Screen::display(void){
@@ -395,6 +395,7 @@ void Screen::display(void){
   // must have modelview transform applied to it in order
   // to have correct light position in eye coordinates
   glLightfv(GL_LIGHT0, GL_POSITION, &lightPos[0]);
+  glShadeModel(GL_SMOOTH);
   model.draw();
   glutSwapBuffers();
 
@@ -403,7 +404,7 @@ void Screen::display(void){
 
 char Screen::menuOptions[]= {0, 0, 'a', 's', 'd', 'f', 'j', 'p', 'r', };
 string Screen::menuText[]= {"Model", "", "Al Capone", "Soccerball", "Dolphins", "Flowers", "F-16", "Porsche", "Rose"};
-int Screen::numOptions= sizeof(menuOptions)/sizeof(char);
+int Screen::numOptions= sizeof(Screen::menuOptions)/sizeof(char);
 
 void Screen::menu(int value){
 
@@ -604,7 +605,7 @@ void Command::mouseMoved(int x, int y){
 
 char Command::menuOptions[]= {'p', 'o', 'f', 'r', 'q'};
 string Command::menuText[]= {"Perspective", "Ortho", "Frustum", "Reset", "Quit"};
-int Command::numOptions= sizeof(menuOptions)/sizeof(char);
+int Command::numOptions= sizeof(Command::menuOptions)/sizeof(char);
 
 void Command::menu(int value){
   keyPressed((unsigned char)value, 0, 0);

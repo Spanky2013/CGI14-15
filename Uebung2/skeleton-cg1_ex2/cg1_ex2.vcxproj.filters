@@ -18,9 +18,6 @@
     <ClCompile Include="cell.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cg1_ex2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="context.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -35,19 +32,19 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cell.h">
+    <ClInclude Include="Cell.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="context.h">
+    <ClInclude Include="Context.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="objmodel.h">
+    <ClInclude Include="Objmodel.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="projection.h">
+    <ClInclude Include="Projection.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="window.h">
+    <ClInclude Include="Window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

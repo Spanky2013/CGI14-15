@@ -11,9 +11,7 @@
                    computer graphics
                    tu berlin
    ------------------------------------------------------------- */
-
 #include <sstream>
-
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #elif _WIN32
@@ -21,7 +19,6 @@
 #else
 #include <GL/glut.h>
 #endif
-
 
 #include "Cell.hpp"
 #include "Context.hpp"
@@ -37,7 +34,7 @@ Cell::Cell(int x, int y, float min, float max, float v, float step, string info)
 Cell::~Cell(){}
 
 // set value of this cell
-void Cell::setValue(int value){
+void Cell::setValue(float value){
 
     if (value < min) value= min;
     else if (value > max) value= max;

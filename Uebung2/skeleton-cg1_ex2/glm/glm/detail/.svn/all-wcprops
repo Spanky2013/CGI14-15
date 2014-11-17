@@ -33,17 +33,17 @@ svn:wc:ra_dav:version-url
 V 75
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_vec.inl
 END
-type_mat3x2.inl
-K 25
-svn:wc:ra_dav:version-url
-V 78
-/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_mat3x2.inl
-END
 func_matrix.inl
 K 25
 svn:wc:ra_dav:version-url
 V 78
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/func_matrix.inl
+END
+type_mat3x2.inl
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_mat3x2.inl
 END
 type_mat3x3.inl
 K 25
@@ -57,17 +57,17 @@ svn:wc:ra_dav:version-url
 V 78
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_mat3x4.inl
 END
-_fixes.hpp
-K 25
-svn:wc:ra_dav:version-url
-V 73
-/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/_fixes.hpp
-END
 _features.hpp
 K 25
 svn:wc:ra_dav:version-url
 V 76
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/_features.hpp
+END
+_fixes.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/_fixes.hpp
 END
 type_vec.hpp
 K 25
@@ -75,17 +75,17 @@ svn:wc:ra_dav:version-url
 V 75
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_vec.hpp
 END
-type_mat3x2.hpp
-K 25
-svn:wc:ra_dav:version-url
-V 78
-/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_mat3x2.hpp
-END
 func_matrix.hpp
 K 25
 svn:wc:ra_dav:version-url
 V 78
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/func_matrix.hpp
+END
+type_mat3x2.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_mat3x2.hpp
 END
 type_mat3x3.hpp
 K 25
@@ -117,23 +117,17 @@ svn:wc:ra_dav:version-url
 V 76
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_vec1.inl
 END
-precision.hpp
-K 25
-svn:wc:ra_dav:version-url
-V 76
-/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/precision.hpp
-END
 type_vec2.inl
 K 25
 svn:wc:ra_dav:version-url
 V 76
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_vec2.inl
 END
-func_exponential.inl
+precision.hpp
 K 25
 svn:wc:ra_dav:version-url
-V 83
-/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/func_exponential.inl
+V 76
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/precision.hpp
 END
 type_vec3.inl
 K 25
@@ -141,23 +135,29 @@ svn:wc:ra_dav:version-url
 V 76
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_vec3.inl
 END
+func_exponential.inl
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/func_exponential.inl
+END
 type_vec4.inl
 K 25
 svn:wc:ra_dav:version-url
 V 76
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_vec4.inl
 END
-intrinsic_vector_relational.hpp
-K 25
-svn:wc:ra_dav:version-url
-V 94
-/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/intrinsic_vector_relational.hpp
-END
 func_common.inl
 K 25
 svn:wc:ra_dav:version-url
 V 78
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/func_common.inl
+END
+intrinsic_vector_relational.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/intrinsic_vector_relational.hpp
 END
 type_vec1.hpp
 K 25
@@ -171,17 +171,17 @@ svn:wc:ra_dav:version-url
 V 76
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_vec2.hpp
 END
-func_exponential.hpp
-K 25
-svn:wc:ra_dav:version-url
-V 83
-/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/func_exponential.hpp
-END
 type_vec3.hpp
 K 25
 svn:wc:ra_dav:version-url
 V 76
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_vec3.hpp
+END
+func_exponential.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/func_exponential.hpp
 END
 type_vec4.hpp
 K 25
@@ -327,6 +327,12 @@ svn:wc:ra_dav:version-url
 V 78
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_mat2x2.inl
 END
+intrinsic_common.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/intrinsic_common.hpp
+END
 type_mat2x3.inl
 K 25
 svn:wc:ra_dav:version-url
@@ -339,29 +345,17 @@ svn:wc:ra_dav:version-url
 V 84
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/intrinsic_integer.inl
 END
-intrinsic_common.hpp
-K 25
-svn:wc:ra_dav:version-url
-V 83
-/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/intrinsic_common.hpp
-END
-type_mat2x4.inl
-K 25
-svn:wc:ra_dav:version-url
-V 78
-/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_mat2x4.inl
-END
 type_mat4x2.inl
 K 25
 svn:wc:ra_dav:version-url
 V 78
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_mat4x2.inl
 END
-type_gentype.hpp
+type_mat2x4.inl
 K 25
 svn:wc:ra_dav:version-url
-V 79
-/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_gentype.hpp
+V 78
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_mat2x4.inl
 END
 _noise.hpp
 K 25
@@ -375,17 +369,23 @@ svn:wc:ra_dav:version-url
 V 78
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_mat4x3.inl
 END
-type_mat.inl
+type_gentype.hpp
 K 25
 svn:wc:ra_dav:version-url
-V 75
-/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_mat.inl
+V 79
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_gentype.hpp
 END
 type_mat4x4.inl
 K 25
 svn:wc:ra_dav:version-url
 V 78
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_mat4x4.inl
+END
+type_mat.inl
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_mat.inl
 END
 type_mat2x2.hpp
 K 25
@@ -405,23 +405,17 @@ svn:wc:ra_dav:version-url
 V 84
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/intrinsic_integer.hpp
 END
-type_mat2x4.hpp
-K 25
-svn:wc:ra_dav:version-url
-V 78
-/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_mat2x4.hpp
-END
 type_mat4x2.hpp
 K 25
 svn:wc:ra_dav:version-url
 V 78
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_mat4x2.hpp
 END
-_swizzle_func.hpp
+type_mat2x4.hpp
 K 25
 svn:wc:ra_dav:version-url
-V 80
-/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/_swizzle_func.hpp
+V 78
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_mat2x4.hpp
 END
 type_mat4x3.hpp
 K 25
@@ -429,11 +423,11 @@ svn:wc:ra_dav:version-url
 V 78
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_mat4x3.hpp
 END
-type_mat.hpp
+_swizzle_func.hpp
 K 25
 svn:wc:ra_dav:version-url
-V 75
-/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_mat.hpp
+V 80
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/_swizzle_func.hpp
 END
 func_vector_relational.inl
 K 25
@@ -446,6 +440,12 @@ K 25
 svn:wc:ra_dav:version-url
 V 78
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_mat4x4.hpp
+END
+type_mat.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/glm/detail/type_mat.hpp
 END
 dummy.cpp
 K 25

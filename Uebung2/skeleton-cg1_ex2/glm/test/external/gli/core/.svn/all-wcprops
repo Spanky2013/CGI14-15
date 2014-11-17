@@ -9,11 +9,11 @@ svn:wc:ra_dav:version-url
 V 91
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/texture_cube.inl
 END
-shared_ptr.hpp
+operation.inl
 K 25
 svn:wc:ra_dav:version-url
-V 89
-/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/shared_ptr.hpp
+V 88
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/operation.inl
 END
 operator.hpp
 K 25
@@ -21,11 +21,11 @@ svn:wc:ra_dav:version-url
 V 87
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/operator.hpp
 END
-operation.inl
+shared_ptr.hpp
 K 25
 svn:wc:ra_dav:version-url
-V 88
-/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/operation.inl
+V 89
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/shared_ptr.hpp
 END
 texture_cube_array.hpp
 K 25
@@ -111,11 +111,11 @@ svn:wc:ra_dav:version-url
 V 94
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/texture2d_array.hpp
 END
-shared_ptr.inl
+dummy.cpp
 K 25
 svn:wc:ra_dav:version-url
-V 89
-/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/shared_ptr.inl
+V 84
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/dummy.cpp
 END
 operator.inl
 K 25
@@ -123,17 +123,17 @@ svn:wc:ra_dav:version-url
 V 87
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/operator.inl
 END
-dummy.cpp
-K 25
-svn:wc:ra_dav:version-url
-V 84
-/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/dummy.cpp
-END
 texture2d.hpp
 K 25
 svn:wc:ra_dav:version-url
 V 88
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/texture2d.hpp
+END
+shared_ptr.inl
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/core/shared_ptr.inl
 END
 texture_cube_array.inl
 K 25

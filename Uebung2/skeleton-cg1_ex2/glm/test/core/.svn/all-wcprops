@@ -27,17 +27,17 @@ svn:wc:ra_dav:version-url
 V 85
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/core/core_func_geometric.cpp
 END
-core_type_cast.cpp
-K 25
-svn:wc:ra_dav:version-url
-V 80
-/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/core/core_type_cast.cpp
-END
 core_type_int.cpp
 K 25
 svn:wc:ra_dav:version-url
 V 79
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/core/core_type_int.cpp
+END
+core_type_cast.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/core/core_type_cast.cpp
 END
 core_type_vec1.cpp
 K 25
@@ -159,12 +159,6 @@ svn:wc:ra_dav:version-url
 V 82
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/core/core_type_mat4x3.cpp
 END
-core_func_swizzle.cpp
-K 25
-svn:wc:ra_dav:version-url
-V 83
-/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/core/core_func_swizzle.cpp
-END
 core_type_length.cpp
 K 25
 svn:wc:ra_dav:version-url
@@ -176,6 +170,12 @@ K 25
 svn:wc:ra_dav:version-url
 V 82
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/core/core_type_mat4x4.cpp
+END
+core_func_swizzle.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/core/core_func_swizzle.cpp
 END
 CMakeLists.txt
 K 25

@@ -14,8 +14,6 @@
 
 #pragma once
 
-#include <string>
-
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #elif _WIN32
@@ -23,6 +21,7 @@
 #else
 #include <GL/glut.h>
 #endif
+#include <string>
 
 class Cell {
 
@@ -38,7 +37,7 @@ class Cell {
   // process mouse hit 
   void hit(int x, int y);
   // set value of this cell
-  void setValue(int value);
+  void setValue(float value);
   // get value of this cell
   float getValue();
   // update value of this cell

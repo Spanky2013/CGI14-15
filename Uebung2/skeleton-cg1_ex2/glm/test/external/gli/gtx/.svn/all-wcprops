@@ -15,6 +15,12 @@ svn:wc:ra_dav:version-url
 V 83
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/gtx/fetch.hpp
 END
+loader_tga.inl
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/gtx/loader_tga.inl
+END
 loader_dds10.inl
 K 25
 svn:wc:ra_dav:version-url
@@ -26,12 +32,6 @@ K 25
 svn:wc:ra_dav:version-url
 V 89
 /svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/gtx/compression.inl
-END
-loader_tga.inl
-K 25
-svn:wc:ra_dav:version-url
-V 88
-/svn/cg1/!svn/ver/105/trunk/ex/cg1_ex2/skeleton/glm/test/external/gli/gtx/loader_tga.inl
 END
 gradient.hpp
 K 25

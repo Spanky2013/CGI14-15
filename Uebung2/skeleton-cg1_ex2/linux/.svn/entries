@@ -1,15 +1,15 @@
 10
 
 dir
-104
+111
 https://cybertron.cg.tu-berlin.de/svn/cg1/trunk/ex/cg1_ex2/skeleton/linux
 https://cybertron.cg.tu-berlin.de/svn/cg1
 
 
 
-2013-11-01T13:17:15.576859Z
-9
-olivier.rouiller
+2014-11-06T20:34:53.691143Z
+105
+katrin.lang
 
 
 
@@ -28,14 +28,14 @@ db34a706-790b-4f58-a501-89448e588a7a
 
 cg1_ex2
 file
-105
+129
 
 
 
-2014-11-06T20:12:16.000000Z
-94afc3316ea4615b9554e20bf4d15648
-2014-11-06T20:34:53.691143Z
-105
+2014-11-14T10:46:12.246565Z
+988422173772efc8005840038a229754
+2014-11-14T10:51:16.392518Z
+129
 katrin.lang
 has-props
 
@@ -58,5 +58,5 @@ has-props
 
 
 
-123945
+124080
 

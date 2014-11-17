@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
-V 52
-/svn/cg1/!svn/ver/38/trunk/ex/cg1_ex2/skeleton/win32
+V 53
+/svn/cg1/!svn/ver/106/trunk/ex/cg1_ex2/skeleton/win32
 END
 glut.h
 K 25
@@ -18,8 +18,8 @@ END
 cg1_ex2.exe
 K 25
 svn:wc:ra_dav:version-url
-V 64
-/svn/cg1/!svn/ver/38/trunk/ex/cg1_ex2/skeleton/win32/cg1_ex2.exe
+V 65
+/svn/cg1/!svn/ver/130/trunk/ex/cg1_ex2/skeleton/win32/cg1_ex2.exe
 END
 glut.def
 K 25
