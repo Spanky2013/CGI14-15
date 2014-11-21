@@ -634,54 +634,6 @@ void Clip::reshape(int width, int height){
 }
 
 void Clip::display(void){
-    
-// White side - BACK
-glBegin(GL_POLYGON);
-glColor3f(   1.0,  1.0, 1.0 );
-glVertex3f(  0.5, -0.5, 0.5 );
-glVertex3f(  0.5,  0.5, 0.5 );
-glVertex3f( -0.5,  0.5, 0.5 );
-glVertex3f( -0.5, -0.5, 0.5 );
-glEnd();
- 
-// Purple side - RIGHT
-glBegin(GL_POLYGON);
-glColor3f(  1.0,  0.0,  1.0 );
-glVertex3f( 0.5, -0.5, -0.5 );
-glVertex3f( 0.5,  0.5, -0.5 );
-glVertex3f( 0.5,  0.5,  0.5 );
-glVertex3f( 0.5, -0.5,  0.5 );
-glEnd();
- 
-// Green side - LEFT
-glBegin(GL_POLYGON);
-glColor3f(   0.0,  1.0,  0.0 );
-glVertex3f( -0.5, -0.5,  0.5 );
-glVertex3f( -0.5,  0.5,  0.5 );
-glVertex3f( -0.5,  0.5, -0.5 );
-glVertex3f( -0.5, -0.5, -0.5 );
-glEnd();
- 
-// Blue side - TOP
-glBegin(GL_POLYGON);
-glColor3f(   0.0,  0.0,  1.0 );
-glVertex3f(  0.5,  0.5,  0.5 );
-glVertex3f(  0.5,  0.5, -0.5 );
-glVertex3f( -0.5,  0.5, -0.5 );
-glVertex3f( -0.5,  0.5,  0.5 );
-glEnd();
- 
-// Red side - BOTTOM
-glBegin(GL_POLYGON);
-glColor3f(   1.0,  0.0,  0.0 );
-glVertex3f(  0.5, -0.5, -0.5 );
-glVertex3f(  0.5, -0.5,  0.5 );
-glVertex3f( -0.5, -0.5,  0.5 );
-glVertex3f( -0.5, -0.5, -0.5 );
-glEnd();
- 
-glFlush();
-glutSwapBuffers();
 
     // draw current model if toggled
   if(drawModel) {
@@ -689,7 +641,7 @@ glutSwapBuffers();
     glLightfv(GL_LIGHT0, GL_POSITION, &lightPos[0]);
     // smooth shading 
     glShadeModel(GL_SMOOTH);
-    model.draw();
+    //model.draw();
     glDisable(GL_LIGHTING);
   }
 }
