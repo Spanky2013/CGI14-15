@@ -30,10 +30,10 @@ using namespace std;
 static const int GAP= 25;
 
 // window size and position
-static int width= 512+GAP*3+256;
+static int width= 512+GAP*3;
 static int height= 512+GAP*3;
 
-static int subWidth= (width-GAP*3)/3.0;
+static int subWidth= (width-GAP*4)/3.0;
 static int subHeight= (height-GAP*3)/2.0;
 
 // initial window position
@@ -92,11 +92,11 @@ static void createWindows(void){
   commandWindow.registerMouseMoved(Command::mouseMoved);
   commandWindow.registerKeyPressed(keyPressed);
 
-  clipWindow= Window(&mainWindow, "Clip-space view", 2*subWidth+3*GAP, GAP, subWidth, subHeight);
+  clipWindow= Window(&mainWindow, "Clip-space view", 2*subWidth+2*GAP, GAP, subWidth, subHeight);
   clipWindow.registerDisplay(Clip::display);
   clipWindow.registerReshape(Clip::reshape);
-  clipWindow.registerMenu(World::menu);
-  clipWindow.addMenu(World::menuOptions, World::menuText, World::numOptions);
+  clipWindow.registerMenu(Clip::menu);
+  clipWindow.addMenu(Clip::menuOptions, Clip::menuText, Clip::numOptions);
   clipWindow.registerKeyPressed(keyPressed);
 }
 
@@ -166,7 +166,7 @@ static void reshape(int w, int h){
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
 
-  subWidth= (width-GAP*3)/3.0;
+  subWidth= (width-GAP*4)/3.0;
   subHeight= (height-GAP*3)/2.0;
 
   worldWindow.reshape(GAP, GAP, subWidth, subHeight);

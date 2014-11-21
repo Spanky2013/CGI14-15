@@ -637,11 +637,11 @@ void Clip::display(void){
 
     // draw current model if toggled
   if(drawModel) {
-    glEnable(GL_LIGHTING);
-    glLightfv(GL_LIGHT0, GL_POSITION, &lightPos[0]);
-    // smooth shading 
-    glShadeModel(GL_SMOOTH);
-    //model.draw();
-    glDisable(GL_LIGHTING);
+    //glEnable(GL_LIGHTING);
+    //glLightfv(GL_LIGHT0, GL_POSITION, &lightPos[0]);
+    //// smooth shading 
+    //glShadeModel(GL_SMOOTH);
+    ////model.draw();
+    //glDisable(GL_LIGHTING);
   }
 }
