@@ -30,7 +30,7 @@ using namespace std;
 static const int GAP= 25;
 
 // window size and position
-static int width= 512+GAP*3;
+static int width= 512+GAP*3+256;
 static int height= 512+GAP*3;
 
 static int subWidth= (width-GAP*3)/3.0;
@@ -60,7 +60,7 @@ static GLvoid *font= GLUT_BITMAP_HELVETICA_10;
 // redisplay scene after window reshape
 static void reshape(int width, int height);
  
-static Window mainWindow, worldWindow, screenWindow, commandWindow;
+static Window mainWindow, worldWindow, screenWindow, commandWindow, clipWindow;
 
 static void createWindows(void){
 
@@ -91,6 +91,13 @@ static void createWindows(void){
   commandWindow.registerMousePressed(Command::mousePressed);
   commandWindow.registerMouseMoved(Command::mouseMoved);
   commandWindow.registerKeyPressed(keyPressed);
+
+  clipWindow= Window(&mainWindow, "Clip-space view", 2*subWidth+3*GAP, GAP, subWidth, subHeight);
+  clipWindow.registerDisplay(Clip::display);
+  clipWindow.registerReshape(Clip::reshape);
+  clipWindow.registerMenu(World::menu);
+  clipWindow.addMenu(World::menuOptions, World::menuText, World::numOptions);
+  clipWindow.registerKeyPressed(keyPressed);
 }
 
 static void init(int argc, char **argv){
@@ -136,11 +143,13 @@ void Context::display(void){
   
   drawString(GAP, GAP-5, "World-space view");
   drawString(GAP+subWidth+GAP, GAP-5, "Screen-space view");
+  drawString(2*subWidth+3*GAP, GAP-5, "Clip-space view");
   
   drawString(GAP, GAP+subHeight+GAP-5, "Command manipulation window");
 
   worldWindow.redisplay();
   screenWindow.redisplay(); 
+  clipWindow.redisplay();
   commandWindow.redisplay(); 
 }
 
@@ -157,11 +166,12 @@ static void reshape(int w, int h){
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
 
-  subWidth= (width-GAP*3)/2.0;
+  subWidth= (width-GAP*3)/3.0;
   subHeight= (height-GAP*3)/2.0;
 
   worldWindow.reshape(GAP, GAP, subWidth, subHeight);
   screenWindow.reshape(subWidth+2*GAP, GAP, subWidth, subHeight);
+  clipWindow.reshape(2*subWidth+3*GAP,GAP,subWidth,subHeight);
   commandWindow.reshape(GAP, subHeight+2*GAP, width-2*GAP, subHeight);
 }
 

@@ -55,7 +55,24 @@ namespace Screen{
 };
 
 // content of clip view sub-window
-namespace Clip{};
+namespace Clip{
+  // draw model?
+  extern bool drawModel;
+  extern char menuOptions[];
+  extern std::string menuText[];
+  extern int numOptions;
+  // display scene
+  void display(void);
+  
+  // redisplay scene after window reshape
+  void reshape(int width, int height);
+
+  // mouse menu
+  void menu(int id);
+
+  // mouse callback
+  void mousePressed(int button, int state, int x, int y);
+};
 
 // content of command view sub-window
 namespace Command{

@@ -602,11 +602,94 @@ void Command::mouseMoved(int x, int y){
 
 }
 
-
 char Command::menuOptions[]= {'p', 'o', 'f', 'r', 'q'};
 string Command::menuText[]= {"Perspective", "Ortho", "Frustum", "Reset", "Quit"};
 int Command::numOptions= sizeof(Command::menuOptions)/sizeof(char);
 
 void Command::menu(int value){
   keyPressed((unsigned char)value, 0, 0);
+}
+
+// -------------------------------------------------------
+// CLIP WINDOW
+// -------------------------------------------------------
+
+bool Clip::drawModel= true;
+char Clip::menuOptions[]= {'m'};
+string Clip::menuText[]= {"Toggle model"};
+int Clip::numOptions= sizeof(Clip::menuOptions)/sizeof(char);
+
+void Clip::menu(int value){
+  switch (value) {
+  case 'm':
+    drawModel= !drawModel;
+    break;
+  default:
+    break;
+  }
+  display();
+}
+void Clip::reshape(int width, int height){
+  glViewport(0, 0, width, height);
+}
+
+void Clip::display(void){
+    
+// White side - BACK
+glBegin(GL_POLYGON);
+glColor3f(   1.0,  1.0, 1.0 );
+glVertex3f(  0.5, -0.5, 0.5 );
+glVertex3f(  0.5,  0.5, 0.5 );
+glVertex3f( -0.5,  0.5, 0.5 );
+glVertex3f( -0.5, -0.5, 0.5 );
+glEnd();
+ 
+// Purple side - RIGHT
+glBegin(GL_POLYGON);
+glColor3f(  1.0,  0.0,  1.0 );
+glVertex3f( 0.5, -0.5, -0.5 );
+glVertex3f( 0.5,  0.5, -0.5 );
+glVertex3f( 0.5,  0.5,  0.5 );
+glVertex3f( 0.5, -0.5,  0.5 );
+glEnd();
+ 
+// Green side - LEFT
+glBegin(GL_POLYGON);
+glColor3f(   0.0,  1.0,  0.0 );
+glVertex3f( -0.5, -0.5,  0.5 );
+glVertex3f( -0.5,  0.5,  0.5 );
+glVertex3f( -0.5,  0.5, -0.5 );
+glVertex3f( -0.5, -0.5, -0.5 );
+glEnd();
+ 
+// Blue side - TOP
+glBegin(GL_POLYGON);
+glColor3f(   0.0,  0.0,  1.0 );
+glVertex3f(  0.5,  0.5,  0.5 );
+glVertex3f(  0.5,  0.5, -0.5 );
+glVertex3f( -0.5,  0.5, -0.5 );
+glVertex3f( -0.5,  0.5,  0.5 );
+glEnd();
+ 
+// Red side - BOTTOM
+glBegin(GL_POLYGON);
+glColor3f(   1.0,  0.0,  0.0 );
+glVertex3f(  0.5, -0.5, -0.5 );
+glVertex3f(  0.5, -0.5,  0.5 );
+glVertex3f( -0.5, -0.5,  0.5 );
+glVertex3f( -0.5, -0.5, -0.5 );
+glEnd();
+ 
+glFlush();
+glutSwapBuffers();
+
+    // draw current model if toggled
+  if(drawModel) {
+    glEnable(GL_LIGHTING);
+    glLightfv(GL_LIGHT0, GL_POSITION, &lightPos[0]);
+    // smooth shading 
+    glShadeModel(GL_SMOOTH);
+    model.draw();
+    glDisable(GL_LIGHTING);
+  }
 }
