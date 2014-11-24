@@ -615,14 +615,20 @@ void Command::menu(int value){
 // -------------------------------------------------------
 
 bool Clip::drawModel= true;
-char Clip::menuOptions[]= {'m'};
-string Clip::menuText[]= {"Toggle model"};
+bool Clip::drawPlanes= true;
+char Clip::menuOptions[]= {'m','c'};
+string Clip::menuText[]= {"Toggle model","Toggle Clipplanes"};
 int Clip::numOptions= sizeof(Clip::menuOptions)/sizeof(char);
+int rotVal;
+int rotValOffset;
 
 void Clip::menu(int value){
   switch (value) {
   case 'm':
     drawModel= !drawModel;
+    break;
+ case 'c':
+    drawPlanes= !drawPlanes;
     break;
   default:
     break;
@@ -630,105 +636,142 @@ void Clip::menu(int value){
   display();
 }
 void Clip::reshape(int width, int height){
-  glViewport(0, 0, width, height);
+  
+   glViewport(0, 0, width, height);
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  gluPerspective(60.0, (GLfloat)width/height, 1.0, 256.0);
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+  // this defines a camera matrix
+  glTranslatef(0.0, 0.0, -4.0);
+  glRotatef(45.0, 0.0, 1.0, 0.0);
 }
 
 void Clip::display(void){
-	//GLfloat light_pos[] = { 2.0, 2.0, 2.0, -1.0 };
-	// glPushAttrib(GL_COLOR_BUFFER_BIT | GL_LIGHTING_BIT | GL_DEPTH_BUFFER_BIT);
+	GLfloat light_pos[] = { 1.0, 1.0, 1.0, 1.0 };
+	 glPushAttrib(GL_COLOR_BUFFER_BIT | GL_LIGHTING_BIT | GL_DEPTH_BUFFER_BIT);
 
- // glEnable(GL_DEPTH_TEST);
- // glEnable(GL_LIGHT0);
+	 double near[] = {0,0,-1,1.0} ;
+	double far[] = {0,0,1,1.0} ;
+	double left[] = {1,0,0,1.0} ;
+	double right[] = {-1,0,0,1.0} ;
+	double bottom[] = {0,1,0,1.0} ;
+	double top[] = {0,-1,0,1.0} ;
+	glClipPlane(GL_CLIP_PLANE0,left);
+	glClipPlane(GL_CLIP_PLANE1,right);
+	glClipPlane(GL_CLIP_PLANE2,bottom);
+	glClipPlane(GL_CLIP_PLANE3,top);
+	glClipPlane(GL_CLIP_PLANE4,near);
+	glClipPlane(GL_CLIP_PLANE5,far);
 
- // glm::vec3 viewDir;  
- // // 'l' is the normalized viewing direction
- // viewDir[0]= lookat[3].getValue() - lookat[0].getValue(); 
- // viewDir[1]= lookat[4].getValue() - lookat[1].getValue(); 
- // viewDir[2]= lookat[5].getValue() - lookat[2].getValue();
- // double viewLength= glm::length(viewDir);
- // viewDir= glm::normalize(viewDir);
+  glEnable(GL_DEPTH_TEST);
+  glEnable(GL_LIGHT0);
+  glEnable(GL_NORMALIZE);
 
- // glClearColor(0.0, 0.0, 0.0, 1.0);    
- // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
- //   
- // // draw current model if toggled
- // if(drawModel) {
- //   glEnable(GL_LIGHTING);
- //   glLightfv(GL_LIGHT0, GL_POSITION, &light_pos[0]);
- //   // smooth shading 
- //   glShadeModel(GL_SMOOTH);
- //   model.draw();
- //   glDisable(GL_LIGHTING);
- // }
+  glClearColor(0.0, 0.0, 0.0, 1.0);    
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
- // glMatrixMode(GL_MODELVIEW);
- // glPushMatrix();
- // // apply inverse modelview transformation to axes and frustum
- // // this moves the camera position and frustum into world space
- // // coordinates
- // glMultMatrixf(&glm::inverse(modelView)[0][0]);
- //   
- // /* draw the axis and eye vector */
- // glPushMatrix();
- // glColor3ub(0, 0, 255);
- // glBegin(GL_LINE_STRIP);
- // glVertex3f(0.0, 0.0, 0.0);
- // glVertex3f(0.0, 0.0, -1.0 * viewLength);
- // glVertex3f(0.1, 0.0, -0.9 * viewLength);
- // glVertex3f(-0.1, 0.0, -0.9 * viewLength);
- // glVertex3f(0.0, 0.0, -1.0 * viewLength);
- // glVertex3f(0.0, 0.1, -0.9 * viewLength);
- // glVertex3f(0.0, -0.1, -0.9 * viewLength);
- // glVertex3f(0.0, 0.0, -1.0 * viewLength);
- // glEnd();
- // glColor3ub(255, 255, 0);
- // Context::setFont("helvetica", 12);
- // Context::drawString(0.0, 0.0, -1.1 * viewLength, "e");
- // glColor3ub(255, 0, 0);
- // glScalef(0.4, 0.4, 0.4);
- // drawAxes();
- // glPopMatrix();
+  glRotatef(rotVal, 0.0f, 1.0f, 0.0f);
+  glPushMatrix();
 
- // // apply inverse projection transformation to unit-frustum
- // glMatrixMode(GL_MODELVIEW);
- // glMultMatrixf(&glm::inverse(projection)[0][0]);
- //   
- // /* draw the canonical viewing frustum */
- // // back clip plane
- // glColor3f(0.2, 0.2, 0.2);
- // glBegin(GL_QUADS);
- // glVertex3i(1, 1, 1);
- // glVertex3i(-1, 1, 1);
- // glVertex3i(-1, -1, 1);
- // glVertex3i(1, -1, 1);
- // glEnd();
- //   
- // // four corners of frustum
- // glColor3ub(128, 196, 128);
- // glBegin(GL_LINES);
- // glVertex3i(1, 1, -1);
- // glVertex3i(1, 1, 1);
- // glVertex3i(-1, 1, -1);
- // glVertex3i(-1, 1, 1);
- // glVertex3i(-1, -1, -1);
- // glVertex3i(-1, -1, 1);
- // glVertex3i(1, -1, -1);
- // glVertex3i(1, -1, 1);
- // glEnd();
- //   
- // // front clip plane
- // glEnable(GL_BLEND);
- // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
- // glColor4f(0.2, 0.2, 0.4, 0.5);
- // glBegin(GL_QUADS);
- // glVertex3i(1, 1, -1);
- // glVertex3i(-1, 1, -1);
- // glVertex3i(-1, -1, -1);
- // glVertex3i(1, -1, -1);
- // glEnd();
- // glDisable(GL_BLEND);
- //   
- // glPopMatrix();
- //   
- // glutSwapBuffers();
+  /* draw the axis and eye vector */
+  glPushMatrix();
+  glColor3ub(255, 0, 0);
+  glScalef(0.8, 0.8, -0.8);
+  drawAxes();
+  glPopMatrix();
+
+  if(drawPlanes) {
+	glEnable(GL_CLIP_PLANE0);
+	glEnable(GL_CLIP_PLANE1);
+	glEnable(GL_CLIP_PLANE2);
+	glEnable(GL_CLIP_PLANE3);
+	glEnable(GL_CLIP_PLANE4);
+	glEnable(GL_CLIP_PLANE5);
+  }
+
+  if(drawModel) {
+    glEnable(GL_LIGHTING);
+    glLightfv(GL_LIGHT0, GL_POSITION, &light_pos[0]);
+    // smooth shading 
+    /*glShadeModel(GL_SMOOTH);
+    model.draw();*/
+
+	glPushMatrix();
+	glScalef(1.f, 1.f, -1.f);
+	glMultMatrixf(&projection[0][0]);
+	glMultMatrixf(&modelView[0][0]);
+	glEnable(GL_NORMALIZE);
+	model.draw();
+	glDisable(GL_NORMALIZE);
+	glPopMatrix();
+    glDisable(GL_LIGHTING);
+  }
+
+  glDisable(GL_CLIP_PLANE0);
+	glDisable(GL_CLIP_PLANE1);
+	glDisable(GL_CLIP_PLANE2);
+	glDisable(GL_CLIP_PLANE3);
+	glDisable(GL_CLIP_PLANE4);
+	glDisable(GL_CLIP_PLANE5);
+
+  glPopMatrix();
+
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glColor4f(0.2, 0.2, 0.4, 0.5);
+  glBegin(GL_QUADS);
+  glVertex3i(1, 1, 1);
+  glVertex3i(-1, 1, 1);
+  glVertex3i(-1, -1, 1);
+  glVertex3i(1, -1, 1);
+  glEnd();
+    
+  // four corners of frustum
+  glColor3ub(128, 196, 128);
+  glBegin(GL_LINES);
+  glVertex3i(1, 1, -1);
+  glVertex3i(1, 1, 1);
+  glVertex3i(-1, 1, -1);
+  glVertex3i(-1, 1, 1);
+  glVertex3i(-1, -1, -1);
+  glVertex3i(-1, -1, 1);
+  glVertex3i(1, -1, -1);
+  glVertex3i(1, -1, 1);
+  glEnd();
+    
+  // front clip plane
+  glColor3f(0.2, 0.2, 0.2);
+  glBegin(GL_QUADS);
+  glVertex3i(1, 1, -1);
+  glVertex3i(-1, 1, -1);
+  glVertex3i(-1, -1, -1);
+  glVertex3i(1, -1, -1);
+  glEnd();
+  glDisable(GL_BLEND);    
+
+  glutSwapBuffers();
+}
+
+void Clip::mousePressed(int button,int state, int x, int y)
+{
+	if (state == GLUT_DOWN) 
+	{
+		old_y =  x;
+	}
+	if (state == GLUT_UP) 
+	{
+		rotVal =  0;
+	}
+	
+	Clip::display();
+}
+
+void Clip::mouseMoved(int x, int y)
+{ 
+	rotVal = old_y - x;
+	rotValOffset += rotVal;
+	Clip::display();
+	old_y = x; 
 }

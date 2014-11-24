@@ -96,6 +96,8 @@ static void createWindows(void){
   clipWindow.registerDisplay(Clip::display);
   clipWindow.registerReshape(Clip::reshape);
   clipWindow.registerMenu(Clip::menu);
+  clipWindow.registerMousePressed(Clip::mousePressed);
+  clipWindow.registerMouseMoved(Clip::mouseMoved);
   clipWindow.addMenu(Clip::menuOptions, Clip::menuText, Clip::numOptions);
   clipWindow.registerKeyPressed(keyPressed);
 }
