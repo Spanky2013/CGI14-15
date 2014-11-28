@@ -637,7 +637,7 @@ void Clip::menu(int value){
 }
 void Clip::reshape(int width, int height){
   
-   glViewport(0, 0, width, height);
+  glViewport(0, 0, width, height);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   gluPerspective(60.0, (GLfloat)width/height, 1.0, 256.0);
@@ -645,14 +645,15 @@ void Clip::reshape(int width, int height){
   glLoadIdentity();
   // this defines a camera matrix
   glTranslatef(0.0, 0.0, -4.0);
+  glRotatef(35.0, 1.0, 0.0, 0.0);
   glRotatef(45.0, 0.0, 1.0, 0.0);
 }
 
 void Clip::display(void){
 	GLfloat light_pos[] = { 1.0, 1.0, 1.0, 1.0 };
-	 glPushAttrib(GL_COLOR_BUFFER_BIT | GL_LIGHTING_BIT | GL_DEPTH_BUFFER_BIT);
+	glPushAttrib(GL_COLOR_BUFFER_BIT | GL_LIGHTING_BIT | GL_DEPTH_BUFFER_BIT);
 
-	 double near[] = {0,0,-1,1.0} ;
+	double near[] = {0,0,-1,1.0} ;
 	double far[] = {0,0,1,1.0} ;
 	double left[] = {1,0,0,1.0} ;
 	double right[] = {-1,0,0,1.0} ;
@@ -665,93 +666,95 @@ void Clip::display(void){
 	glClipPlane(GL_CLIP_PLANE4,near);
 	glClipPlane(GL_CLIP_PLANE5,far);
 
-  glEnable(GL_DEPTH_TEST);
-  glEnable(GL_LIGHT0);
-  glEnable(GL_NORMALIZE);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHT0);
+	
+	glEnable(GL_NORMALIZE);
+	//glMultMatrixf(&glm::transpose(modelView)[0][0]);
+	
 
-  glClearColor(0.0, 0.0, 0.0, 1.0);    
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(0.0, 0.0, 0.0, 1.0);    
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  glRotatef(rotVal, 0.0f, 1.0f, 0.0f);
-  glPushMatrix();
+	glRotatef(rotVal, 0.0f, 1.0f, 0.0f);
+	glPushMatrix();
 
-  /* draw the axis and eye vector */
-  glPushMatrix();
-  glColor3ub(255, 0, 0);
-  glScalef(0.8, 0.8, -0.8);
-  drawAxes();
-  glPopMatrix();
+	/* draw the axis and eye vector */
+	glPushMatrix();
+	glColor3ub(255, 0, 0);
+	glScalef(0.8, 0.8, -0.8);
+	drawAxes();
+	glPopMatrix();
 
-  if(drawPlanes) {
+	if(drawPlanes) {
 	glEnable(GL_CLIP_PLANE0);
 	glEnable(GL_CLIP_PLANE1);
 	glEnable(GL_CLIP_PLANE2);
 	glEnable(GL_CLIP_PLANE3);
 	glEnable(GL_CLIP_PLANE4);
 	glEnable(GL_CLIP_PLANE5);
-  }
+	}
 
-  if(drawModel) {
-    glEnable(GL_LIGHTING);
-    glLightfv(GL_LIGHT0, GL_POSITION, &light_pos[0]);
-    // smooth shading 
-    /*glShadeModel(GL_SMOOTH);
-    model.draw();*/
+	if(drawModel) {
+		glEnable(GL_LIGHTING);
+		glLightfv(GL_LIGHT0, GL_POSITION, &light_pos[0]);
+		// smooth shading 
+		glShadeModel(GL_SMOOTH);
 
-	glPushMatrix();
-	glScalef(1.f, 1.f, -1.f);
-	glMultMatrixf(&projection[0][0]);
-	glMultMatrixf(&modelView[0][0]);
-	glEnable(GL_NORMALIZE);
-	model.draw();
-	glDisable(GL_NORMALIZE);
-	glPopMatrix();
-    glDisable(GL_LIGHTING);
-  }
+		glPushMatrix();
+		glScalef(1.f, 1.f, -1.f);
+		glMultMatrixf(&projection[0][0]);
+		glMultMatrixf(&modelView[0][0]);
+		glEnable(GL_NORMALIZE);
+		model.draw();
+		glDisable(GL_NORMALIZE);
+		glPopMatrix();
+		glDisable(GL_LIGHTING);
+	}
 
-  glDisable(GL_CLIP_PLANE0);
+	glDisable(GL_CLIP_PLANE0);
 	glDisable(GL_CLIP_PLANE1);
 	glDisable(GL_CLIP_PLANE2);
 	glDisable(GL_CLIP_PLANE3);
 	glDisable(GL_CLIP_PLANE4);
 	glDisable(GL_CLIP_PLANE5);
 
-  glPopMatrix();
+	glPopMatrix();
 
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  glColor4f(0.2, 0.2, 0.4, 0.5);
-  glBegin(GL_QUADS);
-  glVertex3i(1, 1, 1);
-  glVertex3i(-1, 1, 1);
-  glVertex3i(-1, -1, 1);
-  glVertex3i(1, -1, 1);
-  glEnd();
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glColor4f(0.2, 0.2, 0.4, 0.5);
+	glBegin(GL_QUADS);
+	glVertex3i(1, 1, 1);
+	glVertex3i(-1, 1, 1);
+	glVertex3i(-1, -1, 1);
+	glVertex3i(1, -1, 1);
+	glEnd();
     
-  // four corners of frustum
-  glColor3ub(128, 196, 128);
-  glBegin(GL_LINES);
-  glVertex3i(1, 1, -1);
-  glVertex3i(1, 1, 1);
-  glVertex3i(-1, 1, -1);
-  glVertex3i(-1, 1, 1);
-  glVertex3i(-1, -1, -1);
-  glVertex3i(-1, -1, 1);
-  glVertex3i(1, -1, -1);
-  glVertex3i(1, -1, 1);
-  glEnd();
+	// four corners of frustum
+	glColor3ub(128, 196, 128);
+	glBegin(GL_LINES);
+	glVertex3i(1, 1, -1);
+	glVertex3i(1, 1, 1);
+	glVertex3i(-1, 1, -1);
+	glVertex3i(-1, 1, 1);
+	glVertex3i(-1, -1, -1);
+	glVertex3i(-1, -1, 1);
+	glVertex3i(1, -1, -1);
+	glVertex3i(1, -1, 1);
+	glEnd();
     
-  // front clip plane
-  glColor3f(0.2, 0.2, 0.2);
-  glBegin(GL_QUADS);
-  glVertex3i(1, 1, -1);
-  glVertex3i(-1, 1, -1);
-  glVertex3i(-1, -1, -1);
-  glVertex3i(1, -1, -1);
-  glEnd();
-  glDisable(GL_BLEND);    
+	// front clip plane
+	glColor3f(0.2, 0.2, 0.2);
+	glBegin(GL_QUADS);
+	glVertex3i(1, 1, -1);
+	glVertex3i(-1, 1, -1);
+	glVertex3i(-1, -1, -1);
+	glVertex3i(1, -1, -1);
+	glEnd();
+	glDisable(GL_BLEND);    
 
-  glutSwapBuffers();
+	glutSwapBuffers();
 }
 
 void Clip::mousePressed(int button,int state, int x, int y)
