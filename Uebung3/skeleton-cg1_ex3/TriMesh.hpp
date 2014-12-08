@@ -11,13 +11,16 @@
 #pragma once
 
 #include <string>
+#include <iostream>
+#include <fstream>
 #include <vector>
+
 
 #ifdef __APPLE__ 
 #include <GL/glew.h>
 #include <GLUT/glut.h>
 #elif _WIN32
-include "win32/glew.h"
+#include "win32/glew.h"
 #include "win32/glut.h"
 #else
 #include <GL/glew.h>
@@ -28,6 +31,18 @@ include "win32/glew.h"
 // http://glm.g-truc.net
 #include "glm/glm.hpp"
 #include "glm/gtx/unsigned_int.hpp"
+
+typedef struct
+{
+float x, y, z;
+}
+Vector3f;
+typedef struct
+{
+int n;
+std::vector<int> nodes;
+}
+Polygonf;
 
 /*
  * Class for a simple triangle mesh represented as an indexed face set
@@ -56,6 +71,13 @@ public:
   
   // load the mesh from an off file
   void loadOff(const std::string& filename);
+  std::vector<Vector3f> *nodePoints;
+  std::vector<Polygonf> *polygones;
+  std::vector<Vector3f> *normalsFlat;
+  std::vector<Vector3f> *normalsSmooth;
+  int numTriNodes;
+  int numPolygones;
+  int numEdges;
 
   // normalize to bounding sphere radius 1
   void unitize(void);
