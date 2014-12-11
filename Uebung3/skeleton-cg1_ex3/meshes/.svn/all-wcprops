@@ -1,13 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
-V 53
-/svn/cg1/!svn/ver/38/trunk/ex/cg1_ex3/skeleton/meshes
-END
-sphere.obj
-K 25
-svn:wc:ra_dav:version-url
-V 64
-/svn/cg1/!svn/ver/38/trunk/ex/cg1_ex3/skeleton/meshes/sphere.obj
+V 54
+/svn/cg1/!svn/ver/144/trunk/ex/cg1_ex3/skeleton/meshes
 END
 sphere.off
 K 25
@@ -27,17 +21,11 @@ svn:wc:ra_dav:version-url
 V 64
 /svn/cg1/!svn/ver/38/trunk/ex/cg1_ex3/skeleton/meshes/dragon.off
 END
-bunny.obj
-K 25
-svn:wc:ra_dav:version-url
-V 63
-/svn/cg1/!svn/ver/38/trunk/ex/cg1_ex3/skeleton/meshes/bunny.obj
-END
 bunny.off
 K 25
 svn:wc:ra_dav:version-url
-V 63
-/svn/cg1/!svn/ver/38/trunk/ex/cg1_ex3/skeleton/meshes/bunny.off
+V 64
+/svn/cg1/!svn/ver/144/trunk/ex/cg1_ex3/skeleton/meshes/bunny.off
 END
 mannequin.off
 K 25
@@ -78,8 +66,8 @@ END
 drei.off
 K 25
 svn:wc:ra_dav:version-url
-V 62
-/svn/cg1/!svn/ver/38/trunk/ex/cg1_ex3/skeleton/meshes/drei.off
+V 63
+/svn/cg1/!svn/ver/144/trunk/ex/cg1_ex3/skeleton/meshes/drei.off
 END
 bunnysimple.off
 K 25

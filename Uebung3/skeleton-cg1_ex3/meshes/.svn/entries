@@ -1,15 +1,15 @@
 10
 
 dir
-40
+145
 https://cybertron.cg.tu-berlin.de/svn/cg1/trunk/ex/cg1_ex3/skeleton/meshes
 https://cybertron.cg.tu-berlin.de/svn/cg1
 
 
 
-2013-12-19T12:29:54.781727Z
-14
-olivier.rouiller
+2014-12-02T11:25:34.832686Z
+144
+katrin.lang
 
 
 
@@ -25,40 +25,6 @@ olivier.rouiller
 
 
 db34a706-790b-4f58-a501-89448e588a7a
-
-sphere.obj
-file
-
-
-
-delete
-2014-10-20T11:02:12.305369Z
-b9b5d09596c25a0881fb6a49bed6f85a
-2013-12-19T12:29:54.781727Z
-14
-olivier.rouiller
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-166459
 
 sphere.off
 file
@@ -162,51 +128,17 @@ olivier.rouiller
 
 1345614
 
-bunny.obj
-file
-
-
-
-delete
-2014-10-20T11:02:12.295369Z
-cd49c4ad04c1de088f3bb2e6358d26af
-2013-12-19T12:29:54.781727Z
-14
-olivier.rouiller
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-110042
-
 bunny.off
 file
 
 
 
 
-2014-10-20T11:02:12.305369Z
-e76d2b21dae0f2c579c037f9980f427f
-2013-12-19T12:29:54.781727Z
-14
-olivier.rouiller
+2014-12-02T11:13:50.654632Z
+be869c214bb8f189297520f4ece9eb6f
+2014-12-02T11:25:34.832686Z
+144
+katrin.lang
 
 
 
@@ -228,7 +160,7 @@ olivier.rouiller
 
 
 
-2467629
+2392578
 
 mannequin.off
 file
@@ -440,11 +372,11 @@ file
 
 
 
-2014-10-20T11:02:12.305369Z
-6a3be571e533870a3415b78ed33276f2
-2013-12-19T12:29:54.781727Z
-14
-olivier.rouiller
+2014-12-01T11:39:35.094478Z
+b39e22055fcd34a6de193d0fcd060f0c
+2014-12-02T11:25:34.832686Z
+144
+katrin.lang
 
 
 
@@ -466,7 +398,7 @@ olivier.rouiller
 
 
 
-53
+47
 
 bunnysimple.off
 file

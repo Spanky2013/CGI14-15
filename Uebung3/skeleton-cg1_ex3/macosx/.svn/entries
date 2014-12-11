@@ -2,7 +2,7 @@
 
 dir
 145
-https://cybertron.cg.tu-berlin.de/svn/cg1/trunk/ex/cg1_ex3/skeleton/linux
+https://cybertron.cg.tu-berlin.de/svn/cg1/trunk/ex/cg1_ex3/skeleton/macosx
 https://cybertron.cg.tu-berlin.de/svn/cg1
 
 
@@ -26,14 +26,14 @@ katrin.lang
 
 db34a706-790b-4f58-a501-89448e588a7a
 
-cg1_ex3
+cg1_ex3_mac
 file
 153
 
 
 
-2014-12-09T19:02:47.735394Z
-8014a4a191c4dc87a86488f8f4571f42
+2014-12-09T18:48:04.000000Z
+b90a6da355e1433a49a91d72c7e1763d
 2014-12-09T19:02:53.933373Z
 153
 katrin.lang
@@ -58,5 +58,5 @@ has-props
 
 
 
-110185
+116500
 

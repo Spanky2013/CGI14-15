@@ -1,15 +1,15 @@
 10
 
 dir
-40
+145
 https://cybertron.cg.tu-berlin.de/svn/cg1/trunk/ex/cg1_ex3/skeleton/shaders
 https://cybertron.cg.tu-berlin.de/svn/cg1
 
 
 
-2013-12-19T12:29:54.781727Z
-14
-olivier.rouiller
+2014-12-02T11:25:34.832686Z
+144
+katrin.lang
 
 
 
@@ -28,15 +28,15 @@ db34a706-790b-4f58-a501-89448e588a7a
 
 normalViz.frag
 file
-0
 
 
-add
+
+
 2014-12-01T11:39:35.204478Z
-
-
-
-
+52bdb26f221376439e43ce83fbadd474
+2014-12-02T11:25:34.832686Z
+144
+katrin.lang
 
 
 
@@ -62,15 +62,15 @@ add
 
 normalViz.vert
 file
-0
 
 
-add
+
+
 2014-12-01T11:39:35.204478Z
-
-
-
-
+bde49cb1560abff314b68ea4c79e9152
+2014-12-02T11:25:34.832686Z
+144
+katrin.lang
 
 
 
@@ -96,15 +96,15 @@ add
 
 colorTriangle.frag
 file
-0
 
 
-add
+
+
 2014-12-01T11:39:35.164478Z
-
-
-
-
+8b0ebb3258ae34eb31a0d34e9e07aba9
+2014-12-02T11:25:34.832686Z
+144
+katrin.lang
 
 
 
@@ -130,15 +130,15 @@ add
 
 colorTriangle.vert
 file
-0
 
 
-add
+
+
 2014-12-01T11:39:35.204478Z
-
-
-
-
+6832e645e4bddf55a131b0fed2752b0e
+2014-12-02T11:25:34.832686Z
+144
+katrin.lang
 
 
 
@@ -162,92 +162,51 @@ add
 
 151
 
-PassThrough.frag
-file
-
-
-
-delete
-2014-10-20T11:02:12.335369Z
-2a61e8dfc77e7dd0de73fa0e959341e0
-2013-12-19T12:29:54.781727Z
-14
-olivier.rouiller
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-284
-
-PassThrough.vert
-file
-
-
-
-delete
-2014-10-20T11:02:12.335369Z
-be0296e5b9ed49c7f54705125e640c4d
-2013-12-19T12:29:54.781727Z
-14
-olivier.rouiller
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-257
-
 blinnPhongReflection
 file
-0
+153
 
 
-add
+
+2014-12-09T18:58:49.545394Z
+e2f3f74863cd3d9a2e94acb60d096004
+2014-12-09T19:02:53.933373Z
+153
+katrin.lang
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+511
 
 colorTriangle.geom
 file
-0
 
 
-add
+
+
 2014-12-01T11:39:35.204478Z
-
-
-
-
+ef7cd19beb4c43e5e0ce55d89f22e13c
+2014-12-02T11:25:34.832686Z
+144
+katrin.lang
 
 
 
@@ -271,51 +230,17 @@ add
 
 398
 
-BlinnPhong.frag
-file
-
-
-
-delete
-2014-10-20T11:02:12.335369Z
-2956ee32720d5f726510d07acc088ddc
-2013-12-19T12:29:54.781727Z
-14
-olivier.rouiller
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-282
-
 color.frag
 file
-0
 
 
-add
+
+
 2014-12-01T11:39:35.204478Z
-
-
-
-
+e1df901c825ac2df33474bd162adf03b
+2014-12-02T11:25:34.832686Z
+144
+katrin.lang
 
 
 
@@ -339,51 +264,17 @@ add
 
 103
 
-BlinnPhong.vert
-file
-
-
-
-delete
-2014-10-20T11:02:12.335369Z
-cc34ba37d5bf395fd720992ac6db01e9
-2013-12-19T12:29:54.781727Z
-14
-olivier.rouiller
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-269
-
 color.vert
 file
-0
 
 
-add
+
+
 2014-12-01T11:39:35.164478Z
-
-
-
-
+6832e645e4bddf55a131b0fed2752b0e
+2014-12-02T11:25:34.832686Z
+144
+katrin.lang
 
 
 

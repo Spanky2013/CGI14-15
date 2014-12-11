@@ -13,7 +13,7 @@
 #include <string>
 
 #ifdef __APPLE__ 
-  #include <GL/glew.h>
+  #include <OpenGL/gl3.h>
 #include <GLUT/glut.h>
 #elif _WIN32
 #include "win32/glew.h"
@@ -83,7 +83,7 @@ public:
   static void mouseMoved(int x, int y);
   static void menu(int value);
 
-  static void createWindow(std::string title);
+  static void createWindow(const std::string& title);
   
   // configuration
   static void config(void);

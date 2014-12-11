@@ -11,9 +11,7 @@
    ------------------------------------------------------------- */
 
 #include "TriMesh.hpp"
-#include <sstream>
-#include <vector>
-#include "math.h"
+
 // use this with care
 // might cause name collisions
 using namespace glm;
@@ -31,10 +29,10 @@ TriMesh::TriMesh(){
   winding= CW;
 }
 
-TriMesh::TriMesh(const std::string& filename){
+TriMesh::TriMesh(const std::string& fileName){
 
   winding= CW;
-  loadOff(filename);
+  loadOff(fileName);
   center();
   unitize();
   computeNormals();
@@ -100,77 +98,7 @@ void TriMesh::calculateBoundingBox(void){
 }
 
 // load triangle mesh in .OFF format
-void TriMesh::loadOff(const string& filename){
-
-		string& file = filename + ".off";
-	ifstream is(file.c_str(), ios::binary);
-	assert(is.is_open());
-	string str, contents;
-	string delimiter = " ";
-	string token = "";
-	size_t pos = 0;
-	// check whether file is an OFF-file
-	getline(is,str);
-	//if(!str.compare("OFF")) return;
-	// get the number of elements ------------
-	// triangles
-	getline(is,str);
-	stringstream sstr;
-	sstr<<str.substr(0,pos = str.find(delimiter));
-	sstr>>numTriNodes;
-	str.erase(0,pos + delimiter.length());
-	// polygons
-	stringstream sstr1;
-	sstr1<<str.substr(0,pos = str.find(delimiter));
-	sstr1>>numPolygones;
-	str.erase(0,pos + delimiter.length());
-	// edges
-	stringstream sstr2;
-	sstr2<<str.substr(0,pos = str.find(delimiter));
-	sstr2>>numEdges;
-	str.erase(0,pos + delimiter.length());
-	// --------------------------------------
-	int counter = 0;
-	while(counter < numTriNodes)
-	{
-	getline(is,str);
-	Vector3f currPoint;
-	stringstream sstr3;
-	str.substr(0, str.find(delimiter));
-	sstr3<<str;
-	sstr3>>currPoint.x;
-	str.substr(1, str.find(delimiter));
-	sstr3<<str;
-	sstr3>>currPoint.y;
-	str.substr(2, str.find(delimiter));
-	sstr3<<str;
-	sstr3>>currPoint.z;
-	nodePoints->push_back(currPoint);
-	counter++;
-	}
-	counter = 0;
-	while(getline(is,str) && counter < numPolygones)
-	{
-	Polygonf currPoly;
-	stringstream sstr4;
-	while((pos = str.find(delimiter)) == 0) str.erase(0,pos + delimiter.length());
-	str.substr(0, pos = str.find(delimiter));
-	sstr4<<str;
-	sstr4>>currPoly.n;
-	str.erase(0,pos + delimiter.length());
-	for(int i=1;i<=currPoly.n;i++)
-	{
-	int currPoint = 0;
-	stringstream sstr5;
-	while((pos = str.find(delimiter)) == 0) str.erase(0,pos + delimiter.length());
-	sstr5<<str.substr(0,pos);
-	sstr5>>currPoint;
-	str.erase(0,pos + delimiter.length());
-	currPoly.nodes.push_back(currPoint);
-	}
-	polygones->push_back(currPoly);
-	counter++;
-	}
+void TriMesh::loadOff(const string& fileName){
 
 }
 

@@ -22,8 +22,8 @@ struct Material{
   float shininess;
 };
 
-uniform struct LightSource lightSource;
-uniform struct Material material;
+uniform LightSource lightSource;
+uniform Material material;
 
 // position and normal in view space
 vec4 blinnPhongReflection(vec4 position, vec3 normal){
