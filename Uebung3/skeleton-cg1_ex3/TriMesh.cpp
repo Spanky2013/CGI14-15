@@ -114,8 +114,6 @@ void TriMesh::loadOff(const string& fileName){
 	string line;
 	int lineNr = 0;
 
-	numVertices = 0;
-	numPolygons = 0;
 	numEdges = 0;
 
 	while(std::getline(input, line,'\n')) {
@@ -127,7 +125,7 @@ void TriMesh::loadOff(const string& fileName){
 			sStream >> numVertices >> numPolygons >> numEdges;
 			//cout <<"numVertices "<<numVertices<<"numPolygons "<<numPolygons<<"numEdges "<<numEdges<<endl;
 		}else{
-			if(lineNr <= numVertices+2) {
+			if(lineNr < numVertices+2) {
 				GLfloat x, y, z;
 				stringstream sStream(line);
 				sStream >> x >> y >> z;
@@ -153,6 +151,7 @@ void TriMesh::loadOff(const string& fileName){
 		lineNr++;
 	}
 	cout << "loadOff done: |V| "<<numVertices<<" |F| "<<numPolygons<<endl;
+	cout << "Positions: "<<positions.size()<<" Faces "<<faces.size()<<endl;
 }
 
 
@@ -166,8 +165,8 @@ void TriMesh::draw(void){
 	glVertexAttribPointer(attribVertex, 3, GL_FLOAT, GL_FALSE, 0, &positions[0]);
 	glEnableVertexAttribArray(attribVertex);
 
-	//glVertexAttribPointer(attribNormal, 3, GL_FLOAT, GL_FALSE, 0, &normals[0]);
-	//glEnableVertexAttribArray(attribNormal);
+	glVertexAttribPointer(attribNormal, 3, GL_FLOAT, GL_FALSE, 0, &normals[0]);
+	glEnableVertexAttribArray(attribNormal);
 
-	glDrawElements(GL_TRIANGLES, numPolygons, GL_UNSIGNED_INT, &faces);
+	glDrawElements(GL_TRIANGLES, faces.size()*3, GL_UNSIGNED_INT, &faces[0]);
 }
