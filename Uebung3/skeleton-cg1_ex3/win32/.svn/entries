@@ -1,14 +1,14 @@
 10
 
 dir
-154
+145
 https://cybertron.cg.tu-berlin.de/svn/cg1/trunk/ex/cg1_ex3/ml/win32
 https://cybertron.cg.tu-berlin.de/svn/cg1
 
 
 
-2014-12-02T11:56:29.684326Z
-146
+2014-12-02T11:42:25.492194Z
+145
 katrin.lang
 
 
@@ -25,74 +25,6 @@ katrin.lang
 
 
 db34a706-790b-4f58-a501-89448e588a7a
-
-visualinfo.exe
-file
-
-
-
-
-2010-04-27T17:15:04.000000Z
-0729459106845247f97118bc0e8ad919
-2014-12-02T11:42:25.492194Z
-145
-katrin.lang
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-192512
-
-glut.h
-file
-
-
-
-
-2014-12-01T10:30:08.000000Z
-89226a71366b0f5defe60b519fb02fc9
-2013-12-19T12:29:54.781727Z
-14
-olivier.rouiller
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-27670
 
 glew.h
 file
@@ -162,14 +94,14 @@ has-props
 
 28728
 
-glew32.lib
+glewinfo.exe
 file
 
 
 
 
-2010-04-27T17:14:58.000000Z
-69558e2712535480047bdeccebe2faa1
+2010-04-27T17:14:34.000000Z
+fcbd9cfe20024a4e22ea6dc420ae7f27
 2014-12-02T11:42:25.492194Z
 145
 katrin.lang
@@ -194,75 +126,7 @@ has-props
 
 
 
-451182
-
-glut.def
-file
-
-
-
-
-2014-12-01T10:30:08.000000Z
-338d206da23ea4c7ffeefa649d2670ea
-2013-12-19T12:29:54.781727Z
-14
-olivier.rouiller
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-2290
-
-cg1_ex3.exe
-file
-155
-
-
-
-2014-12-12T09:40:50.000000Z
-47448d0b7b7012fe7ee873a9dc67ffb7
-2014-12-12T09:42:26.837486Z
-155
-katrin.lang
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-279552
+286720
 
 glut32.dll
 file
@@ -298,40 +162,6 @@ has-props
 
 237568
 
-glewinfo.exe
-file
-
-
-
-
-2010-04-27T17:14:34.000000Z
-fcbd9cfe20024a4e22ea6dc420ae7f27
-2014-12-02T11:42:25.492194Z
-145
-katrin.lang
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-286720
-
 glew32s.lib
 file
 
@@ -366,14 +196,48 @@ has-props
 
 1140022
 
-README-win32.txt
+visualinfo.exe
+file
+
+
+
+
+2010-04-27T17:15:04.000000Z
+0729459106845247f97118bc0e8ad919
+2014-12-02T11:42:25.492194Z
+145
+katrin.lang
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+192512
+
+glut.h
 file
 
 
 
 
 2014-12-01T10:30:08.000000Z
-756a0d68dd875e620e3c4fc54132fa02
+89226a71366b0f5defe60b519fb02fc9
 2013-12-19T12:29:54.781727Z
 14
 olivier.rouiller
@@ -398,7 +262,109 @@ olivier.rouiller
 
 
 
-26454
+27670
+
+glut.def
+file
+
+
+
+
+2014-12-01T10:30:08.000000Z
+338d206da23ea4c7ffeefa649d2670ea
+2013-12-19T12:29:54.781727Z
+14
+olivier.rouiller
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2290
+
+glew32.lib
+file
+
+
+
+
+2010-04-27T17:14:58.000000Z
+69558e2712535480047bdeccebe2faa1
+2014-12-02T11:42:25.492194Z
+145
+katrin.lang
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+451182
+
+cg1_ex3.exe
+file
+
+
+
+
+2014-12-01T18:17:30.000000Z
+72a4fb5426427897a6af5fcc75d8a145
+2014-12-02T11:42:25.492194Z
+145
+katrin.lang
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+280064
 
 wglew.h
 file
@@ -433,6 +399,40 @@ katrin.lang
 
 
 55053
+
+README-win32.txt
+file
+
+
+
+
+2014-12-01T10:30:08.000000Z
+756a0d68dd875e620e3c4fc54132fa02
+2013-12-19T12:29:54.781727Z
+14
+olivier.rouiller
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+26454
 
 glxew.h
 file
@@ -501,4 +501,38 @@ has-props
 
 
 294912
+
+AntTweakBar.dll
+file
+
+
+
+
+2014-12-02T11:52:06.324632Z
+04ec8f97dffcba20d4fe00bfabe4ff46
+2013-12-19T12:29:54.781727Z
+14
+olivier.rouiller
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+643072
 

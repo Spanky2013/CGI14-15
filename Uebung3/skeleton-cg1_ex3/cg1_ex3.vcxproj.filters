@@ -1,38 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Context.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GLSLShader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TriMesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Shading.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClCompile Include="Window.cpp" />
+    <ClCompile Include="Context.cpp" />
+    <ClCompile Include="Shading.cpp" />
+    <ClCompile Include="GLSLShader.cpp" />
+    <ClCompile Include="TriMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Context.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GLSLShader.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Shading.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TriMesh.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Window.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClInclude Include="Window.hpp" />
+    <ClInclude Include="Context.hpp" />
+    <ClInclude Include="GLSLShader.hpp" />
+    <ClInclude Include="TriMesh.hpp" />
+    <ClInclude Include="Shading.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
