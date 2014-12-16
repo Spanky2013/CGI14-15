@@ -17,14 +17,14 @@
 #include <map>
 
 #ifdef __APPLE__ 
-  #include <GL/glew.h>
-#include <GLUT/glut.h>
+  #include <OpenGL/gl3.h>
+  #include <GLUT/glut.h>
 #elif _WIN32
-#include "win32/glew.h"
-#include "win32/glut.h"
+  #include "win32/glew.h"
+  #include "win32/glut.h"
 #else
   #include <GL/glew.h>
-#include <GL/glut.h>
+  #include <GL/glut.h>
 #endif
 
 #include "glm/glm.hpp"

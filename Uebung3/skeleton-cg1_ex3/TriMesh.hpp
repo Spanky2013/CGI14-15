@@ -14,14 +14,14 @@
 #include <vector>
 
 #ifdef __APPLE__ 
-#include <GL/glew.h>
-#include <GLUT/glut.h>
+  #include <OpenGL/gl3.h>
+  #include <GLUT/glut.h>
 #elif _WIN32
-include "win32/glew.h"
-#include "win32/glut.h"
+  #include "win32/glew.h"
+  #include "win32/glut.h"
 #else
-#include <GL/glew.h>
-#include <GL/glut.h>
+  #include <GL/glew.h>
+  #include <GL/glut.h>
 #endif
 
 // OpenGL mathematics library
@@ -40,7 +40,7 @@ public:
   TriMesh();
   
   // constructor, calls loadOff()
-  TriMesh(const std::string& filename);
+  TriMesh(const std::string& fileName);
 
   // destructor
   ~TriMesh();
@@ -96,5 +96,9 @@ protected:
   // two opposite corners of bounding box 
   glm::vec3 boundingBoxMin;
   glm::vec3 boundingBoxMax;
+
+  int numVertices;
+  int numPolygons;
+  int numEdges;
 
 };

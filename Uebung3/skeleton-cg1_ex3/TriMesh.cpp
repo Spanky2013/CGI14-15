@@ -11,6 +11,9 @@
    ------------------------------------------------------------- */
 
 #include "TriMesh.hpp"
+#include <iostream>
+#include <fstream>
+#include <sstream>
 
 // use this with care
 // might cause name collisions
@@ -29,10 +32,10 @@ TriMesh::TriMesh(){
   winding= CW;
 }
 
-TriMesh::TriMesh(const std::string& filename){
+TriMesh::TriMesh(const std::string& fileName){
 
   winding= CW;
-  loadOff(filename);
+  loadOff(fileName);
   center();
   unitize();
   computeNormals();
@@ -98,17 +101,72 @@ void TriMesh::calculateBoundingBox(void){
 }
 
 // load triangle mesh in .OFF format
-void TriMesh::loadOff(const string& filename){
+void TriMesh::loadOff(const string& fileName){
+	positions.clear();
+	normals.clear();
+	faces.clear();
 
+	ifstream input;
+	input.open(fileName.c_str());
+
+	if(!(input.is_open())) { exit(1); };
+
+	string line;
+	int lineNr = 0;
+
+	numEdges = 0;
+
+	while(std::getline(input, line,'\n')) {
+		//cout <<"lineNr " << lineNr <<endl;
+		if(lineNr == 0) {
+			if(line != "OFF") { exit(1); };
+		}else if(lineNr == 1) {
+			stringstream sStream(line);
+			sStream >> numVertices >> numPolygons >> numEdges;
+			//cout <<"numVertices "<<numVertices<<"numPolygons "<<numPolygons<<"numEdges "<<numEdges<<endl;
+		}else{
+			if(lineNr < numVertices+2) {
+				GLfloat x, y, z;
+				stringstream sStream(line);
+				sStream >> x >> y >> z;
+				positions.push_back(glm::vec3(x,y,z));
+
+				//cout <<"Position "<< x<<" "<< y<<" " << z<<" " <<"Positions size"<<positions.size()<<endl;
+	
+			}else{
+				GLfloat i, a, b, c;
+				stringstream sStream(line);
+				sStream >> i >> a >> b >> c;
+
+				if(winding == PolygonWinding::CW) {
+					faces.push_back(glm::uvec3(a,b,c));
+				}else{
+					faces.push_back(glm::uvec3(c,b,a));
+				}
+//				cout <<"Faces "<< a<<" "<< b<<" " << c<<" " <<endl<<faces.size()<<endl;
+
+			}
+	
+		}
+		lineNr++;
+	}
+	cout << "loadOff done: |V| "<<numVertices<<" |F| "<<numPolygons<<endl;
+	cout << "Positions: "<<positions.size()<<" Faces "<<faces.size()<<endl;
 }
 
 
 // calculate smooth per-vertex normals
 void TriMesh::computeNormals(void){
-
+	
 }
 
 // draw the mesh using vertex arrays
 void TriMesh::draw(void){
+	glVertexAttribPointer(attribVertex, 3, GL_FLOAT, GL_FALSE, 0, &positions[0]);
+	glEnableVertexAttribArray(attribVertex);
 
+	glVertexAttribPointer(attribNormal, 3, GL_FLOAT, GL_FALSE, 0, &normals[0]);
+	glEnableVertexAttribArray(attribNormal);
+
+	glDrawElements(GL_TRIANGLES, faces.size()*3, GL_UNSIGNED_INT, &faces[0]);
 }

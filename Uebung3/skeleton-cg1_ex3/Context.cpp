@@ -88,9 +88,9 @@ int Context::mouseButton= LEFT_MOUSE;
 //previous mouse positions
 ivec2 Context::oldMouse;
 
-char const Context::menuOptions[]= {0,1,2,3,4,5,6,7,8,9,10,11};
-string const Context::menuText[]= {"bunny.off", "bunnysimple.off", "camel_head.off", "cow.off", "dragon.off", "drei.off", "eight.off", "europemap.off", "heptoroid.off", "mannequin.off", "sphere.off", "teapot.off"};
-int const Context::numOptions = sizeof(menuOptions) / sizeof(char);
+const char Context::menuOptions[]= {0,1,2,3,4,5,6,7,8,9,10,11};
+const string Context::menuText[]= {"bunny.off", "bunnysimple.off", "camel_head.off", "cow.off", "dragon.off", "drei.off", "eight.off", "europemap.off", "heptoroid.off", "mannequin.off", "sphere.off", "teapot.off"};
+const int Context::numOptions = sizeof(menuOptions) / sizeof(char);
 
 Window Context::window;
 
@@ -326,7 +326,7 @@ void Context::menu(int value){
   display();
 }
 
-void Context::createWindow(string title){
+void Context::createWindow(const string& title){
 
   window= Window(NULL, title, windowPos.x, windowPos.y, windowSize.x, windowSize.y);
   window.registerDisplay(display);
@@ -340,22 +340,38 @@ void Context::createWindow(string title){
 }
 
 void Context::init(int argc, char **argv){
-
+  
   glutInit( &argc, argv);
+  
+#ifndef FREEGLUT_VERSION_2_0 
+#ifdef __linux
+  
+  glutInitContextVersion(3, 2);
+  
+  glutInitContextFlags(GLUT_COMPATIBILITY_PROFILE | GLUT_DEBUG);
+  
+#endif
+#endif  
 
-  glutInitDisplayMode( GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH );
+#ifdef __APPLE__
+
+glutInitDisplayMode( GLUT_3_2_CORE_PROFILE | GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH );
+
+#else
+
+glutInitDisplayMode( GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH );
+
+#endif
 
   createWindow("cg1_ex3 shading tutorial");
-
+  
+#ifndef __APPLE__
   if (GLEW_OK != glewInit()) {
     cerr << "Error init GLEW." << endl;
     exit( 0);
   }
-
-  GLfloat lightModelAmbient[]= { 0.3, 0.3, 0.3 };
-
-  glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lightModelAmbient);
-
+#endif
+  
   // some output to console
   cout << "--------------------------------------------\n";
   cout << " cg1_ex3 shading tutorial                   \n";
@@ -374,19 +390,9 @@ void Context::init(int argc, char **argv){
   cout << " left click+drag: rotate the light          \n";
   cout << " right click: menu                          \n";
   cout << "--------------------------------------------\n";
+  
+cout << "GPU: " << glGetString(GL_RENDERER) << ", OpenGL version: " << glGetString(GL_VERSION) << endl;
 
-  // get extensions
-  // has to be done after basic GL init
-  if( ! GLEW_ARB_shader_objects) {
-    cerr << "Your graphics board does not support GLSLang. Exit.";
-    exit( EXIT_SUCCESS);
-  }
-  if (GLEW_ARB_vertex_shader && GLEW_ARB_fragment_shader){
-    if(GL_EXT_geometry_shader4)
-      cout << "Ready for GLSL - vertex, fragment, and geometry units" << endl;
-    else 
-      cout << "Ready for GLSL - vertex and fragment units" << endl;
-  }
   glEnable(GL_DEPTH_TEST);
   glClearColor(0, 0, 0, 1);
   glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);	
