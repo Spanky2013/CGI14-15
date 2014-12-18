@@ -1,27 +1,29 @@
 #version 150
 
+uniform vec3 viewpoint;
+uniform mat4 modelViewProjectionMatrix;
+
 layout(triangles) in;
 layout(triangle_strip, max_vertices = 3) out;
 
 out vec4 color;
 
 void main(void) {
-
-  color= vec4(1,1,1,1);
-  vec4 one= gl_in[1].gl_Position - gl_in[0].gl_Position;
-  vec4 two= gl_in[2].gl_Position - gl_in[0].gl_Position;
-  float x= one.y*two.z - one.z*two.y;
-  float y= one.z*two.x - one.x*two.z;
-  float z= one.x*two.y - one.y*two.x;
-  vec3 n= vec3(x,y,z);
-  color= vec4(normalize(n), 1.0);
-  //gl_Position= vec4(n,1.0);
-  //EmitVertex();
-  gl_Position= gl_in[0].gl_Position;
+ 
+  vec3 one= gl_in[1].gl_Position.xyz - gl_in[0].gl_Position.xyz;
+  vec3 two= gl_in[2].gl_Position.xyz - gl_in[0].gl_Position.xyz;
+  vec3 n= normalize(cross(one,two));
+  color= vec4(n, 1);
+  color.xyz*=0.5;
+  color.xyz+=0.5;
+  
+  
+  gl_Position=  gl_in[0].gl_Position;
+  EmitVertex();  
+  gl_Position=  gl_in[1].gl_Position;
   EmitVertex();
-  gl_Position= gl_in[1].gl_Position;
+  gl_Position=  gl_in[2].gl_Position;
   EmitVertex();
-  gl_Position= gl_in[2].gl_Position;
-  EmitVertex();
+  
   EndPrimitive();
 }
