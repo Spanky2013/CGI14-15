@@ -44,25 +44,59 @@ ShadingDemo::ShadingDemo(){
 
   // TODO: compile and link your shaders
 
-  colorShader.loadVertexShader("shaders/color.vert");
-  colorShader.loadFragmentShader("shaders/color.frag");
-  colorShader.bindVertexAttrib("position", TriMesh::attribVertex);
-  colorShader.link();
+	colorShader.loadVertexShader("shaders/color.vert");
+	colorShader.loadFragmentShader("shaders/color.frag");
+	colorShader.bindVertexAttrib("position", TriMesh::attribVertex);
+	colorShader.link();
  
-  colorTriangleShader.loadVertexShader("shaders/colorTriangle.vert");
-  colorTriangleShader.loadGeometryShader("shaders/colorTriangle.geom");
-  colorTriangleShader.loadFragmentShader("shaders/colorTriangle.frag");
-  colorTriangleShader.bindVertexAttrib("position", TriMesh::attribVertex);
-  colorTriangleShader.link();
+	colorTriangleShader.loadVertexShader("shaders/colorTriangle.vert");
+	colorTriangleShader.loadGeometryShader("shaders/colorTriangle.geom");
+	colorTriangleShader.loadFragmentShader("shaders/colorTriangle.frag");
+	colorTriangleShader.bindVertexAttrib("position", TriMesh::attribVertex);
+	colorTriangleShader.link();
 
-  normalVizShader.loadVertexShader("shaders/normalViz.vert");
-  normalVizShader.loadFragmentShader("shaders/normalViz.frag");
-  normalVizShader.bindVertexAttrib("position", TriMesh::attribVertex);
-  normalVizShader.bindVertexAttrib("normal", TriMesh::attribNormal);
-  normalVizShader.link();
+	normalVizShader.loadVertexShader("shaders/normalViz.vert");
+	normalVizShader.loadFragmentShader("shaders/normalViz.frag");
+	normalVizShader.bindVertexAttrib("position", TriMesh::attribVertex);
+	normalVizShader.bindVertexAttrib("normal", TriMesh::attribNormal);
+	normalVizShader.link();
 
-  shading= NONE;
-  mode= RELEASE;
+	faceNormalVizShader.loadVertexShader("shaders/faceNormalViz.vert");
+	faceNormalVizShader.loadGeometryShader("shaders/faceNormalViz.geom");
+	faceNormalVizShader.loadFragmentShader("shaders/faceNormalViz.frag");
+	faceNormalVizShader.bindVertexAttrib("position", TriMesh::attribVertex);
+	faceNormalVizShader.bindVertexAttrib("normal", TriMesh::attribNormal);
+	faceNormalVizShader.link();
+
+	lightDirectionShader.loadVertexShader("shaders/lightDirection.vert");
+	lightDirectionShader.loadFragmentShader("shaders/lightDirection.frag");
+	lightDirectionShader.bindVertexAttrib("position", TriMesh::attribVertex);
+	lightDirectionShader.link();
+
+	flatShader.loadVertexShader("shaders/flat.vert");
+	flatShader.loadGeometryShader("shaders/blinnPhongReflection");
+	flatShader.loadGeometryShader("shaders/flat.geom");
+	flatShader.loadFragmentShader("shaders/flat.frag");
+	flatShader.bindVertexAttrib("position", TriMesh::attribVertex);
+	flatShader.link();
+
+	gouraudShader.loadVertexShader("shaders/blinnPhongReflection");
+	gouraudShader.loadVertexShader("shaders/gouraud.vert");
+	//gouraudShader.loadGeometryShader("shaders/gouraud.geom");
+	gouraudShader.loadFragmentShader("shaders/gouraud.frag");
+	gouraudShader.bindVertexAttrib("position", TriMesh::attribVertex);
+	gouraudShader.bindVertexAttrib("normal", TriMesh::attribNormal);
+	gouraudShader.link();
+
+	phongShader.loadVertexShader("shaders/phong.vert");
+	phongShader.loadFragmentShader("shaders/blinnPhongReflection");
+	phongShader.loadFragmentShader("shaders/phong.frag");
+	phongShader.bindVertexAttrib("position", TriMesh::attribVertex);
+	phongShader.bindVertexAttrib("normal", TriMesh::attribNormal);
+	phongShader.link();
+
+	shading = NONE;
+	mode = DEBUG;
 }
 
 ShadingDemo::~ShadingDemo(){}
@@ -133,7 +167,12 @@ void ShadingDemo::drawColoredTriangles(void){
 
 void ShadingDemo::visualizeFaceNormals(void){
   
-  // TODO: visualize face normals
+    // TODO: visualize face normals
+	faceNormalVizShader.bind();
+	faceNormalVizShader.setUniform("modelViewProjectionMatrix", Context::projectionMatrix*Context::viewMatrix*Context::modelMatrix);
+	mesh.draw();
+	faceNormalVizShader.unbind();
+
 }
 
 void ShadingDemo::visualizeNormals(void){
@@ -149,6 +188,12 @@ void ShadingDemo::visualizeNormals(void){
 void ShadingDemo::visualizeLightDirection(void){
 
    // TODO: visualize light direction
+	lightDirectionShader.bind();
+	lightDirectionShader.setUniform("modelViewProjectionMatrix", Context::projectionMatrix*Context::viewMatrix*Context::modelMatrix);
+	lightDirectionShader.setUniform("modelMatrix", Context::modelMatrix);
+	lightDirectionShader.setUniform("lightPos", Context::lightSource.position);
+	mesh.draw();
+	lightDirectionShader.unbind();
  }
 
 void ShadingDemo::drawNoShading(void){
@@ -164,6 +209,21 @@ void ShadingDemo::drawNoShading(void){
 void ShadingDemo::drawFlatShading(void){
 
   // TODO: compute flat shading
+
+	flatShader.bind();
+	flatShader.setUniform("lightSource.position", Context::viewMatrix*Context::lightSource.position); 
+	flatShader.setUniform("lightSource.ambient", Context::lightSource.ambient);
+	flatShader.setUniform("lightSource.diffuse", Context::lightSource.diffuse);
+	flatShader.setUniform("lightSource.specular", Context::lightSource.specular);
+	flatShader.setUniform("material.ambient", Context::material.ambient);
+	flatShader.setUniform("material.diffuse", Context::material.diffuse);
+	flatShader.setUniform("material.specular", Context::material.specular);
+	flatShader.setUniform("material.shininess", Context::material.shininess);
+	flatShader.setUniform("modelViewProjectionMatrix", Context::projectionMatrix*Context::viewMatrix*Context::modelMatrix);
+	flatShader.setUniform("modelViewMatrix", Context::viewMatrix*Context::modelMatrix);
+	mesh.draw();
+	flatShader.unbind();
+
   /*
   flatShader.setUniform("lightSource.ambient", Context::lightSource.ambient);
   flatShader.setUniform("lightSource.diffuse", Context::lightSource.diffuse);
@@ -177,7 +237,20 @@ void ShadingDemo::drawFlatShading(void){
 void ShadingDemo::drawGouraudShading(void){
 
   // TODO: compute gouraud shading
- 
+	gouraudShader.bind();
+	gouraudShader.setUniform("lightSource.position", Context::viewMatrix*Context::lightSource.position);
+	gouraudShader.setUniform("lightSource.ambient", Context::lightSource.ambient);
+	gouraudShader.setUniform("lightSource.diffuse", Context::lightSource.diffuse);
+	gouraudShader.setUniform("lightSource.specular", Context::lightSource.specular);
+	gouraudShader.setUniform("material.ambient", Context::material.ambient);
+	gouraudShader.setUniform("material.diffuse", Context::material.diffuse);
+	gouraudShader.setUniform("material.specular", Context::material.specular);
+	gouraudShader.setUniform("material.shininess", Context::material.shininess);
+	gouraudShader.setUniform("modelViewProjectionMatrix", Context::projectionMatrix*Context::viewMatrix*Context::modelMatrix);
+	gouraudShader.setUniform("modelViewMatrix", Context::viewMatrix*Context::modelMatrix);
+	gouraudShader.setUniform("normalMatrix", mat3(transpose(inverse(Context::viewMatrix*Context::modelMatrix))));
+	mesh.draw();
+	gouraudShader.unbind();
   /*
   gouraudShader.setUniform("lightSource.ambient", Context::lightSource.ambient);
   gouraudShader.setUniform("lightSource.diffuse", Context::lightSource.diffuse);
@@ -192,7 +265,20 @@ void ShadingDemo::drawGouraudShading(void){
 void ShadingDemo::drawPhongShading(void){
 
   // TODO: compute phong shading
-
+	phongShader.bind();
+	phongShader.setUniform("lightSource.position", Context::viewMatrix*Context::lightSource.position);
+	phongShader.setUniform("lightSource.ambient", Context::lightSource.ambient);
+	phongShader.setUniform("lightSource.diffuse", Context::lightSource.diffuse);
+	phongShader.setUniform("lightSource.specular", Context::lightSource.specular);
+	phongShader.setUniform("material.ambient", Context::material.ambient);
+	phongShader.setUniform("material.diffuse", Context::material.diffuse);
+	phongShader.setUniform("material.specular", Context::material.specular);
+	phongShader.setUniform("material.shininess", Context::material.shininess);
+	phongShader.setUniform("modelViewProjectionMatrix", Context::projectionMatrix*Context::viewMatrix*Context::modelMatrix);
+	phongShader.setUniform("modelViewMatrix", Context::viewMatrix*Context::modelMatrix);
+	phongShader.setUniform("normalMatrix", mat3(transpose(inverse(Context::viewMatrix*Context::modelMatrix))));
+	mesh.draw();
+	phongShader.unbind();
   /*
   phongShader.setUniform("lightSource.ambient", Context::lightSource.ambient);
   phongShader.setUniform("lightSource.diffuse", Context::lightSource.diffuse);

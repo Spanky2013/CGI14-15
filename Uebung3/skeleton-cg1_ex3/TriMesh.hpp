@@ -97,8 +97,4 @@ protected:
   glm::vec3 boundingBoxMin;
   glm::vec3 boundingBoxMax;
 
-  int numVertices;
-  int numPolygons;
-  int numEdges;
-
 };

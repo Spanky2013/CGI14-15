@@ -11,8 +11,9 @@
    ------------------------------------------------------------- */
 
 #include "TriMesh.hpp"
-#include <iostream>
 #include <fstream>
+#include <string>
+#include <iostream>
 #include <sstream>
 
 // use this with care
@@ -102,62 +103,80 @@ void TriMesh::calculateBoundingBox(void){
 
 // load triangle mesh in .OFF format
 void TriMesh::loadOff(const string& fileName){
-	positions.clear();
-	normals.clear();
-	faces.clear();
-
-	ifstream input;
-	input.open(fileName.c_str());
-
-	if(!(input.is_open())) { exit(1); };
+	
+	int nodeCount, polyCount, lineCount;
+	
+	std::ifstream fR;
+	fR.open(fileName.c_str());
 
 	string line;
-	int lineNr = 0;
+	getline(fR, line);
+	if(line == "OFF"){
+		getline(fR, line);
+		stringstream stream;
+		stream << line;
+		stream >> nodeCount >> polyCount >> lineCount;
 
-	numEdges = 0;
-
-	while(std::getline(input, line,'\n')) {
-		//cout <<"lineNr " << lineNr <<endl;
-		if(lineNr == 0) {
-			if(line != "OFF") { exit(1); };
-		}else if(lineNr == 1) {
-			stringstream sStream(line);
-			sStream >> numVertices >> numPolygons >> numEdges;
-			//cout <<"numVertices "<<numVertices<<"numPolygons "<<numPolygons<<"numEdges "<<numEdges<<endl;
-		}else{
-			if(lineNr < numVertices+2) {
-				GLfloat x, y, z;
-				stringstream sStream(line);
-				sStream >> x >> y >> z;
-				positions.push_back(glm::vec3(x,y,z));
-
-				//cout <<"Position "<< x<<" "<< y<<" " << z<<" " <<"Positions size"<<positions.size()<<endl;
-	
-			}else{
-				GLfloat i, a, b, c;
-				stringstream sStream(line);
-				sStream >> i >> a >> b >> c;
-
-				if(winding == PolygonWinding::CW) {
-					faces.push_back(glm::uvec3(a,b,c));
-				}else{
-					faces.push_back(glm::uvec3(c,b,a));
-				}
-//				cout <<"Faces "<< a<<" "<< b<<" " << c<<" " <<endl<<faces.size()<<endl;
-
-			}
-	
+		positions.clear();
+		faces.clear();
+		
+		
+		
+		for(int i=0;i<nodeCount;i++){
+			GLfloat x,y,z;
+			getline(fR, line);
+			stringstream stream;
+			stream << line;
+			stream >> x >> y >> z;
+			positions.push_back(glm::vec3(x,y,z));
+			//cout <<"Position "<< x<<" "<< y<<" " << z<<" " <<"Positions size"<<positions.size()<<endl;
 		}
-		lineNr++;
+		
+		for(int i = 0; i < polyCount; i++){
+			GLfloat count,inX,inY,inZ;
+			getline(fR, line);
+			stringstream stream;
+			stream << line;
+			stream >> count >> inX >> inY >> inZ;
+
+			//Das kann doch nicht richtig sein??
+			if(winding == PolygonWinding::CW){
+				faces.push_back(glm::uvec3(inX,inY,inZ));	
+			}else{
+				faces.push_back(glm::uvec3(inX,inZ,inY));	
+			}	
+			//cout <<"Faces "<< inX <<" "<< inY <<" " << inZ <<" " <<endl<<faces.size()<<endl;
+		}	
 	}
-	cout << "loadOff done: |V| "<<numVertices<<" |F| "<<numPolygons<<endl;
+	fR.close();
+	cout << "loadOff done: |V| "<<nodeCount<<" |F| "<<polyCount<<endl;
 	cout << "Positions: "<<positions.size()<<" Faces "<<faces.size()<<endl;
+	
 }
 
 
 // calculate smooth per-vertex normals
 void TriMesh::computeNormals(void){
-	
+	vector<vec3> faceNormals;
+	for(uvec3 face : faces) {
+	faceNormals.push_back(
+	glm::normalize(glm::cross(
+	(positions[face.y] - positions[face.x]),
+	(positions[face.z] - positions[face.x])
+	)));
+	}
+	for(int i = 0; i < positions.size(); ++i) {
+	int numFaces = 0;
+	vec3 normal = vec3(0, 0, 0);
+	for(int j = 0; j < faces.size(); ++j) {
+	if(faces[j].x == i || faces[j].y == i || faces[j].z == i) {
+	++numFaces;
+	normal += faceNormals[j];
+	}
+	}
+	normal /= numFaces;
+	normals.push_back(glm::normalize(normal));
+	}
 }
 
 // draw the mesh using vertex arrays
