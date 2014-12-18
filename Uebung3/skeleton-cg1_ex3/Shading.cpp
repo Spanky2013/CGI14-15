@@ -170,6 +170,7 @@ void ShadingDemo::visualizeFaceNormals(void){
     // TODO: visualize face normals
 	faceNormalVizShader.bind();
 	faceNormalVizShader.setUniform("modelViewProjectionMatrix", Context::projectionMatrix*Context::viewMatrix*Context::modelMatrix);
+	faceNormalVizShader.setUniform("modelViewMatrix", Context::viewMatrix*Context::modelMatrix);
 	mesh.draw();
 	faceNormalVizShader.unbind();
 
