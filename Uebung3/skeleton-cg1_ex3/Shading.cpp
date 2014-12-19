@@ -222,6 +222,7 @@ void ShadingDemo::drawFlatShading(void){
 	flatShader.setUniform("material.shininess", Context::material.shininess);
 	flatShader.setUniform("modelViewProjectionMatrix", Context::projectionMatrix*Context::viewMatrix*Context::modelMatrix);
 	flatShader.setUniform("modelViewMatrix", Context::viewMatrix*Context::modelMatrix);
+	flatShader.setUniform("color", vec4(1.0f, 0.0f, 0.5f, 1.0f));
 	mesh.draw();
 	flatShader.unbind();
 

@@ -1,11 +1,11 @@
 #version 150
-
+uniform vec4 color;
 layout(triangles) in;
 layout(triangle_strip, max_vertices = 3) out;
 
 in vec4 vertexPosition[3];
 
-out vec4 color;
+out vec4 o_color;
 
 vec4 blinnPhongReflection(vec4 position, vec3 normal);
 
@@ -20,10 +20,10 @@ void main(void) {
 	vec4 triangleMid = (vertexPosition[0] + vertexPosition[1] + vertexPosition[2]) * 1.0/3.0;
 
 	// Calculate the visible color for all three vertices
-	color = blinnPhongReflection(triangleMid, faceNormal);
+	o_color = blinnPhongReflection(triangleMid, faceNormal);
 
-	// Send the triangle to the rasterizer
-	gl_Position = gl_in[0].gl_Position;
+	// Send the triangle to the rasterizer     
+	gl_Position = gl_in[0].gl_Position;  
 	EmitVertex();
  
 	gl_Position= gl_in[1].gl_Position;
