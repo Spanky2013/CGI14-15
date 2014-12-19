@@ -156,9 +156,11 @@ void TriMesh::loadOff(const string& fileName){
 
 // calculate smooth per-vertex normals
 void TriMesh::computeNormals(void){
+	normals.clear();
+
 	vector<vec3> faceNormals;
 	for(uvec3 face : faces) {
-		if(winding == PolygonWinding::CW){
+		//if(winding == PolygonWinding::CW){
 				faceNormals.push_back(
 					glm::normalize(
 						glm::cross(
@@ -167,7 +169,7 @@ void TriMesh::computeNormals(void){
 						)
 					)
 				);	
-		}else{
+		/*}else{
 				faceNormals.push_back(
 					glm::normalize(
 						glm::cross(						
@@ -175,8 +177,8 @@ void TriMesh::computeNormals(void){
 							(positions[face.y] - positions[face.x])
 						)
 					)
-				);
-		}
+				);*/
+		//}
 	}
 	for(int i = 0; i < positions.size(); ++i) {
 	int numFaces = 0;
