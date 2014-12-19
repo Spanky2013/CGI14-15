@@ -73,8 +73,9 @@ ShadingDemo::ShadingDemo(){
 	lightDirectionShader.bindVertexAttrib("position", TriMesh::attribVertex);
 	lightDirectionShader.link();
 
-	flatShader.loadGeometryShader("shaders/blinnPhonfReflection");
+	
 	flatShader.loadVertexShader("shaders/flat.vert");
+	flatShader.loadGeometryShader("shaders/blinnPhongReflection");
 	flatShader.loadGeometryShader("shaders/flat.geom");
 	flatShader.loadFragmentShader("shaders/flat.frag");
 	flatShader.bindVertexAttrib("position", TriMesh::attribVertex);
