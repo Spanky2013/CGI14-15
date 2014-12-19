@@ -45,7 +45,7 @@ vec4 blinnPhongReflection(vec4 position, vec3 normal){
 	//vec4 ambientColor = lightSource.ambient;
 	vec4 ambientColor = lightSource.ambient * material.ambient;
 	//Third
-	vec4 diff =   lightSource.diffuse * material.diffuse * max(dot(normalize(normal), lightDirection), 0.0);
+	vec4 diff =  material.diffuse * lightSource.diffuse * max(dot(normal, lightDirection), 0.0);
 	//float diff = lightSource.diffuse * max(dot(normal, lightDirection), 0.0);
 
 	//return (ambientColor*color) + (diff*color) +  (specularColor);
