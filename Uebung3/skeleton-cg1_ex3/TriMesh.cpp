@@ -139,7 +139,6 @@ void TriMesh::loadOff(const string& fileName){
 			stream << line;
 			stream >> count >> inX >> inY >> inZ;
 
-			//Das kann doch nicht richtig sein??
 			if(winding == PolygonWinding::CW){
 				faces.push_back(glm::uvec3(inX,inY,inZ));	
 			}else{
@@ -159,11 +158,25 @@ void TriMesh::loadOff(const string& fileName){
 void TriMesh::computeNormals(void){
 	vector<vec3> faceNormals;
 	for(uvec3 face : faces) {
-	faceNormals.push_back(
-	glm::normalize(glm::cross(
-	(positions[face.y] - positions[face.x]),
-	(positions[face.z] - positions[face.x])
-	)));
+		if(winding == PolygonWinding::CW){
+				faceNormals.push_back(
+					glm::normalize(
+						glm::cross(
+							(positions[face.y] - positions[face.x]),
+							(positions[face.z] - positions[face.x])
+						)
+					)
+				);	
+		}else{
+				faceNormals.push_back(
+					glm::normalize(
+						glm::cross(						
+							(positions[face.z] - positions[face.x]),
+							(positions[face.y] - positions[face.x])
+						)
+					)
+				);
+		}
 	}
 	for(int i = 0; i < positions.size(); ++i) {
 	int numFaces = 0;
@@ -177,6 +190,76 @@ void TriMesh::computeNormals(void){
 	normal /= numFaces;
 	normals.push_back(glm::normalize(normal));
 	}
+
+	/*for(uvec3 face : faces) {
+		faceNormals=(
+					glm::normalize(
+						glm::cross(
+							(positions[face.y] - positions[face.x]),
+							(positions[face.z] - positions[face.x])
+						)
+					)
+				);	
+		for(int i=0; i<3; i++) {
+			if(i=0) {
+				for(uvec3 face1: faces) {
+					if(face != face1) {
+						if(face.x == face1.x || face.x == face1.y ||  face.x == face1.z){
+							faceNormals += (
+								glm::normalize(
+									glm::cross(
+										(positions[face1.y] - positions[face1.x]),
+										(positions[face1.z] - positions[face1.x])
+									)
+								)
+							);	
+
+						}
+					}
+				}
+			}
+			if(i=1) {
+				for(uvec3 face1: faces) {
+					if(face != face1) {
+						if(face.y == face1.x || face.y == face1.y ||  face.y == face1.z){
+							faceNormals += (
+								glm::normalize(
+									glm::cross(
+										(positions[face1.y] - positions[face1.x]),
+										(positions[face1.z] - positions[face1.x])
+									)
+								)
+							);	
+
+						}
+					}
+				}
+			}
+			if(i=2) {
+				for(uvec3 face1: faces) {
+					if(face != face1) {
+						if(face.z == face1.x || face.z == face1.y ||  face.z == face1.z){
+							faceNormals += (
+								glm::normalize(
+									glm::cross(
+										(positions[face1.y] - positions[face1.x]),
+										(positions[face1.z] - positions[face1.x])
+									)
+								)
+							);	
+
+						}
+					}
+				}
+			}
+		faceNormals = normalize(faceNormals);
+		normals.push_back(faceNormals);
+		}
+
+	}*/
+
+
+
 }
 
 // draw the mesh using vertex arrays
