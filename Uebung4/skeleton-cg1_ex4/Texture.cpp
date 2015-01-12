@@ -12,8 +12,8 @@
   #include <OpenGL/gl.h>
 #include <GL/freeglut.h>
 #elif _WIN32
-  #include "win32/GL/glew.h"
-#include "win32/GL/freeglut.h"
+  #include "win32/glew.h"
+#include "win32/freeglut.h"
 #else
   #include <GL/glew.h>
 #include <GL/freeglut.h>

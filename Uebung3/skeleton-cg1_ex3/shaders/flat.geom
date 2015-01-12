@@ -20,7 +20,7 @@ void main(void) {
 	vec4 triangleMid = (vertexPosition[0] + vertexPosition[1] + vertexPosition[2]) * 1.0/3.0;
 
 	// Calculate the visible color for all three vertices
-	o_color = blinnPhongReflection(triangleMid, faceNormal);
+	o_color = color*blinnPhongReflection(triangleMid, faceNormal);
 
 	// Send the triangle to the rasterizer     
 	gl_Position = gl_in[0].gl_Position;  
