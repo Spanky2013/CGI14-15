@@ -37,7 +37,7 @@ using namespace std;
 
 static TriMesh mesh;
 // full screen quad
-// static TriMesh quad("data/quad.off", false); // do not center and unitize
+static TriMesh quad("data/quad.off", false); // do not center and unitize
 
 #define PI  3.14159265358979323846264338327950288f
 #define RADIANS(x) (((x)*PI)/180.0f)
@@ -195,7 +195,11 @@ void Texture::display(void){
   // display textured full screen quad
   // XXX
 
-  // INSERT YOUR CODE HERE
+  	//flatQuadShader.bind();
+	texture.bind();
+	quad.draw();
+	//flatQuadShader.unbind();
+	texture.unbind();
 
   // END XXX
 

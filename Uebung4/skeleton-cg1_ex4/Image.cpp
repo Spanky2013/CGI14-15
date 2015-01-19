@@ -47,8 +47,7 @@ void Image::generateTexture(){
   if(textureID==0){
     // generate texture id
     // XXX
-
-    // INSERT YOUR CODE HERE
+	glGenTextures(1,&textureID);
 
     // END XXX
   }
@@ -56,23 +55,24 @@ void Image::generateTexture(){
   // texture filtering and repeat
   // XXX
 
-  // INSERT YOUR CODE HERE
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapS);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, mag);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, min);
 
   // END XXX
 
   //enable automatic mipmap generation
   // XXX
 
-  // INSERT YOUR CODE HERE
+	glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
 
   // END XXX
 
   // upload texture data
   // XXX
-
-  // INSERT YOUR CODE HERE
-
-  // END XXX
+	glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,width,height,0,GL_RGBA,GL_FLOAT,&data[0]);
+	// END XXX
 }
 
 void Image::setMinFilter(GLuint min){
@@ -81,7 +81,9 @@ void Image::setMinFilter(GLuint min){
   // set texture parameter
   // XXX
 
-  // INSERT YOUR CODE HERE
+  	bind();
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, min);
+	unbind();
 
   // END XXX
 }
@@ -95,7 +97,9 @@ void Image::setMagFilter(GLuint mag){
   // set texture parameter
   // XXX
 
-  // INSERT YOUR CODE HERE
+  	bind();
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, mag);
+	unbind();
 
   // END XXX
 }
@@ -109,7 +113,9 @@ void Image::setWrapS(GLuint wrap){
   // set texture filter
   // XXX
 
-  // INSERT YOUR CODE HERE
+	bind();
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrap);
+	unbind();
 
   // END XXX
 }
@@ -123,7 +129,9 @@ void Image::setWrapT(GLuint wrap){
   // set texture filter
   // XXX
 
-  // INSERT YOUR CODE HERE
+    bind();
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap);
+	unbind();
   
   // END XXX
 }
@@ -139,7 +147,7 @@ void Image::setWrap(GLuint wrap){
 void Image::bind(){
   // bind texture
   // XXX
-   // INSERT YOUR CODE HERE
+	glBindTexture(GL_TEXTURE_2D, textureID);
 
   // END XXX
 }
@@ -149,7 +157,7 @@ void Image::bind(){
 void Image::unbind(){
   // XXX
   
-  // INSERT YOUR CODE HERE
+	glBindTexture(GL_TEXTURE_2D, 0);
 
   // END XXX
 }
