@@ -162,7 +162,30 @@ void TriMesh::loadOff(const string& fileName){
 
 // calculate smooth per-vertex normals
 void TriMesh::computeNormals(void){
-
+	normals.clear();
+	vector<vec3> faceNormals;
+	for(uvec3 face : faces) {
+		faceNormals.push_back(
+			glm::normalize(
+				glm::cross(
+					(positions[face.y] - positions[face.x]),
+					(positions[face.z] - positions[face.x])
+				)
+			)
+		);	
+	}
+	for(int i = 0; i < positions.size(); ++i) {
+		int numFaces = 0;
+		vec3 normal = vec3(0, 0, 0);
+		for(int j = 0; j < faces.size(); ++j) {
+			if(faces[j].x == i || faces[j].y == i || faces[j].z == i) {
+				++numFaces;
+				normal += faceNormals[j];
+			}
+		}
+		normal /= numFaces;
+		normals.push_back(glm::normalize(normal));
+	}
 }
 
   // Compute uv coordinates with a spherical mapping
@@ -171,5 +194,11 @@ void TriMesh::computeSphereUVs(void){}
 
 // draw the mesh using vertex arrays
 void TriMesh::draw(void){
+	glVertexAttribPointer(attribVertex, 3, GL_FLOAT, GL_FALSE, 0, &positions[0]);
+	glEnableVertexAttribArray(attribVertex);
 
+	glVertexAttribPointer(attribNormal, 3, GL_FLOAT, GL_FALSE, 0, &normals[0]);
+	glEnableVertexAttribArray(attribNormal);
+
+	glDrawElements(GL_TRIANGLES, faces.size()*3, GL_UNSIGNED_INT, &faces[0]);
 }
