@@ -9,6 +9,10 @@
    ------------------------------------------------------------- */
 
 #include "TriMesh.hpp"
+#include <fstream>
+#include <string>
+#include <iostream>
+#include <sstream>
 
 // use this with care
 // might cause name collisions
@@ -107,9 +111,52 @@ void TriMesh::reload(){
 
 // load triangle mesh in .OFF format
 void TriMesh::loadOff(const string& fileName){
+	
+	int nodeCount, polyCount, lineCount;
+	
+	std::ifstream fR;
+	fR.open(fileName.c_str());
 
-name= fileName;
+	string line;
+	getline(fR, line);
+	if(line == "OFF"){
+		getline(fR, line);
+		stringstream stream;
+		stream << line;
+		stream >> nodeCount >> polyCount >> lineCount;
 
+		positions.clear();
+		faces.clear();
+	
+		for(int i=0;i<nodeCount;i++){
+			GLfloat x,y,z;
+			getline(fR, line);
+			stringstream stream;
+			stream << line;
+			stream >> x >> y >> z;
+			positions.push_back(glm::vec3(x,y,z));
+			//cout <<"Position "<< x<<" "<< y<<" " << z<<" " <<"Positions size"<<positions.size()<<endl;
+		}
+		
+		for(int i = 0; i < polyCount; i++){
+			GLfloat count,inX,inY,inZ;
+			getline(fR, line);
+			stringstream stream;
+			stream << line;
+			stream >> count >> inX >> inY >> inZ;
+
+			if(winding == PolygonWinding::CW){
+				faces.push_back(glm::uvec3(inX,inY,inZ));	
+			}else{
+				faces.push_back(glm::uvec3(inX,inZ,inY));	
+			}	
+			//cout <<"Faces "<< inX <<" "<< inY <<" " << inZ <<" " <<endl<<faces.size()<<endl;
+		}	
+	}
+	fR.close();
+	cout << "loadOff done: |V| "<<nodeCount<<" |F| "<<polyCount<<endl;
+	cout << "Positions: "<<positions.size()<<" Faces "<<faces.size()<<endl;
+	
 }
 
 
