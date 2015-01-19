@@ -32,12 +32,14 @@
 #include "TriMesh.hpp"
 #include "Image.hpp"
 
+#include "GLSLShader.hpp"
+
 using namespace glm;
 using namespace std;
 
 static TriMesh mesh;
 // full screen quad
-static TriMesh quad("data/quad.off", false); // do not center and unitize
+static TriMesh quad("data/quad.off"); // do not center and unitize
 
 #define PI  3.14159265358979323846264338327950288f
 #define RADIANS(x) (((x)*PI)/180.0f)
@@ -80,6 +82,7 @@ static Image texture;
 
 static vec3 cursor= vec3(1,0,0);
 
+static GLSLShader quadShader;
 /*************************************************************************************/
 
 // load Shaders
@@ -87,7 +90,10 @@ static vec3 cursor= vec3(1,0,0);
 void Common::loadShaders(){
   // XXX
 
-  // INSERT YOUR CODE HERE
+	quadShader.loadVertexShader("shaders/quad.vert");
+	quadShader.loadFragmentShader("shaders/quad.frag");
+	quadShader.bindVertexAttrib("position", TriMesh::attribVertex);
+	quadShader.link();
 
 
   // END XXX
