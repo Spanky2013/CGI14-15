@@ -502,7 +502,9 @@ void World::display(void){
 
   // XXX
 
-  // INSERT YOUR CODE HERE
+  texture.bind();
+  mesh.draw();
+  texture.unbind();
 
   // END XXX
     
@@ -649,7 +651,7 @@ void World::menu(int value){
 }
 
 void World::setLight(){
-  lightSource.position= vec4(0,0,1,1);
+  lightSource.position= vec4(0,0,3,1);
   lightSource.ambient= vec4(0.1,0.1,0.1,1);
   lightSource.diffuse= vec4(1,1,1,1);
   lightSource.specular= vec4(1,1,1,1);
