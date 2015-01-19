@@ -33,6 +33,8 @@
 #include "Image.hpp"
 
 #include "GLSLShader.hpp"
+#include "light_material.h"
+
 
 using namespace glm;
 using namespace std;
@@ -83,6 +85,7 @@ static Image texture;
 static vec3 cursor= vec3(1,0,0);
 
 static GLSLShader quadShader;
+static GLSLShader normQuadShader;
 /*************************************************************************************/
 
 // load Shaders
@@ -90,10 +93,10 @@ static GLSLShader quadShader;
 void Common::loadShaders(){
   // XXX
 
-	quadShader.loadVertexShader("shaders/quad.vert");
-	quadShader.loadFragmentShader("shaders/quad.frag");
-	quadShader.bindVertexAttrib("position", TriMesh::attribVertex);
-	quadShader.link();
+	normQuadShader.loadVertexShader("shaders/normQuad.vert");
+	normQuadShader.loadFragmentShader("shaders/normQuad.frag");
+	normQuadShader.bindVertexAttrib("position", TriMesh::attribVertex);
+	normQuadShader.link();
 
 
   // END XXX
@@ -201,10 +204,10 @@ void Texture::display(void){
   // display textured full screen quad
   // XXX
 
-  	quadShader.bind();
+  	normQuadShader.bind();
 	texture.bind();
 	quad.draw();
-	quadShader.unbind();
+	normQuadShader.unbind();
 	texture.unbind();
 
   // END XXX
@@ -331,6 +334,9 @@ void World::reshape(int width, int height){
     screen= vec2(width, height);
 }
 
+LightSource World::lightSource;
+Material World::material;
+
 // display callback
 // XXX: NEEDS TO BE IMPLEMENTED
 void World::display(void){
@@ -396,6 +402,9 @@ void World::display(void){
 	modelMatrix*= rotation;
 	modelMatrix= scale(modelMatrix, vec3(scaling));  
 
+	mat4 projectionMatrix;
+	glGetFloatv(GL_PROJECTION_MATRIX, &projectionMatrix[0][0]);
+
 	if(environmentMapping){ 
 
 	  // set up the mirror
@@ -438,17 +447,20 @@ void World::display(void){
     // XXX
 
     // INSERT YOUR CODE HERE     
+	   quadShader.bind();
+       quadShader.setUniform("modelView", cameraMatrix * modelMatrix);
+       quadShader.setUniform("normalMatrix", glm::transpose(glm::inverse(cameraMatrix*modelMatrix)));
+       quadShader.setUniform("modelViewProjection", projectionMatrix*cameraMatrix*modelMatrix);
+       quadShader.setUniform("lighting", lighting);
+	   quadShader.setUniform("showTexture", showTexture);
 
-       	  // quadShader.setUniform("lighting", lighting);
-	  // quadShader.setUniform("showTexture", showTexture);
-
-	  // quadShader.setUniform("lightSource.ambient", lightSource.ambient);
-	  // quadShader.setUniform("lightSource.diffuse", lightSource.diffuse);
-	  // quadShader.setUniform("lightSource.specular", lightSource.specular);
-	  // quadShader.setUniform("material.ambient", material.ambient);
-	  // quadShader.setUniform("material.diffuse", material.diffuse);
-	  // quadShader.setUniform("material.specular", material.specular);
-	  // quadShader.setUniform("material.shininess", material.shininess);
+	   quadShader.setUniform("lightSource.ambient", lightSource.ambient);
+	   quadShader.setUniform("lightSource.diffuse", lightSource.diffuse);
+	   quadShader.setUniform("lightSource.specular", lightSource.specular);
+	   quadShader.setUniform("material.ambient", material.ambient);
+	   quadShader.setUniform("material.diffuse", material.diffuse);
+	   quadShader.setUniform("material.specular", material.specular);
+	   quadShader.setUniform("material.shininess", material.shininess);
 
     // END XXX
 
@@ -624,4 +636,19 @@ void World::menu(int value){
     break;
   }
  Context::displayWorldWindow();
+}
+
+void World::setLight(){
+  lightSource.position= vec4(0,0,1,1);
+  lightSource.ambient= vec4(0.1,0.1,0.1,1);
+  lightSource.diffuse= vec4(1,1,1,1);
+  lightSource.specular= vec4(1,1,1,1);
+}
+
+// material
+void World::setMaterial(){
+  material.ambient= vec4(0,0,0,1);
+  material.diffuse= vec4(1,0,0.3,1);
+  material.specular= vec4(1,1,1,1);
+  material.shininess= 0.75;
 }

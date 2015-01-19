@@ -147,8 +147,10 @@ void Context::init(int argc, char **argv){
   cout << " right click: window-specific menus         \n";
   cout << "--------------------------------------------\n";
 
- // load shader
-  Common::loadShaders();
+	 // load shader
+	  Common::loadShaders();
+	  World::setLight();
+	  World::setMaterial();
     
  glutMainLoop();
 }

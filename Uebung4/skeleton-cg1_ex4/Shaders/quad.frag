@@ -9,7 +9,7 @@ uniform bool showTexture;
 
 void main(void){
 	vec4 color = vec4(1.0,1.0,1.0,1.0);
-	color = texture2D(texture, texCoord);	
+	color = texture(texture, texCoord);	
 	pixel = color;
 	
 	}

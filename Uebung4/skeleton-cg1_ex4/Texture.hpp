@@ -13,7 +13,10 @@
 #include <string>
 
 #include "glm/glm.hpp"
+#include "light_material.h"
 
+struct LightSource;
+struct Material;
 
 namespace Common{
 
@@ -43,10 +46,15 @@ namespace World{
   extern std::string menuText[];
   extern int numOptions;
   extern glm::vec2 previousMouse; // previous mouse position
-  
+  extern LightSource lightSource;
+  extern Material material;
+
   void display(void);
   void reshape(int width, int height);
   void mousePressed(int button, int state, int x, int y);
   void mouseDragged(int x, int y);
   void menu(int value);
+
+  void setLight();
+  void setMaterial();
 };
