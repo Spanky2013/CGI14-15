@@ -22,7 +22,7 @@
 #include <string>
 #include <iostream>
 
-#include "glm/glm.hpp"
+#include "glm/glm/glm.hpp"
 #define GLM_FORCE_RADIANS
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/matrix_inverse.hpp"
@@ -296,13 +296,13 @@ Context::displayWorldWindow();
 
 int World::menuOptions[]= {24, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
 			   0, 15, 16, 17, 18, 19, 20, 21, 22};
-string World::menuText[]= {"    reset", "MODEL", "    Plane", "    Spiky Sphere", "    Car", "    Bunny", "    Cone", "    Cow", "    Cowboy Hat", "    Dragon", "    Chess", "    Temple", "    Cup", "    Space Shuttle", "    Sphere", "    None",
+string World::menuText[]= {"    reset", "MODEL", "    Quad", "    Plane", "    Spiky Sphere", "    Car", "    Bunny", "    Cone", "    Cow", "    Cowboy Hat", "    Dragon", "    Chess", "    Temple", "    Cup", "    Space Shuttle", "    Sphere", "    None",
 			   "RENDERING", "    Lighting on/off", "    Texture on/off", "    Coordinate System on/off", "    Origin on/off", 
 			   "    Texture Coordinate Correction on/off  ", "    Texture Mode (WRAP/CLAMP) ", "    Environment mapping on/off", "    Move object/environment"};
 
 int World::numOptions= sizeof(World::menuOptions)/sizeof(World::menuOptions[0]);
 
-static string models[]= {"", "data/plane.off", "data/4cow.off", "data/auto3.off", "data/bunny2.off", "data/cone.off", "data/cow.off", "data/cowboyhut.off", "data/MEGADRACHE.off", "data/Schachfigur.off", "data/tempel.off", "data/tasse.off", "data/spaceshuttle.off", "data/sphere.off"};
+static string models[]= {"", "data/quad.off", "data/plane.off", "data/4cow.off", "data/auto3.off", "data/bunny2.off", "data/cone.off", "data/cow.off", "data/cowboyhut.off", "data/MEGADRACHE.off", "data/Schachfigur.off", "data/tempel.off", "data/tasse.off", "data/spaceshuttle.off", "data/sphere.off"};
 
 
 vec2 World::previousMouse;

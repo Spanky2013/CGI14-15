@@ -27,7 +27,7 @@
   #include <GL/freeglut.h>
 #endif
 
-#include "glm/glm.hpp"
+#include "glm/glm/glm.hpp"
 
 class GLSLShader{
 

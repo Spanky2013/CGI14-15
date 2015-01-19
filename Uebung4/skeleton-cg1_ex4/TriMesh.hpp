@@ -26,8 +26,8 @@
 
 // OpenGL mathematics library
 // http://glm.g-truc.net
-#include "glm/glm.hpp"
-#include "glm/gtx/unsigned_int.hpp"
+#include "glm/glm/glm.hpp"
+#include "glm/glm/gtx/unsigned_int.hpp"
 
 /*
  * Class for a simple triangle mesh represented as an indexed face set

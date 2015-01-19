@@ -10,7 +10,7 @@
 
 #include <iostream>
  
-#include "glm/glm.hpp"
+#include "glm/glm/glm.hpp"
 
 #include "Texture.hpp"
 #include "Context.hpp"

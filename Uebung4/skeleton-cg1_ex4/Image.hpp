@@ -24,7 +24,7 @@
 #include <vector>
 #include <string>
 
-#include "glm/glm.hpp"
+#include "glm/glm/glm.hpp"
 
 class Image{
 
