@@ -200,5 +200,8 @@ void TriMesh::draw(void){
 	glVertexAttribPointer(attribNormal, 3, GL_FLOAT, GL_FALSE, 0, &normals[0]);
 	glEnableVertexAttribArray(attribNormal);
 
+	glVertexAttribPointer(attribTexCoord, 3, GL_FLOAT, GL_FALSE, 0, &texCoords[0]);
+	glEnableVertexAttribArray(attribTexCoord);
+
 	glDrawElements(GL_TRIANGLES, faces.size()*3, GL_UNSIGNED_INT, &faces[0]);
 }

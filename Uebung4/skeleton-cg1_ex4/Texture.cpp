@@ -93,10 +93,16 @@ static GLSLShader normQuadShader;
 void Common::loadShaders(){
   // XXX
 
-	normQuadShader.loadVertexShader("shaders/normQuad.vert");
-	normQuadShader.loadFragmentShader("shaders/normQuad.frag");
+	normQuadShader.loadVertexShader("shaders/quad.vert");
+	normQuadShader.loadFragmentShader("shaders/quad.frag");
 	normQuadShader.bindVertexAttrib("position", TriMesh::attribVertex);
 	normQuadShader.link();
+
+	quadShader.loadVertexShader("shaders/quadShader.vert");
+	quadShader.loadFragmentShader("shaders/quadShader.frag");
+	quadShader.loadFragmentShader("shaders/blinnPhongReflection");
+	quadShader.bindVertexAttrib("position", TriMesh::attribVertex);
+	quadShader.link();
 
 
   // END XXX
@@ -462,6 +468,10 @@ void World::display(void){
 	   quadShader.setUniform("material.specular", material.specular);
 	   quadShader.setUniform("material.shininess", material.shininess);
 
+	   texture.bind();
+	   mesh.draw();
+	   texture.unbind();
+	   quadShader.unbind();
     // END XXX
 
 
