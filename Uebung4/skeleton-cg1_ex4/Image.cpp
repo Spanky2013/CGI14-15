@@ -51,7 +51,7 @@ void Image::generateTexture(){
 
     // END XXX
   }
-
+  this->bind();
   // texture filtering and repeat
   // XXX
 
@@ -73,6 +73,8 @@ void Image::generateTexture(){
   // XXX
 	glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,width,height,0,GL_RGBA,GL_FLOAT,&data[0]);
 	// END XXX
+
+	this->unbind();
 }
 
 void Image::setMinFilter(GLuint min){
