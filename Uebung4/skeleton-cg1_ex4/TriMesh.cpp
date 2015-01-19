@@ -113,6 +113,9 @@ void TriMesh::reload(){
 void TriMesh::loadOff(const string& fileName){
 	
 	int nodeCount, polyCount, lineCount;
+
+	//TODO BLALBLALBALVMKLAWNFKJAHSFBWHAJNFSAIJDBNAIUDBNAHUWBFPAUBDSHUFDAWOUUPOBSOPUFBAWIOU
+	// nochmal duchgehen, komische Farben
 	
 	std::ifstream fR;
 	fR.open(fileName.c_str());
@@ -127,6 +130,8 @@ void TriMesh::loadOff(const string& fileName){
 
 		positions.clear();
 		faces.clear();
+		texCoords.clear();
+		normals.clear();
 	
 		for(int i=0;i<nodeCount;i++){
 			GLfloat x,y,z;
