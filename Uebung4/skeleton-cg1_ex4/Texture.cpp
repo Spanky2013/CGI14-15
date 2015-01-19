@@ -201,10 +201,10 @@ void Texture::display(void){
   // display textured full screen quad
   // XXX
 
-  	//flatQuadShader.bind();
+  	quadShader.bind();
 	texture.bind();
 	quad.draw();
-	//flatQuadShader.unbind();
+	quadShader.unbind();
 	texture.unbind();
 
   // END XXX

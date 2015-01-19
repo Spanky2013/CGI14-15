@@ -3,12 +3,13 @@
 uniform mat4 modelViewProjectionMatrix;
 
 in vec4 position;
-out vec4 coord;
+out vec2 texCoord;
 
 void main(){
-	GLfloat x = position.x / position.w / 2.0f + 0.5f;
-	GLfloat y = position.y / position.w / 2.0f + 0.5f;
+	//float x = position.x / position.w / 2.0 + 0.5;
+	//float y = position.y / position.w / 2.0 + 0.5;
 	
 	gl_Position = modelViewProjectionMatrix*position;
-	coord = vec4(x,y,0,1);
+	texCoord = ((position.xy)*(1/position.w)*0.5) + (0.5,0.5);
+	//gl_TexCoord[0] = gl_MultiTexCoord0;
 }
