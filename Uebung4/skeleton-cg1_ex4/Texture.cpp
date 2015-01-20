@@ -82,7 +82,7 @@ static GLfloat farPlane;
 
 static Image texture;
 
-static vec3 cursor= vec3(1,0,0);
+static vec3 cursor= vec3(1,1,1);
 
 static GLSLShader quadShader;
 static GLSLShader normQuadShader;
@@ -119,7 +119,7 @@ void Common::loadShaders(){
 	texturingShader.loadFragmentShader("shaders/blinnPhongReflection");
 	texturingShader.bindVertexAttrib("position", TriMesh::attribVertex);
 	texturingShader.bindVertexAttrib("normal", TriMesh::attribNormal);
-	texturingShader.bindVertexAttrib("normal", TriMesh::attribTexCoord);
+	texturingShader.bindVertexAttrib("texCoord", TriMesh::attribTexCoord);
 	texturingShader.link();
 
   // END XXX
@@ -132,8 +132,14 @@ static void updateCursor(int x, int y){
 
   // XXX
 
-  // INSERT YOUR CODE HERE
-
+	float u = x/screen.x;
+	float v = 1 - y/screen.y;
+	float ny = cos((1.f - v) * glm::pi<float>());
+	float theta = (u - 0.5f) * (2 * glm::pi<float>());
+	float nx = sin(theta);
+	float nz = cos(theta);
+	double l = glm::sqrt((1.f * 1.f - ny * ny) / (nx * nx + nz * nz));
+	cursor = vec3(l*nx, ny, l*nz);
 
   // END XXX
 }
@@ -250,8 +256,11 @@ void Texture::mouseDragged(int x, int y){
   // paint on texture
   // XXX
 
-  // INSERT YOUR CODE HERE
-
+  if(drag == DragMode::DRAW) {
+		texture.paint((x / screen.x) * texture.getWidth(), ((screen.y - y) / screen.y) * texture.getHeight());
+  } else {
+		texture.erase((x / screen.x) * texture.getWidth(), ((screen.y - y) / screen.y) * texture.getHeight());
+  }
   // END XXX
 
   updateCursor(x, y);		
@@ -432,8 +441,11 @@ void World::display(void){
   // draw cursor
   // XXX
 
-  // INSERT YOUR CODE HERE
-
+  glBegin(GL_LINES);
+  glColor3ub(255,255,0);
+  glVertex3f(0,0,0);
+  glVertex3f(cursor.x*2,cursor.y*2,cursor.z*2);
+  glEnd();
   // END XXX
 
   glScalef(scaling, scaling, scaling);

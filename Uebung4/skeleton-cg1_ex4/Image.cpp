@@ -170,8 +170,7 @@ vec4 Image::get(unsigned int x, unsigned int y){
   
   // XXX
   
-  // INSERT YOUR CODE HERE 
-  return vec4(0);
+  return data[y+y*this->getWidth()];
   
   // END XXX
 }
@@ -181,8 +180,14 @@ vec4 Image::get(unsigned int x, unsigned int y){
 void Image::paint(float x, float y){
   // XXX
   
-  // INSERT YOUR CODE HERE
-  
+	vec4 color(1.0f, 0.f, 0.627f, 0.9f);
+	bind();
+	glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, 1, 1, GL_RGBA, GL_FLOAT, &color);
+	glTexSubImage2D(GL_TEXTURE_2D, 0, x - 1, y, 1, 1, GL_RGBA, GL_FLOAT, &color);
+	glTexSubImage2D(GL_TEXTURE_2D, 0, x, y - 1, 1, 1, GL_RGBA, GL_FLOAT, &color);
+	glTexSubImage2D(GL_TEXTURE_2D, 0, x + 1, y, 1, 1, GL_RGBA, GL_FLOAT, &color);
+	glTexSubImage2D(GL_TEXTURE_2D, 0, x, y + 1, 1, 1, GL_RGBA, GL_FLOAT, &color);
+	unbind();  
   // END XXX
 }
 
@@ -191,7 +196,18 @@ void Image::paint(float x, float y){
 void Image::erase(float x, float y){
   // XXX
   
-  // INSERT YOUR CODE HERE
+	bind();
+	vec4 color = get(x, y);
+	glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, 1, 1, GL_RGBA, GL_FLOAT, &color);
+	color = get(x - 1, y);
+	glTexSubImage2D(GL_TEXTURE_2D, 0, x - 1, y, 1, 1, GL_RGBA, GL_FLOAT, &color);
+	color = get(x, y - 1);
+	glTexSubImage2D(GL_TEXTURE_2D, 0, x, y - 1, 1, 1, GL_RGBA, GL_FLOAT, &color);
+	color = get(x + 1, y);
+	glTexSubImage2D(GL_TEXTURE_2D, 0, x + 1, y, 1, 1, GL_RGBA, GL_FLOAT, &color);
+	color = get(x, y + 1);
+	glTexSubImage2D(GL_TEXTURE_2D, 0, x, y + 1, 1, 1, GL_RGBA, GL_FLOAT, &color);
+	unbind();
   
   // END XXX
 }
