@@ -474,15 +474,16 @@ void World::display(void){
 	  sphereMapShader.setUniform("normalMatrix", glm::transpose(glm::inverse(cameraMatrix*modelMatrix)));
 	  sphereMapShader.setUniform("modelViewProjection", projectionMatrix*cameraMatrix*modelMatrix);
 
-	  // sphereMapShader.setUniform("lightSource.ambient", lightSource.ambient);
-	  // sphereMapShader.setUniform("lightSource.diffuse", lightSource.diffuse);
-	  // sphereMapShader.setUniform("lightSource.specular", lightSource.specular);
-	  // sphereMapShader.setUniform("material.ambient", material.ambient);
-	  // sphereMapShader.setUniform("material.diffuse", material.diffuse);
-	  // sphereMapShader.setUniform("material.specular", material.specular);
-	  // sphereMapShader.setUniform("material.shininess", material.shininess);
+	  sphereMapShader.setUniform("lightSource.ambient", lightSource.ambient);
+	  sphereMapShader.setUniform("lightSource.diffuse", lightSource.diffuse);
+	  sphereMapShader.setUniform("lightSource.specular", lightSource.specular);
+	  sphereMapShader.setUniform("material.ambient", material.ambient);
+	  sphereMapShader.setUniform("material.diffuse", material.diffuse);
+	  sphereMapShader.setUniform("material.specular", material.specular);
+	  sphereMapShader.setUniform("material.shininess", material.shininess);
+
 	  texture.bind();
-	 mesh.draw();
+	  mesh.draw();
 	  texture.unbind();
 	  sphereMapShader.unbind();
 	  // END XXX
