@@ -288,7 +288,30 @@ void Texture::menu(int value){
     // add cases for texture filtering
     // XXX
 
-    // INSERT YOUR CODE HERE
+	case 19:
+		texture.setMagFilter(GL_NEAREST);
+		break; 
+	case 20:
+		texture.setMagFilter(GL_LINEAR);
+		break;
+	case 21:
+		texture.setMinFilter(GL_NEAREST);
+		break; 
+	case 22:
+		texture.setMinFilter(GL_LINEAR);
+		break; 
+	case 23:
+		texture.setMinFilter(GL_NEAREST_MIPMAP_NEAREST);
+		break; 
+	case 24:
+		texture.setMinFilter(GL_LINEAR_MIPMAP_NEAREST);
+		break;
+	case 25:
+		texture.setMinFilter(GL_NEAREST_MIPMAP_LINEAR);
+		break;
+	case 26:
+		texture.setMinFilter(GL_LINEAR_MIPMAP_LINEAR);
+		break;
 
     // END XXX
   default: 

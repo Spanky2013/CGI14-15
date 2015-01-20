@@ -100,7 +100,7 @@ void Image::setMagFilter(GLuint mag){
   // XXX
 
   	bind();
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, mag);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, mag);
 	unbind();
 
   // END XXX
