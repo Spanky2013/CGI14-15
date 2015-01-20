@@ -14,6 +14,8 @@
 #include <iostream>
 #include <sstream>
 
+#include "glm\glm\gtc\constants.hpp"
+
 // use this with care
 // might cause name collisions
 using namespace glm;
@@ -157,7 +159,7 @@ void TriMesh::loadOff(const string& fileName){
 			if(winding == PolygonWinding::CW){
 				faces.push_back(glm::uvec3(inX,inY,inZ));	
 			}else{
-				faces.push_back(glm::uvec3(inZ,inY,inX));	
+				faces.push_back(glm::uvec3(inZ,inY,inX));
 			}	
 			//cout <<"Faces "<< inX <<" "<< inY <<" " << inZ <<" " <<endl<<faces.size()<<endl;
 		}	
@@ -200,7 +202,42 @@ void TriMesh::computeNormals(void){
 
   // Compute uv coordinates with a spherical mapping
   // (vertices are projected on a sphere along the normal and classical sphere uv unwrap is used)
-void TriMesh::computeSphereUVs(void){}
+void TriMesh::computeSphereUVs(void){	
+	
+	int id = 0;
+	for each(vec3 vec in positions) {
+		vec3 d = normals[id];
+		vec = normalize(vec);
+
+		float r = glm::sqrt(vec.x*vec.x + vec.y*vec.y + vec.z*vec.z);
+		
+
+
+		// (0, 0, 1) -> (0.5, 0.5)
+		//float v = 0.5 - acos(-d.y) / glm::pi<float>();
+		//float u = atan2(vec.y, -d.z) / (2 * glm::pi<float>());
+		
+		/*float phi = 0;
+		if(vec.x != 0){
+			phi = atan(vec.y/vec.x);
+			if(phi < 0)
+				phi = (2*glm::pi<float>()) - phi;
+		}
+		phi = phi / (2*glm::pi<float>());
+		float theta = acos(vec.z/r);
+		if(theta < 0)
+				theta = (glm::pi<float>()) - theta;
+		theta = theta/(glm::pi<float>());
+
+		float u = phi;
+		float v = theta;*/	
+		float u = 0.5 + (atan2(vec.x,vec.z))/(2*glm::pi<float>());
+		float v = acos(-vec.y)/(glm::pi<float>());		
+
+		texCoords.push_back(vec2(u, v));
+
+		++id;
+	}}
 
 // draw the mesh using vertex arrays
 void TriMesh::draw(void){

@@ -551,7 +551,8 @@ void World::display(void){
       texturingShader.setUniform("modelViewProjection", projectionMatrix*cameraMatrix*modelMatrix);
       texturingShader.setUniform("lighting", lighting);
 	  texturingShader.setUniform("showTexture", showTexture);
-
+	  	   
+	  texturingShader.setUniform("lightSource.position", lightSource.position);
 	  texturingShader.setUniform("lightSource.ambient", lightSource.ambient);
 	  texturingShader.setUniform("lightSource.diffuse", lightSource.diffuse);
 	  texturingShader.setUniform("lightSource.specular", lightSource.specular);
