@@ -33,11 +33,12 @@ TriMesh::TriMesh(){
 
 TriMesh::TriMesh(const std::string& fileName){
 
-name= fileName;
+  name= fileName;
   winding= CW;
   loadOff(fileName);
   center();
   unitize();
+  
   computeNormals();
 }
 
@@ -111,7 +112,8 @@ void TriMesh::reload(){
 
 // load triangle mesh in .OFF format
 void TriMesh::loadOff(const string& fileName){
-	
+	name = fileName;
+
 	int nodeCount, polyCount, lineCount;
 
 	//TODO BLALBLALBALVMKLAWNFKJAHSFBWHAJNFSAIJDBNAIUDBNAHUWBFPAUBDSHUFDAWOUUPOBSOPUFBAWIOU
@@ -119,6 +121,10 @@ void TriMesh::loadOff(const string& fileName){
 	
 	std::ifstream fR;
 	fR.open(fileName.c_str());
+
+	if(!fR.is_open()) {
+		exit(1);
+	}
 
 	string line;
 	getline(fR, line);
@@ -153,7 +159,7 @@ void TriMesh::loadOff(const string& fileName){
 			if(winding == PolygonWinding::CW){
 				faces.push_back(glm::uvec3(inX,inY,inZ));	
 			}else{
-				faces.push_back(glm::uvec3(inX,inZ,inY));	
+				faces.push_back(glm::uvec3(inZ,inY,inX));	
 			}	
 			//cout <<"Faces "<< inX <<" "<< inY <<" " << inZ <<" " <<endl<<faces.size()<<endl;
 		}	
@@ -167,7 +173,7 @@ void TriMesh::loadOff(const string& fileName){
 
 // calculate smooth per-vertex normals
 void TriMesh::computeNormals(void){
-	normals.clear();
+	//normals.clear();
 	vector<vec3> faceNormals;
 	for(uvec3 face : faces) {
 		faceNormals.push_back(
@@ -182,6 +188,7 @@ void TriMesh::computeNormals(void){
 	for(int i = 0; i < positions.size(); ++i) {
 		int numFaces = 0;
 		vec3 normal = vec3(0, 0, 0);
+
 		for(int j = 0; j < faces.size(); ++j) {
 			if(faces[j].x == i || faces[j].y == i || faces[j].z == i) {
 				++numFaces;
@@ -199,14 +206,20 @@ void TriMesh::computeSphereUVs(void){}
 
 // draw the mesh using vertex arrays
 void TriMesh::draw(void){
-	glVertexAttribPointer(attribVertex, 3, GL_FLOAT, GL_FALSE, 0, &positions[0]);
-	glEnableVertexAttribArray(attribVertex);
 
-	glVertexAttribPointer(attribNormal, 3, GL_FLOAT, GL_FALSE, 0, &normals[0]);
-	glEnableVertexAttribArray(attribNormal);
+	if(!positions.empty()) {
+		glVertexAttribPointer(attribVertex, 3, GL_FLOAT, GL_FALSE, 0, &positions[0]);
+		glEnableVertexAttribArray(attribVertex);
+	}
+	if(!texCoords.empty()) {
+		glVertexAttribPointer(attribTexCoord, 2, GL_FLOAT, GL_FALSE, 0, &texCoords[0]);
+		glEnableVertexAttribArray(attribTexCoord);
+	}
+	if(!normals.empty()) {
+		glVertexAttribPointer(attribNormal, 3, GL_FLOAT, GL_FALSE, 0, &normals[0]);
+		glEnableVertexAttribArray(attribNormal);
+	}
+	if(!faces.empty())
+		glDrawElements(GL_TRIANGLES, faces.size() * 3, GL_UNSIGNED_INT, &faces[0]);
 
-	glVertexAttribPointer(attribTexCoord, 3, GL_FLOAT, GL_FALSE, 0, &texCoords[0]);
-	glEnableVertexAttribArray(attribTexCoord);
-
-	glDrawElements(GL_TRIANGLES, faces.size()*3, GL_UNSIGNED_INT, &faces[0]);
 }

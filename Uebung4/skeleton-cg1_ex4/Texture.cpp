@@ -31,7 +31,6 @@
 #include "Texture.hpp"
 #include "TriMesh.hpp"
 #include "Image.hpp"
-
 #include "GLSLShader.hpp"
 #include "light_material.h"
 
@@ -47,9 +46,10 @@ static TriMesh quad("data/quad.off"); // do not center and unitize
 #define RADIANS(x) (((x)*PI)/180.0f)
 
 // current state of mouse action
-static enum{
-  ROTATE, SHIFT_XY, SHIFT_Z, SCALE, NO_DRAG, DRAW, ERASE
-} drag= NO_DRAG;
+enum DragMode {
+	ROTATE, SHIFT_XY, SHIFT_Z, SCALE, NO_DRAG, DRAW, ERASE
+};
+static DragMode drag = NO_DRAG;
 
 static bool showTexture= true;
 static bool textureCorrection= true;
@@ -315,6 +315,8 @@ static string models[]= {"", "data/quad.off", "data/plane.off", "data/4cow.off",
 
 
 vec2 World::previousMouse;
+LightSource World::lightSource;
+Material World::material;
 
 void World::reshape(int width, int height){
 
@@ -340,8 +342,7 @@ void World::reshape(int width, int height){
     screen= vec2(width, height);
 }
 
-LightSource World::lightSource;
-Material World::material;
+
 
 // display callback
 // XXX: NEEDS TO BE IMPLEMENTED
@@ -367,15 +368,15 @@ void World::display(void){
     glBegin(GL_LINES);
     glColor3ub(255, 0, 0);
     glVertex3f(0.0, 0.0, 0.0);
-    glVertex3f(1.0, 0.0, 0.0);
+    glVertex3f(2.0, 0.0, 0.0);
 
     glColor3ub(0, 255, 0);
     glVertex3f(0.0, 0.0, 0.0);
-    glVertex3f(0.0, 1.0, 0.0);
+    glVertex3f(0.0, 2.0, 0.0);
 
     glColor3ub(0, 0, 255);
     glVertex3f(0.0, 0.0, 0.0);
-    glVertex3f(0.0, 0.0, 1.0);
+    glVertex3f(0.0, 0.0, 2.0);
     glEnd();
   }		
 
@@ -460,6 +461,7 @@ void World::display(void){
        quadShader.setUniform("lighting", lighting);
 	   quadShader.setUniform("showTexture", showTexture);
 
+	   quadShader.setUniform("lightSource.position", lightSource.position);
 	   quadShader.setUniform("lightSource.ambient", lightSource.ambient);
 	   quadShader.setUniform("lightSource.diffuse", lightSource.diffuse);
 	   quadShader.setUniform("lightSource.specular", lightSource.specular);
@@ -502,9 +504,9 @@ void World::display(void){
 
   // XXX
 
-  texture.bind();
-  mesh.draw();
-  texture.unbind();
+  //texture.bind();
+  //mesh.draw();
+  //texture.unbind();
 
   // END XXX
     
@@ -651,7 +653,7 @@ void World::menu(int value){
 }
 
 void World::setLight(){
-  lightSource.position= vec4(0,0,3,1);
+  lightSource.position= vec4(0,0,0,1);
   lightSource.ambient= vec4(0.1,0.1,0.1,1);
   lightSource.diffuse= vec4(1,1,1,1);
   lightSource.specular= vec4(1,1,1,1);
@@ -659,8 +661,8 @@ void World::setLight(){
 
 // material
 void World::setMaterial(){
-  material.ambient= vec4(0,0,0,1);
-  material.diffuse= vec4(1,0,0.3,1);
+  material.ambient= vec4(1,1,1,1);
+  material.diffuse= vec4(1,1,1,1);
   material.specular= vec4(1,1,1,1);
   material.shininess= 0.75;
 }
