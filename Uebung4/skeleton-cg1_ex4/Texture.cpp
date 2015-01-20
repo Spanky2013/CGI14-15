@@ -86,6 +86,8 @@ static vec3 cursor= vec3(1,0,0);
 
 static GLSLShader quadShader;
 static GLSLShader normQuadShader;
+static GLSLShader sphereMapShader;
+
 /*************************************************************************************/
 
 // load Shaders
@@ -103,6 +105,12 @@ void Common::loadShaders(){
 	quadShader.loadFragmentShader("shaders/blinnPhongReflection");
 	quadShader.bindVertexAttrib("position", TriMesh::attribVertex);
 	quadShader.link();
+
+	sphereMapShader.loadVertexShader("shaders/sphere.vert");
+	sphereMapShader.loadFragmentShader("shaders/sphere.frag");
+	sphereMapShader.loadFragmentShader("shaders/blinnPhongReflection");
+	sphereMapShader.bindVertexAttrib("position", TriMesh::attribVertex);
+	sphereMapShader.link();
 
 
   // END XXX
