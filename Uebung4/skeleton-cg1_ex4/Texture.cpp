@@ -86,6 +86,7 @@ static vec3 cursor= vec3(1,0,0);
 
 static GLSLShader quadShader;
 static GLSLShader normQuadShader;
+static GLSLShader texturingShader;
 static GLSLShader sphereMapShader;
 
 /*************************************************************************************/
@@ -113,6 +114,13 @@ void Common::loadShaders(){
 	sphereMapShader.bindVertexAttrib("normal", TriMesh::attribNormal);
 	sphereMapShader.link();
 
+	texturingShader.loadVertexShader("shaders/textur.vert");
+	texturingShader.loadFragmentShader("shaders/textur.frag");
+	texturingShader.loadFragmentShader("shaders/blinnPhongReflection");
+	texturingShader.bindVertexAttrib("position", TriMesh::attribVertex);
+	texturingShader.bindVertexAttrib("normal", TriMesh::attribNormal);
+	texturingShader.bindVertexAttrib("normal", TriMesh::attribTexCoord);
+	texturingShader.link();
 
   // END XXX
 }
@@ -524,20 +532,26 @@ void World::display(void){
 
 // XXX 
 
-  // INSERT YOUR CODE HERE
+	   
+	  texturingShader.bind();
+	  texturingShader.setUniform("modelView", cameraMatrix * modelMatrix);
+      texturingShader.setUniform("normalMatrix", glm::transpose(glm::inverse(cameraMatrix*modelMatrix)));
+      texturingShader.setUniform("modelViewProjection", projectionMatrix*cameraMatrix*modelMatrix);
+      texturingShader.setUniform("lighting", lighting);
+	  texturingShader.setUniform("showTexture", showTexture);
 
-
-       	  // texturingShader.setUniform("lighting", lighting);
-	  // texturingShader.setUniform("showTexture", showTexture);
-
-	  // texturingShader.setUniform("lightSource.ambient", lightSource.ambient);
-	  // texturingShader.setUniform("lightSource.diffuse", lightSource.diffuse);
-	  // texturingShader.setUniform("lightSource.specular", lightSource.specular);
-	  // texturingShader.setUniform("material.ambient", material.ambient);
-	  // texturingShader.setUniform("material.diffuse", material.diffuse);
-	  // texturingShader.setUniform("material.specular", material.specular);
-	  // texturingShader.setUniform("material.shininess", material.shininess);
-
+	  texturingShader.setUniform("lightSource.ambient", lightSource.ambient);
+	  texturingShader.setUniform("lightSource.diffuse", lightSource.diffuse);
+	  texturingShader.setUniform("lightSource.specular", lightSource.specular);
+	  texturingShader.setUniform("material.ambient", material.ambient);
+	  texturingShader.setUniform("material.diffuse", material.diffuse);
+	  texturingShader.setUniform("material.specular", material.specular);
+	  texturingShader.setUniform("material.shininess", material.shininess);
+	  
+	  texture.bind();
+	  mesh.draw();
+	  texture.unbind();
+	  texturingShader.unbind();
  // END XXX
  }
 
