@@ -36,9 +36,10 @@ TriMesh::TriMesh(const std::string& fileName){
   name= fileName;
   winding= CW;
   loadOff(fileName);
-  center();
-  unitize();
-  
+  if(fileName.find("quad.off") == std::string::npos){
+	  center();
+	  unitize();
+  }  
   computeNormals();
 }
 
@@ -115,9 +116,6 @@ void TriMesh::loadOff(const string& fileName){
 	name = fileName;
 
 	int nodeCount, polyCount, lineCount;
-
-	//TODO BLALBLALBALVMKLAWNFKJAHSFBWHAJNFSAIJDBNAIUDBNAHUWBFPAUBDSHUFDAWOUUPOBSOPUFBAWIOU
-	// nochmal duchgehen, komische Farben
 	
 	std::ifstream fR;
 	fR.open(fileName.c_str());

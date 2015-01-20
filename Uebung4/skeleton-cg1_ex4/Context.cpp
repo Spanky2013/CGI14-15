@@ -106,6 +106,8 @@ static void createWindows(void){
   worldWindow.registerKeyPressed(Common::keyPressed);
   worldWindow.registerMenu(World::menu);
   worldWindow.addMenu(World::menuOptions, World::menuText, World::numOptions);
+  World::setLight();
+  World::setMaterial();
 }
 
 // initialize OpenGL context
@@ -149,8 +151,8 @@ void Context::init(int argc, char **argv){
 
 	 // load shader
 	  Common::loadShaders();
-	  World::setLight();
-	  World::setMaterial();
+	  //World::setLight();
+	  //World::setMaterial();
     
  glutMainLoop();
 }
