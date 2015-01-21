@@ -1,7 +1,7 @@
 #version 150
 
 //ins
-in vec2 texCoord;
+in vec2 texCoordinates;
 in vec4 vPosition;
 in vec3 vNormal;
 
@@ -20,7 +20,7 @@ void main(){
 	pixel = vec4(1.f, 1.f, 1.f, 1.f);
 	
 	if(showTexture == true) {
-		pixel = texture(tex, texCoord);
+		pixel = vec4(texture2D(tex, texCoordinates).rgb, 1.f);
 	}
 	
 	if(lighting == true) {

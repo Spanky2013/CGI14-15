@@ -112,6 +112,7 @@ void Common::loadShaders(){
 	sphereMapShader.loadFragmentShader("shaders/blinnPhongReflection");
 	sphereMapShader.bindVertexAttrib("position", TriMesh::attribVertex);
 	sphereMapShader.bindVertexAttrib("normal", TriMesh::attribNormal);
+	sphereMapShader.bindVertexAttrib("texCoord", TriMesh::attribTexCoord);
 	sphereMapShader.link();
 
 	texturingShader.loadVertexShader("shaders/textur.vert");
@@ -246,7 +247,8 @@ void Texture::display(void){
 
 void Texture::mousePressed(int button, int state, int x, int y){
 
-  if(button == GLUT_DOWN) previousMouse= vec2(x, y);
+  if(button == GLUT_DOWN) 
+	  previousMouse= vec2(x, y);
 }
 
 // mouse dragged callback
@@ -493,6 +495,7 @@ void World::display(void){
 	  sphereMapShader.setUniform("modelView", cameraMatrix * modelMatrix);
 	  sphereMapShader.setUniform("normalMatrix", glm::transpose(glm::inverse(cameraMatrix*modelMatrix)));
 	  sphereMapShader.setUniform("modelViewProjection", projectionMatrix*cameraMatrix*modelMatrix);
+	  sphereMapShader.setUniform("pi", glm::pi<float>());
 
 	  sphereMapShader.setUniform("lightSource.ambient", lightSource.ambient);
 	  sphereMapShader.setUniform("lightSource.diffuse", lightSource.diffuse);

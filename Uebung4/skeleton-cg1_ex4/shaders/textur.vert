@@ -1,6 +1,6 @@
 #version 150
 
-in vec4 position;
+in vec3 position;
 in vec3 normal;
 in vec2 texCoord;
 
@@ -13,8 +13,8 @@ uniform mat4 normalMatrix;
 uniform mat4 modelViewProjection;
 
 void main(){
-	vertexPosition = modelView * position;
+	vertexPosition = modelView * vec4(position, 1.);
 	vertexNormal = normalize((normalMatrix * vec4(normal, 1.f)).xyz);
 	vertexTexcoords = texCoord;
-	gl_Position = modelViewProjection * position;
+	gl_Position = modelViewProjection * vec4(position, 1.);
 }

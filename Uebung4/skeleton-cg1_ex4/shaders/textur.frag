@@ -16,7 +16,7 @@ void main(void){
 	pixel = vec4(1.f, 1.f, 1.f, 1.f);
 
 	if(showTexture == true) {
-		pixel = texture(tex, vertexTexcoords);
+		pixel = texture2D(tex, vertexTexcoords);
 	}
 
 	if(lighting == true) {
