@@ -170,7 +170,7 @@ vec4 Image::get(unsigned int x, unsigned int y){
   
   // XXX
   
-  return data[y+y*this->getWidth()];
+  return data[x+y*this->getWidth()];
   
   // END XXX
 }
@@ -180,7 +180,7 @@ vec4 Image::get(unsigned int x, unsigned int y){
 void Image::paint(float x, float y){
   // XXX
   
-	vec4 color(1.0f, 0.f, 0.627f, 0.9f);
+	vec4 color(1.0f, 0.2f, 0.2f, 0.9f);
 	bind();
 	glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, 1, 1, GL_RGBA, GL_FLOAT, &color);
 	glTexSubImage2D(GL_TEXTURE_2D, 0, x - 1, y, 1, 1, GL_RGBA, GL_FLOAT, &color);

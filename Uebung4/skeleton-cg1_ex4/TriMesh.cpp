@@ -231,8 +231,11 @@ void TriMesh::computeSphereUVs(void){
 
 		float u = phi;
 		float v = theta;*/	
+		
+		//float u = 0.5 + (atan2(vec.x,vec.z))/(2*glm::pi<float>());
+		//float v = acos(-vec.y)/(glm::pi<float>());		
 		float u = 0.5 + (atan2(vec.x,vec.z))/(2*glm::pi<float>());
-		float v = acos(-vec.y)/(glm::pi<float>());		
+		float v = 0.5 + asin(vec.y)/(glm::pi<float>());		
 
 		texCoords.push_back(vec2(u, v));
 
