@@ -16,29 +16,36 @@ const vec3 Yunitvec = vec3 (0.0, 1.0, 0.0);
 
 //uniforms
 uniform float pi;
+uniform mat4 view;
+uniform mat4 model;
+uniform mat4 projection;
 uniform mat4 modelView;
 uniform mat4 normalMatrix;
 uniform mat4 mirrorView;
 uniform mat4 mirrorNormalMatrix;
 uniform mat4 modelViewProjection;
+uniform mat4 mirrorViewProjection;
 uniform mat4 mirror;
 uniform bool moveEnvironment;
 
 void main(){
-	gl_Position = modelViewProjection*vec4(position, 1.);
+	//gl_Position = mirrorViewProjection*vec4(position, 1.);
 	normalTexCoord = texCoord;
 	vec4 p;
 		
 	vec3 refl;
 
 	if(moveEnvironment){
-		//p = mirrorView*vec4(position, 1.);
-		p = mirror*vec4(position, 1.);
+		vec3 help = position;
+		help.x = help.x;
+		gl_Position = projection*view*vec4(help,1.);
+		p = mirrorView*vec4(position, 1.);
+		//p = mirror*vec4(position, 1.);
 		pasPos = p.xz;
 		vPosition = p;
 		vec3 eye =  normalize(vec3(vPosition));
-		//vNormal = normalize((mirrorNormalMatrix*vec4(normal,0)).xyz);
-	    vNormal = normalize((mirror*vec4(normal,0)).xyz);
+		vNormal = normalize((mirrorNormalMatrix*vec4(normal,0)).xyz);
+	    //vNormal = normalize((mirror*vec4(normal,0)).xyz);
 
 		refl = reflect(eye,vNormal);	
 
@@ -46,6 +53,7 @@ void main(){
 		vPosition = modelView * vec4(position, 1.);
 	}
 	else{
+		gl_Position = modelViewProjection*vec4(position, 1.);
 		p = vec4(position, 1.);
 		pasPos = p.xz;
 		vPosition = modelView * p;
@@ -63,7 +71,9 @@ void main(){
 
 	refl.x = (refl.x/divisor + 1)/2;
 	refl.y = (refl.y/divisor + 1)/2;
-
+	
+	// x und y sind jetz u und v
+	
 	if(refl.x > 1){
 		refl.x = refl.x-1;
 	}

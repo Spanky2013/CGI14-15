@@ -60,6 +60,7 @@ static bool environmentMapping= false;
 static bool moveEnvironment= false;
 static bool drawMesh= true;
 static bool drawRect= false;
+static bool silhouette = false;
 
 static GLuint modulation= GL_MODULATE;
 static GLuint wrap= GL_CLAMP_TO_BORDER;
@@ -88,6 +89,7 @@ static GLSLShader quadShader;
 static GLSLShader normQuadShader;
 static GLSLShader texturingShader;
 static GLSLShader sphereMapShader;
+static GLSLShader silhouetteShader;
 
 /*************************************************************************************/
 
@@ -123,6 +125,11 @@ void Common::loadShaders(){
 	texturingShader.bindVertexAttrib("texCoord", TriMesh::attribTexCoord);
 	texturingShader.link();
 
+	silhouetteShader.loadVertexShader("shaders/silhouette.vert");
+	silhouetteShader.loadFragmentShader("shaders/silhouette.frag");
+	silhouetteShader.bindVertexAttrib("position", TriMesh::attribVertex);
+	silhouetteShader.bindVertexAttrib("normal", TriMesh::attribNormal);
+	silhouetteShader.link();
   // END XXX
 }
 
@@ -203,7 +210,7 @@ string Texture::menuText[]= {"TOOLS:", "    Pen", "    Eraser",
 
 int Texture::numOptions= sizeof(Texture::menuOptions)/sizeof(Texture::menuOptions[0]);
 
-string textures[]= {"", "data/earthcyl2.ppm", "data/earth2.ppm", "data/earthlights.ppm", "data/saturncyl1.ppm", "data/marble.ppm", "data/stpeters.ppm", "data/uffizi.ppm", "data/supernova.ppm", "data/test5b.ppm", "data/test7b.ppm", "data/test6b.ppm", "data/checker2.ppm", "data/test3b.ppm", "data/test4b.ppm", "data/test2b.ppm", "data/test8b.ppm"};
+string textures[]= {"", "data/earthcyl2.ppm", "data/earth2.ppm", "data/earthlights.ppm", "data/saturncyl1.ppm", "data/marble.ppm", "data/stpeters.ppm", "data/uffizi.ppm", "data/supernova.ppm", "data/test5b.ppm", "data/test7b.ppm", "data/test6b.ppm", "data/checker2.ppm", "data/test3b.ppm", "data/test4b.ppm", "data/test2b.ppm", "data/test8b.ppm", "data/silhouette.ppm"};
 
 vec2 Texture::previousMouse; // previous mouse position
 
@@ -340,6 +347,12 @@ void Texture::menu(int value){
 	case 26:
 		texture.setMinFilter(GL_LINEAR_MIPMAP_LINEAR);
 		break;
+	case 27:
+		texture.load(textures[value-10]);
+		texture.generateTexture();
+		if(value<6) environmentMapping= false;
+		else if(value<13) environmentMapping= true;
+		break;
 
     // END XXX
   default: 
@@ -355,10 +368,10 @@ Context::displayWorldWindow();
 // -------------------------------------------------------
 
 int World::menuOptions[]= {24, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
-			   0, 15, 16, 17, 18, 19, 20, 21, 22};
+			   0, 15, 16, 17, 18, 19, 20, 21, 22, 23};
 string World::menuText[]= {"    reset", "MODEL", "    Plane", "    Spiky Sphere", "    Car", "    Bunny", "    Cone", "    Cow", "    Cowboy Hat", "    Dragon", "    Chess", "    Temple", "    Cup", "    Space Shuttle", "    Sphere", "    None",
 			   "RENDERING", "    Lighting on/off", "    Texture on/off", "    Coordinate System on/off", "    Origin on/off", 
-			   "    Texture Coordinate Correction on/off  ", "    Texture Mode (WRAP/CLAMP) ", "    Environment mapping on/off", "    Move object/environment"};
+			   "    Texture Coordinate Correction on/off  ", "    Texture Mode (WRAP/CLAMP) ", "    Environment mapping on/off", "    Move object/environment", "    SilhouetteRendering"};
 
 int World::numOptions= sizeof(World::menuOptions)/sizeof(World::menuOptions[0]);
 
@@ -494,11 +507,15 @@ void World::display(void){
 	  sphereMapShader.setUniform("mirror", mirrorMatrix);
 
 	  if(moveEnvironment){
+		sphereMapShader.setUniform("model", modelMatrix);
+		sphereMapShader.setUniform("view", cameraMatrix);
+		sphereMapShader.setUniform("projection", projectionMatrix);
 		sphereMapShader.setUniform("mirrorView", cameraMatrix * mirrorMatrix);
 		sphereMapShader.setUniform("modelView", cameraMatrix * modelMatrix);
 		sphereMapShader.setUniform("normalMatrix", glm::transpose(glm::inverse(cameraMatrix*modelMatrix)));
 		sphereMapShader.setUniform("mirrorNormalMatrix", glm::transpose(glm::inverse(cameraMatrix*mirrorMatrix)));
 		sphereMapShader.setUniform("modelViewProjection", projectionMatrix*cameraMatrix*modelMatrix);	  
+		sphereMapShader.setUniform("mirrorViewProjection", projectionMatrix*cameraMatrix*mirrorMatrix);	
 	  }else{
 	  sphereMapShader.setUniform("modelView", cameraMatrix * modelMatrix);
 	  sphereMapShader.setUniform("normalMatrix", glm::transpose(glm::inverse(cameraMatrix*modelMatrix)));
@@ -551,7 +568,19 @@ void World::display(void){
     // END XXX
 
 
-  } else{ // conventional texturing with texture coordinates calculated in TriMesh
+  } else /*if(silhouette){
+	  
+	  silhouetteShader.bind();
+	  silhouetteShader.setUniform("modelView", cameraMatrix * modelMatrix);
+       silhouetteShader.setUniform("normalMatrix", glm::transpose(glm::inverse(cameraMatrix*modelMatrix)));
+       silhouetteShader.setUniform("modelViewProjection", projectionMatrix*cameraMatrix*modelMatrix);
+
+	   texture.bind();
+	   mesh.draw();
+	   texture.unbind();
+	   silhouetteShader.unbind();
+
+	}else */{  // conventional texturing with texture coordinates calculated in TriMesh
 
 // pass matrices and flags to shader
 
@@ -728,6 +757,10 @@ void World::menu(int value){
     reset();
     moveEnvironment= !moveEnvironment;
     break;
+  case 23:
+	  silhouette = !silhouette;
+	  if(environmentMapping) environmentMapping = !environmentMapping;
+	  break;
   default:
     break;
   }
