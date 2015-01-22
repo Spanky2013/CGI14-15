@@ -568,19 +568,21 @@ void World::display(void){
     // END XXX
 
 
-  } else /*if(silhouette){
+  } else if(silhouette){
 	  
-	  silhouetteShader.bind();
-	  silhouetteShader.setUniform("modelView", cameraMatrix * modelMatrix);
+	   silhouetteShader.bind();
+	   silhouetteShader.setUniform("pi", glm::pi<float>());
+	   silhouetteShader.setUniform("modelView", cameraMatrix * modelMatrix);
        silhouetteShader.setUniform("normalMatrix", glm::transpose(glm::inverse(cameraMatrix*modelMatrix)));
        silhouetteShader.setUniform("modelViewProjection", projectionMatrix*cameraMatrix*modelMatrix);
+	   silhouetteShader.setUniform("projection", projectionMatrix);
 
 	   texture.bind();
 	   mesh.draw();
 	   texture.unbind();
 	   silhouetteShader.unbind();
 
-	}else */{  // conventional texturing with texture coordinates calculated in TriMesh
+	}else {  // conventional texturing with texture coordinates calculated in TriMesh
 
 // pass matrices and flags to shader
 
