@@ -491,10 +491,20 @@ void World::display(void){
       sphereMapShader.setUniform("lighting", lighting);
 	  sphereMapShader.setUniform("showTexture", showTexture);
 	  sphereMapShader.setUniform("moveEnvironment", moveEnvironment);
+	  sphereMapShader.setUniform("mirror", mirrorMatrix);
 
+	  if(moveEnvironment){
+		sphereMapShader.setUniform("mirrorView", cameraMatrix * mirrorMatrix);
+		sphereMapShader.setUniform("modelView", cameraMatrix * modelMatrix);
+		sphereMapShader.setUniform("normalMatrix", glm::transpose(glm::inverse(cameraMatrix*modelMatrix)));
+		sphereMapShader.setUniform("mirrorNormalMatrix", glm::transpose(glm::inverse(cameraMatrix*mirrorMatrix)));
+		sphereMapShader.setUniform("modelViewProjection", projectionMatrix*cameraMatrix*modelMatrix);	  
+	  }else{
 	  sphereMapShader.setUniform("modelView", cameraMatrix * modelMatrix);
 	  sphereMapShader.setUniform("normalMatrix", glm::transpose(glm::inverse(cameraMatrix*modelMatrix)));
 	  sphereMapShader.setUniform("modelViewProjection", projectionMatrix*cameraMatrix*modelMatrix);
+	  }
+	 
 	  sphereMapShader.setUniform("pi", glm::pi<float>());
 
 	  sphereMapShader.setUniform("lightSource.ambient", lightSource.ambient);
@@ -554,7 +564,8 @@ void World::display(void){
       texturingShader.setUniform("modelViewProjection", projectionMatrix*cameraMatrix*modelMatrix);
       texturingShader.setUniform("lighting", lighting);
 	  texturingShader.setUniform("showTexture", showTexture);
-	  	   
+	  texturingShader.setUniform("pi", glm::pi<float>());
+
 	  texturingShader.setUniform("lightSource.position", lightSource.position);
 	  texturingShader.setUniform("lightSource.ambient", lightSource.ambient);
 	  texturingShader.setUniform("lightSource.diffuse", lightSource.diffuse);
