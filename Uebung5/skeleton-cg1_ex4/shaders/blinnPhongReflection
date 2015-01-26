@@ -1,0 +1,58 @@
+#version 150
+
+uniform vec4 color;
+
+struct LightSource{
+  //position in view space
+  vec4 position;
+  // ambient color
+  vec4 ambient;
+  // diffuse color
+  vec4 diffuse;
+  // specular color
+  vec4 specular;
+};
+
+struct Material{
+  // ambient color
+  vec4 ambient;
+  // diffuse color
+  vec4 diffuse;
+  // specular color
+  vec4 specular;
+  // shininess
+  float shininess;
+};
+
+uniform LightSource lightSource;
+uniform Material material;
+
+// position and normal in view space
+vec4 blinnPhongReflection(vec4 position, vec3 normal){
+	
+	//STUFF FOR BLINN
+	vec3 lightDirection = normalize(lightSource.position.xyz - position.xyz);
+	float diffAngle = max(dot(lightDirection, normal), 0.);
+	vec3 H = normalize(lightDirection - normalize(position.xyz));
+	
+	//First
+	float spec = 0.0;
+	if(diffAngle > 0.0){		
+		float specAngle = max(dot( H, normalize(normal)),0.0);
+		
+		spec = pow(specAngle , 4*material.shininess);
+	}
+	vec4 specularColor = lightSource.specular * material.specular * spec;
+	//vec4 specularColor = lightSource.specular * pow(specAngle , 4*material.shininess);	
+	//Second
+	//vec4 ambientColor = lightSource.ambient;
+	vec4 ambientColor = lightSource.ambient * material.ambient;
+	//Third
+	vec4 diff =   lightSource.diffuse * material.diffuse * diffAngle;
+	//float diff = lightSource.diffuse * max(dot(normal, lightDirection), 0.0);
+
+	//return (ambientColor*color) + (diff*color) +  (specularColor);
+	return ambientColor + diff +  specularColor;
+	//return ambientColor + diff +  specularColor;
+}
+	
