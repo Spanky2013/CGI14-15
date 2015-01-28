@@ -11,17 +11,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="Context.cpp" />
     <ClCompile Include="GLSLShader.cpp" />
     <ClCompile Include="Image.cpp" />
+    <ClCompile Include="KDNode.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TriMesh.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Context.hpp" />
     <ClInclude Include="GLSLShader.hpp" />
     <ClInclude Include="Image.hpp" />
+    <ClInclude Include="KDNode.h" />
     <ClInclude Include="Texture.hpp" />
     <ClInclude Include="TriMesh.hpp" />
     <ClInclude Include="Window.hpp" />
