@@ -7,8 +7,8 @@
     <ClCompile Include="GLSLShader.cpp" />
     <ClCompile Include="TriMesh.cpp" />
     <ClCompile Include="Window.cpp" />
-    <ClCompile Include="KDNode.cpp" />
     <ClCompile Include="BoundingBox.cpp" />
+    <ClCompile Include="KDNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Context.hpp" />
@@ -17,7 +17,7 @@
     <ClInclude Include="GLSLShader.hpp" />
     <ClInclude Include="TriMesh.hpp" />
     <ClInclude Include="Window.hpp" />
-    <ClInclude Include="KDNode.h" />
     <ClInclude Include="BoundingBox.h" />
+    <ClInclude Include="KDNode.h" />
   </ItemGroup>
 </Project>
