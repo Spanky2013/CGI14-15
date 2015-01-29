@@ -17,6 +17,7 @@ public:
 
 
 	KDNode();
+	~KDNode();
 
 	KDNode* build(std::vector<glm::uvec3*>& triangles, int depth) const;
 	
