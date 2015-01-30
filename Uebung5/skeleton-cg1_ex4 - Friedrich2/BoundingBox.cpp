@@ -80,10 +80,45 @@ BoundingBox BoundingBox::get_bounding_box(std::vector<glm::uvec3> triangles, std
   
 }
 
-bool BoundingBox::hit_it(Ray ray, float time){
-	bool result = false;
-		//TODO BlaBla
-	return result;
+/*
+ * Ray-box intersection using IEEE numerical properties to ensure that the
+ * test is both robust and efficient, as described in:
+ *
+ *      Amy Williams, Steve Barrus, R. Keith Morley, and Peter Shirley
+ *      "An Efficient and Robust Ray-Box Intersection Algorithm"
+ *      Journal of graphics tools, 10(1):49-54, 2005
+ *
+ */
+bool BoundingBox::hit_it(Ray ray, float time0, float time1){
+
+	glm::vec3 paras[2];
+	paras[0] = this->bBoxMin;
+	paras[1] = this->bBoxMax;
+	
+	// Smith's Method
+	float txmin,txmax,tymin,tymax,tzmin,tzmax;
+
+	txmin = (paras[ray.sign[0]].x - ray.src.x) * ray.inv_dir.x;
+	txmax = (paras[1-ray.sign[0]].x - ray.src.x) * ray.inv_dir.x;
+	tymin = (paras[ray.sign[0]].y - ray.src.y) * ray.inv_dir.y;
+	tymax = (paras[1-ray.sign[0]].y - ray.src.y) * ray.inv_dir.y;
+	if ( (txmin > tymax) || (tymin > txmax) ) 
+    return false;
+	if (tymin > txmin)
+		txmin = tymin;
+	if (tymax < txmax)
+		txmax = tymax;
+
+	tzmin = (paras[ray.sign[0]].z - ray.src.z) * ray.inv_dir.z;
+	tzmax = (paras[1-ray.sign[0]].z - ray.src.z) * ray.inv_dir.z;
+	if ( (txmin > tzmax) || (tzmin > txmax) ) 
+		return false;
+	if (tzmin > txmin)
+		txmin = tzmin;
+	if (tzmax < txmax)
+		txmax = tzmax;
+	return ( (txmin < time1) && (txmax > time0) );
+
 }
 
 
