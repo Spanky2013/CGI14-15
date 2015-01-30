@@ -79,4 +79,10 @@ BoundingBox BoundingBox::get_bounding_box(std::vector<glm::uvec3> triangles, std
   
 }
 
+bool BoundingBox::hit_it(){
+	bool result = false;
+		//TODO
+	return result;
+}
+
 

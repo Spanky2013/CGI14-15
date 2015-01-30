@@ -92,3 +92,59 @@ glm::vec3 KDNode::get_midPoint_tr(glm::uvec3 tri, std::vector<glm::vec3> positio
 
 	return result;
 }
+
+bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float t, float tmin, std::vector<glm::vec3> positions) const{
+		
+		//erstma: hat er überhaupt in die bbox getroffen?
+
+	if(node->bbox.hit_it()){
+		bool hit_tr = false;
+		glm::vec3 hit_pt, local_hit_pt, normal;
+
+		bool hit_left, hit_right;
+		if(node->left->faces.size() > 0 || node->right->faces.size() > 0 ){
+			hit_left = hit_a_tr(node->left, ray, t, tmin, positions);
+			hit_right = hit_a_tr(node->right, ray,t,tmin, positions);
+			return hit_left || hit_right;
+		} else {
+		// Wir sind in ienem Blatt
+			for(int i = 0; i < node->faces.size(); i++){
+				if(hit_ray_tr(node->faces[i],positions, t, tmin)){
+					hit_tr = true;
+					tmin = t;
+					hit_pt = hitPt_ray_tr(ray, node->faces[i],positions);
+					normal = hitNr_ray_tr(node->faces[i],positions);
+				}
+			}
+			if(hit_tr){
+				
+				return true;
+			}
+		return false;
+		}
+	}
+
+	return false;
+}
+
+bool KDNode::hit_ray_tr(glm::uvec3 triangle, std::vector<glm::vec3> positions, float t, float tmin) const{
+	bool result = false;
+	//TODO
+	return result;
+}
+
+glm::vec3 KDNode::hitPt_ray_tr(Ray ray, glm::uvec3 triangle, std::vector<glm::vec3> positions) const{
+	glm::vec3 result;
+	//TODO
+	return result;
+}
+
+glm::vec3 KDNode::hitNr_ray_tr(glm::uvec3 triangle, std::vector<glm::vec3> positions) const{
+	glm::vec3 result = glm::normalize(
+				glm::cross(
+					(positions[triangle.y] - positions[triangle.x]),
+					(positions[triangle.z] - positions[triangle.x])
+				)
+			);
+	return result;
+}

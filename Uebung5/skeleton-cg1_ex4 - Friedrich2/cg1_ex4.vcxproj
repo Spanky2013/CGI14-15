@@ -16,6 +16,7 @@
     <ClCompile Include="GLSLShader.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="KDNode.cpp" />
+    <ClCompile Include="Ray.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TriMesh.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -26,6 +27,7 @@
     <ClInclude Include="GLSLShader.hpp" />
     <ClInclude Include="Image.hpp" />
     <ClInclude Include="KDNode.hpp" />
+    <ClInclude Include="Ray.hpp" />
     <ClInclude Include="Texture.hpp" />
     <ClInclude Include="TriMesh.hpp" />
     <ClInclude Include="Window.hpp" />
