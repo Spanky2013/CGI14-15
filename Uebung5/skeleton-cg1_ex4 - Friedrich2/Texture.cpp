@@ -39,6 +39,8 @@ using namespace glm;
 using namespace std;
 
 static TriMesh mesh;
+static TriMesh mesh1;
+
 // full screen quad
 static TriMesh quad("data/quad.off"); // do not center and unitize
 
@@ -391,8 +393,8 @@ void World::reshape(int width, int height){
     // Set the viewport to be the entire window
     glViewport(0, 0, width, height);
 
-    cameraZ= 1 / tan(fov/180.0);
-
+    //cameraZ= 1 / tan(fov/180.0);
+	cameraZ = 1;
     // near and far plane
     nearPlane= cameraZ/10.0;
     farPlane= cameraZ*10.0;
@@ -401,7 +403,7 @@ void World::reshape(int width, int height){
     
     //position the camera at (0,0,cameraZ) looking down the
     //negative z-axis at (0,0,0)
-    cameraMatrix= lookAt(vec3(0.0, 0.0, cameraZ), vec3(0.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0));
+    cameraMatrix= lookAt(vec3(0.5, 0.5, cameraZ), vec3(0.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0));
 
     screen= vec2(width, height);
 }
@@ -563,6 +565,7 @@ void World::display(void){
 
 	   texture.bind();
 	   mesh.draw();
+	   mesh1.draw();
 	   texture.unbind();
 	   quadShader.unbind();
     // END XXX
@@ -691,7 +694,8 @@ void World::menu(int value){
     break;
   case 1:
     // load rectangle
-    mesh.loadOff(models[value]);
+    mesh.loadOff("meshes/bialetti.off");
+	mesh1.loadOff("meshes/bialetti.off",0.1);
     drawRect= true;
     break;
   case 2:

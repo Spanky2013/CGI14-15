@@ -169,6 +169,62 @@ void TriMesh::loadOff(const string& fileName){
 	cout << "Positions: "<<positions.size()<<" Faces "<<faces.size()<<endl;
 	
 }
+// load triangle mesh in .OFF format wirh offset
+void TriMesh::loadOff(const string& fileName, float off){
+	name = fileName;
+
+	int nodeCount, polyCount, lineCount;
+	
+	std::ifstream fR;
+	fR.open(fileName.c_str());
+
+	if(!fR.is_open()) {
+		exit(1);
+	}
+
+	string line;
+	getline(fR, line);
+	if(line == "OFF"){
+		getline(fR, line);
+		stringstream stream;
+		stream << line;
+		stream >> nodeCount >> polyCount >> lineCount;
+
+		positions.clear();
+		faces.clear();
+		texCoords.clear();
+		normals.clear();
+	
+		for(int i=0;i<nodeCount;i++){
+			GLfloat x,y,z;
+			getline(fR, line);
+			stringstream stream;
+			stream << line;
+			stream >> x >> y >> z;
+			positions.push_back(glm::vec3(x+off,y,z+off));
+			//cout <<"Position "<< x<<" "<< y<<" " << z<<" " <<"Positions size"<<positions.size()<<endl;
+		}
+		
+		for(int i = 0; i < polyCount; i++){
+			GLfloat count,inX,inY,inZ;
+			getline(fR, line);
+			stringstream stream;
+			stream << line;
+			stream >> count >> inX >> inY >> inZ;
+
+			if(winding == PolygonWinding::CW){
+				faces.push_back(glm::uvec3(inX,inY,inZ));	
+			}else{
+				faces.push_back(glm::uvec3(inZ,inY,inX));
+			}	
+			//cout <<"Faces "<< inX <<" "<< inY <<" " << inZ <<" " <<endl<<faces.size()<<endl;
+		}	
+	}
+	fR.close();
+	cout << "loadOff done: |V| "<<nodeCount<<" |F| "<<polyCount<<endl;
+	cout << "Positions: "<<positions.size()<<" Faces "<<faces.size()<<endl;
+	
+}
 
 
 // calculate smooth per-vertex normals
