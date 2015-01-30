@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "glm/glm/glm.hpp"
+#include "Ray.hpp"
 
 class BoundingBox
 {

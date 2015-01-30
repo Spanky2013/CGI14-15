@@ -39,6 +39,7 @@ using namespace glm;
 using namespace std;
 
 static TriMesh mesh;
+static TriMesh mesh1;
 // full screen quad
 static TriMesh quad("data/quad.off"); // do not center and unitize
 
@@ -368,10 +369,10 @@ Context::displayWorldWindow();
 // -------------------------------------------------------
 
 int World::menuOptions[]= {24, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
-			   0, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+			   0, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25};
 string World::menuText[]= {"    reset", "MODEL", "    Plane", "    Spiky Sphere", "    Car", "    Bunny", "    Cone", "    Cow", "    Cowboy Hat", "    Dragon", "    Chess", "    Temple", "    Cup", "    Space Shuttle", "    Sphere", "    None",
 			   "RENDERING", "    Lighting on/off", "    Texture on/off", "    Coordinate System on/off", "    Origin on/off", 
-			   "    Texture Coordinate Correction on/off  ", "    Texture Mode (WRAP/CLAMP) ", "    Environment mapping on/off", "    Move object/environment", "    SilhouetteRendering"};
+			   "    Texture Coordinate Correction on/off  ", "    Texture Mode (WRAP/CLAMP) ", "    Environment mapping on/off", "    Move object/environment", "    SilhouetteRendering","Draw Objects"};
 
 int World::numOptions= sizeof(World::menuOptions)/sizeof(World::menuOptions[0]);
 
@@ -391,8 +392,8 @@ void World::reshape(int width, int height){
     // Set the viewport to be the entire window
     glViewport(0, 0, width, height);
 
-    cameraZ= 1 / tan(fov/180.0);
-
+   // cameraZ= 1 / tan(fov/180.0);
+	 cameraZ=1;
     // near and far plane
     nearPlane= cameraZ/10.0;
     farPlane= cameraZ*10.0;
@@ -401,7 +402,7 @@ void World::reshape(int width, int height){
     
     //position the camera at (0,0,cameraZ) looking down the
     //negative z-axis at (0,0,0)
-    cameraMatrix= lookAt(vec3(0.0, 0.0, cameraZ), vec3(0.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0));
+    cameraMatrix= lookAt(vec3(0.5, 0.5, cameraZ), vec3(0.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0));
 
     screen= vec2(width, height);
 }
@@ -428,40 +429,46 @@ void World::display(void){
   glMultMatrixf(&rotation[0][0]);
 
   //show coordinate system
-  if(showCoordinates){
-    glBegin(GL_LINES);
-    glColor3ub(255, 0, 0);
-    glVertex3f(0.0, 0.0, 0.0);
-    glVertex3f(2.0, 0.0, 0.0);
+  //if(showCoordinates){
+  //  glBegin(GL_LINES);
+  //  glColor3ub(255, 0, 0);
+  //  glVertex3f(0.0, 0.0, 0.0);
+  //  glVertex3f(2.0, 0.0, 0.0);
 
-    glColor3ub(0, 255, 0);
-    glVertex3f(0.0, 0.0, 0.0);
-    glVertex3f(0.0, 2.0, 0.0);
+  //  glColor3ub(0, 255, 0);
+  //  glVertex3f(0.0, 0.0, 0.0);
+  //  glVertex3f(0.0, 2.0, 0.0);
 
-    glColor3ub(0, 0, 255);
-    glVertex3f(0.0, 0.0, 0.0);
-    glVertex3f(0.0, 0.0, 2.0);
-    glEnd();
-  }		
+  //  glColor3ub(0, 0, 255);
+  //  glVertex3f(0.0, 0.0, 0.0);
+  //  glVertex3f(0.0, 0.0, 2.0);
+  //  glEnd();
+  //}		
 
   // show center of spherical mapping
-  if(showOrigin){
-    glColor3f(1.0, 1.0, 0.0);
-    glPushMatrix();
-   
-    glutSolidSphere(0.05f, 20, 20);
-    glPopMatrix();
-  }
+  //if(showOrigin){
+  //  glColor3f(1.0, 1.0, 0.0);
+  //  glPushMatrix();
+  // 
+  //  glutSolidSphere(0.05f, 20, 20);
+  //  glPopMatrix();
+  //}
 
   // draw cursor
   // XXX
 
-  glBegin(GL_LINES);
-  glColor3ub(255,255,0);
-  glVertex3f(0,0,0);
-  glVertex3f(cursor.x*2,cursor.y*2,cursor.z*2);
-  glEnd();
+  //glBegin(GL_LINES);
+  //glColor3ub(255,255,0);
+  //glVertex3f(0,0,0);
+  //glVertex3f(cursor.x*2,cursor.y*2,cursor.z*2);
+  //glEnd();
   // END XXX
+  	glPushMatrix();
+
+	glScalef(1, 0, 1);
+	glutSolidCube(1.0);
+
+	glPopMatrix();
 
   glScalef(scaling, scaling, scaling);
 	
@@ -562,6 +569,7 @@ void World::display(void){
 	   quadShader.setUniform("material.shininess", material.shininess);
 
 	   texture.bind();
+	   mesh1.draw();
 	   mesh.draw();
 	   texture.unbind();
 	   quadShader.unbind();
@@ -610,6 +618,8 @@ void World::display(void){
 	  mesh.draw();
 	  texture.unbind();
 	  texturingShader.unbind();
+
+	  
  // END XXX
  }
 
@@ -618,7 +628,7 @@ void World::display(void){
   // XXX
 
   //texture.bind();
-  //mesh.draw();
+  //mesh1.draw();
   //texture.unbind();
 
   // END XXX
@@ -686,12 +696,19 @@ Context::displayWorldWindow();
 void World::menu(int value){
    
   switch(value){
+  case 25:
+    // load rectangle
+    mesh.loadOff("meshes/bialetti.off");
+	mesh1.loadOff("meshes/bialetti.off",0.1);
+    drawRect= true;
+    break;
   case 24:
     reset();
     break;
   case 1:
     // load rectangle
-    mesh.loadOff(models[value]);
+    mesh.loadOff("meshes/bialetti.off");
+	mesh1.loadOff("meshes/bialetti.off",0.1);
     drawRect= true;
     break;
   case 2:

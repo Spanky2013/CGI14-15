@@ -97,7 +97,7 @@ bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time, float timeMin, st
 		
 		//erstma: hat er überhaupt in die bbox getroffen?
 
-	if(node->bbox.hit_it()){
+	if(node->bbox.hit_it(ray,time)){
 		bool hit_tr = false;
 		glm::vec3 hit_pt, local_hit_pt, normal;
 

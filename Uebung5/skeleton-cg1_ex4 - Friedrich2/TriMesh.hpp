@@ -57,6 +57,7 @@ public:
   // load the mesh from an off file
   void reload();
   void loadOff(const std::string& filename);
+  void loadOff(const std::string& filename,float off);
 
   // normalize to bounding sphere radius 1
   void unitize(void);
