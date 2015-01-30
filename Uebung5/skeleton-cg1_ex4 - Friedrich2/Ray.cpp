@@ -10,6 +10,10 @@ Ray::Ray(void)
 Ray::Ray(glm::vec3 source, glm::vec3 direction){
 	this->dir = direction;
 	this->src = source;
+	this->inv_dir = glm::vec3(1/dir.x,1/dir.y,1/dir.z);
+	sign[0] = (inv_dir.x < 0);
+    sign[1] = (inv_dir.y < 0);
+    sign[2] = (inv_dir.z < 0);
 }
 
 Ray::~Ray(void)

@@ -12,6 +12,8 @@ public:
 
 	glm::vec3 src;
 	glm::vec3 dir;
+	glm::vec3 inv_dir;
+	int sign[3]; //gibt an ob die x,y,z von inv_dir < oder > 0 sind
 
 	glm::vec3 posAt(float time) const;
 };

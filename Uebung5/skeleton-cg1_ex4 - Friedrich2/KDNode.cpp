@@ -93,25 +93,26 @@ glm::vec3 KDNode::get_midPoint_tr(glm::uvec3 tri, std::vector<glm::vec3> positio
 	return result;
 }
 
-bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time, float timeMin, std::vector<glm::vec3> positions) const{
+// time 
+bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, std::vector<glm::vec3> positions) const{
 		
 		//erstma: hat er überhaupt in die bbox getroffen?
 
-	if(node->bbox.hit_it()){
+	if(node->bbox.hit_it(ray, time0, time1)){
 		bool hit_tr = false;
 		glm::vec3 hit_pt, local_hit_pt, normal;
 
 		bool hit_left, hit_right;
 		if(node->left->faces.size() > 0 || node->right->faces.size() > 0 ){
-			hit_left = hit_a_tr(node->left, ray, time, timeMin, positions);
-			hit_right = hit_a_tr(node->right, ray,time,timeMin, positions);
+			hit_left = hit_a_tr(node->left, ray, time1, time0, positions);
+			hit_right = hit_a_tr(node->right, ray,time1,time0, positions);
 			return hit_left || hit_right;
 		} else {
 		// Wir sind in ienem Blatt
 			for(int i = 0; i < node->faces.size(); i++){
-				if(hit_ray_tr(node->faces[i],positions, time, timeMin)){
+				if(hit_ray_tr(node->faces[i],positions, time1, time0)){
 					hit_tr = true;
-					timeMin = time;
+					time0 = time1;
 					hit_pt = hitPt_ray_tr(ray, node->faces[i],positions);
 					normal = hitNr_ray_tr(node->faces[i],positions);
 				}
