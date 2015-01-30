@@ -134,18 +134,40 @@ glm::vec2 KDNode::get_times(Ray ray){
 	}
 }
 
+//hat der Ray in der BBox auch dieses Dreieck getroffen?
 bool KDNode::hit_ray_tr(glm::uvec3 triangle, std::vector<glm::vec3> positions, float t, float tmin) const{
 	bool result = false;
 	//TODO
 	return result;
 }
 
+//wo hat der Ray dieses Dreieck getroffen?
 glm::vec3 KDNode::hitPt_ray_tr(Ray ray, glm::uvec3 triangle, std::vector<glm::vec3> positions) const{
 	glm::vec3 result;
-	//TODO
+	
+	glm::vec3 first,second,third, s, e1, e2, p, q;
+	first = positions[triangle.x];
+	second = positions[triangle.y];
+	third = positions[triangle.z];
+	s = ray.src-first;
+	e1 = second-first;
+	e2 = third-first;
+	p = glm::cross(ray.dir,e2);
+	q = glm::cross(s,e1);
+
+	float mul = 1/(glm::dot(p,e1));
+
+	float u = mul*glm::dot(p,s);
+	float v = mul*glm::dot(q,ray.dir);
+
+	result.x = (1-u-v)*first.x + u*second.x + v*third.x;
+	result.y = (1-u-v)*first.y + u*second.y + v*third.y;
+	result.z = (1-u-v)*first.z + u*second.z + v*third.z;
+
 	return result;
 }
 
+//gibt die Normale des getroffenen Dreiecks zurück
 glm::vec3 KDNode::hitNr_ray_tr(glm::uvec3 triangle, std::vector<glm::vec3> positions) const{
 	glm::vec3 result = glm::normalize(
 				glm::cross(

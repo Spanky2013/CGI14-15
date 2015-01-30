@@ -125,6 +125,8 @@ bool BoundingBox::hit_it(Ray ray, float time0, float time1){
 
 }
 
+//Liefert die beiden Schnittpunkte mit der BBox
+//wenn time0 > time 1 dann gibt es keinen Schnittpunkt
 glm::vec2 BoundingBox::get_times(Ray ray){
 	glm::vec3 paras[2];
 	paras[0] = this->bBoxMin;
@@ -150,6 +152,13 @@ glm::vec2 BoundingBox::get_times(Ray ray){
 	float time1 = src_to_tmax.x/ray.dir.x;
 	if(abs(time0 - src_to_tmin.y/ray.dir.y) > 0.001f || abs(time0 - src_to_tmin.y/ray.dir.y)  > 0.001f )
 		std::cout << "it went sth wrong in time1!! "<<time0<<";"<<(src_to_tmin.y/ray.dir.y)<<";"<<(src_to_tmin.z/ray.dir.z);
+
+	//falls wir in einem Polygon sind kann ein Punkt hinter uns liegen, 
+	/*if(time0 < 0)
+		time0 = 0;
+	if(time1 < 0)
+		time1 = 0;
+		*/
 
 	return glm::vec2(time0,time1);
 }
