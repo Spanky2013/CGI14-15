@@ -21,11 +21,11 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BoundingBox.h" />
+    <ClInclude Include="BoundingBox.hpp" />
     <ClInclude Include="Context.hpp" />
     <ClInclude Include="GLSLShader.hpp" />
     <ClInclude Include="Image.hpp" />
-    <ClInclude Include="KDNode.h" />
+    <ClInclude Include="KDNode.hpp" />
     <ClInclude Include="Texture.hpp" />
     <ClInclude Include="TriMesh.hpp" />
     <ClInclude Include="Window.hpp" />

@@ -17,7 +17,7 @@
     <ClInclude Include="GLSLShader.hpp" />
     <ClInclude Include="TriMesh.hpp" />
     <ClInclude Include="Window.hpp" />
-    <ClInclude Include="BoundingBox.h" />
-    <ClInclude Include="KDNode.h" />
+    <ClInclude Include="BoundingBox.hpp" />
+    <ClInclude Include="KDNode.hpp" />
   </ItemGroup>
 </Project>
