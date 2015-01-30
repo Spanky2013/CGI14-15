@@ -94,7 +94,7 @@ glm::vec3 KDNode::get_midPoint_tr(glm::uvec3 tri, std::vector<glm::vec3> positio
 }
 
 // time0 ist der Eintrittspunkt in die Box, time1 der Austrittspunkt
-bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, std::vector<glm::vec3> positions) const{
+bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, std::vector<glm::vec3> positions){
 		
 		//erstma: hat er überhaupt in die bbox getroffen?
 
@@ -110,7 +110,7 @@ bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, std
 		} else {
 		// Wir sind in ienem Blatt
 			for(int i = 0; i < node->faces.size(); i++){
-				if(hit_ray_tr(node->faces[i],positions, time1, time0)){
+				if(hit_ray_tr(ray, node->faces[i], positions, time1, time0)){
 					hit_tr = true;
 					time0 = time1;
 					hit_pt = hitPt_ray_tr(ray, node->faces[i],positions);
@@ -135,15 +135,8 @@ glm::vec2 KDNode::get_times(Ray ray){
 }
 
 //hat der Ray in der BBox auch dieses Dreieck getroffen?
-bool KDNode::hit_ray_tr(glm::uvec3 triangle, std::vector<glm::vec3> positions, float t, float tmin) const{
-	bool result = false;
-	//TODO
-	return result;
-}
-
-//wo hat der Ray dieses Dreieck getroffen?
-glm::vec3 KDNode::hitPt_ray_tr(Ray ray, glm::uvec3 triangle, std::vector<glm::vec3> positions) const{
-	glm::vec3 result;
+bool KDNode::hit_ray_tr(Ray ray, glm::uvec3 triangle, std::vector<glm::vec3> positions, float t, float tmin){
+	bool res = false;
 	
 	glm::vec3 first,second,third, s, e1, e2, p, q;
 	first = positions[triangle.x];
@@ -160,11 +153,22 @@ glm::vec3 KDNode::hitPt_ray_tr(Ray ray, glm::uvec3 triangle, std::vector<glm::ve
 	float u = mul*glm::dot(p,s);
 	float v = mul*glm::dot(q,ray.dir);
 
-	result.x = (1-u-v)*first.x + u*second.x + v*third.x;
-	result.y = (1-u-v)*first.y + u*second.y + v*third.y;
-	result.z = (1-u-v)*first.z + u*second.z + v*third.z;
+	if( u >= 0 && v >= 0 && u+v<=1){
+		this->hitPoint.x = (1-u-v)*first.x + u*second.x + v*third.x;
+		this->hitPoint.y = (1-u-v)*first.y + u*second.y + v*third.y;
+		this->hitPoint.z = (1-u-v)*first.z + u*second.z + v*third.z;
 
-	return result;
+		res = true;
+	}else{
+		res = false;
+	}
+
+	return res;
+}
+
+//wo hat der Ray dieses Dreieck getroffen?
+glm::vec3 KDNode::hitPt_ray_tr(Ray ray, glm::uvec3 triangle, std::vector<glm::vec3> positions) const{
+	return hitPoint;
 }
 
 //gibt die Normale des getroffenen Dreiecks zurück
