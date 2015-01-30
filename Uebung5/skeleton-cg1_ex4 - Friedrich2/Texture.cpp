@@ -787,3 +787,7 @@ void World::setMaterial(){
   material.specular= vec4(1,1,1,1);
   material.shininess= 0.75;
 }
+
+void World::raytrace(){
+	//TODO
+};
