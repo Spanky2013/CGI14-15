@@ -2,6 +2,7 @@
 
 #include "BoundingBox.hpp"
 #include "glm/glm/glm.hpp"
+#include "Ray.hpp"
 
 BoundingBox::BoundingBox(){
 }
@@ -79,7 +80,7 @@ BoundingBox BoundingBox::get_bounding_box(std::vector<glm::uvec3> triangles, std
   
 }
 
-bool BoundingBox::hit_it(){
+bool BoundingBox::hit_it(Ray ray, float time){
 	bool result = false;
 		//TODO
 	return result;
