@@ -93,7 +93,7 @@ glm::vec3 KDNode::get_midPoint_tr(glm::uvec3 tri, std::vector<glm::vec3> positio
 	return result;
 }
 
-// time0 ist der EIntrittspunkt in die Box, time1 der Austrittspunkt
+// time0 ist der Eintrittspunkt in die Box, time1 der Austrittspunkt
 bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, std::vector<glm::vec3> positions) const{
 		
 		//erstma: hat er überhaupt in die bbox getroffen?
@@ -126,6 +126,12 @@ bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, std
 	}
 
 	return false;
+}
+
+glm::vec2 KDNode::get_times(Ray ray){
+	if(this->faces.size() > 0){
+		return glm::vec2(this->bbox.get_times(ray));
+	}
 }
 
 bool KDNode::hit_ray_tr(glm::uvec3 triangle, std::vector<glm::vec3> positions, float t, float tmin) const{

@@ -19,6 +19,7 @@ public:
 	~KDNode();
 	
 	KDNode* build(std::vector<glm::uvec3> triangles, std::vector<glm::vec3> positions, int depth) const;
+	glm::vec2 KDNode::get_times(Ray ray);
 	bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float t, float tmin, std::vector<glm::vec3> positions) const;
 
 private:

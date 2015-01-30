@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include "BoundingBox.hpp"
 #include "glm/glm/glm.hpp"
 #include "Ray.hpp"
@@ -103,7 +104,8 @@ bool BoundingBox::hit_it(Ray ray, float time0, float time1){
 	tymin = (paras[ray.sign[0]].y - ray.src.y) * ray.inv_dir.y;
 	tymax = (paras[1-ray.sign[0]].y - ray.src.y) * ray.inv_dir.y;
 	if ( (txmin > tymax) || (tymin > txmax) ) 
-    return false;
+		return false;
+
 	if (tymin > txmin)
 		txmin = tymin;
 	if (tymax < txmax)
@@ -113,12 +115,42 @@ bool BoundingBox::hit_it(Ray ray, float time0, float time1){
 	tzmax = (paras[1-ray.sign[0]].z - ray.src.z) * ray.inv_dir.z;
 	if ( (txmin > tzmax) || (tzmin > txmax) ) 
 		return false;
+
 	if (tzmin > txmin)
 		txmin = tzmin;
 	if (tzmax < txmax)
 		txmax = tzmax;
+
 	return ( (txmin < time1) && (txmax > time0) );
 
 }
 
+glm::vec2 BoundingBox::get_times(Ray ray){
+	glm::vec3 paras[2];
+	paras[0] = this->bBoxMin;
+	paras[1] = this->bBoxMax;
+	
+	// Smith's Method
+	float txmin,txmax,tymin,tymax,tzmin,tzmax;
+
+	txmin = (paras[ray.sign[0]].x - ray.src.x) * ray.inv_dir.x;
+	txmax = (paras[1-ray.sign[0]].x - ray.src.x) * ray.inv_dir.x;
+	tymin = (paras[ray.sign[0]].y - ray.src.y) * ray.inv_dir.y;
+	tymax = (paras[1-ray.sign[0]].y - ray.src.y) * ray.inv_dir.y;
+	tzmin = (paras[ray.sign[0]].z - ray.src.z) * ray.inv_dir.z;
+	tzmax = (paras[1-ray.sign[0]].z - ray.src.z) * ray.inv_dir.z;
+	
+	glm::vec3 src_to_tmin = glm::vec3(txmin-ray.src.x,tymin-ray.src.y,tzmin-ray.src.z);
+	glm::vec3 src_to_tmax = glm::vec3(txmax-ray.src.x,tymax-ray.src.y,tzmax-ray.src.z);
+
+	float time0 = src_to_tmin.x/ray.dir.x;
+	if(abs(time0 - src_to_tmin.y/ray.dir.y) > 0.001f || abs(time0 - src_to_tmin.y/ray.dir.y)  > 0.001f )
+		std::cout << "it went sth wrong in time0!! "<<time0<<";"<<(src_to_tmin.y/ray.dir.y)<<";"<<(src_to_tmin.z/ray.dir.z);
+
+	float time1 = src_to_tmax.x/ray.dir.x;
+	if(abs(time0 - src_to_tmin.y/ray.dir.y) > 0.001f || abs(time0 - src_to_tmin.y/ray.dir.y)  > 0.001f )
+		std::cout << "it went sth wrong in time1!! "<<time0<<";"<<(src_to_tmin.y/ray.dir.y)<<";"<<(src_to_tmin.z/ray.dir.z);
+
+	return glm::vec2(time0,time1);
+}
 
