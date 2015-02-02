@@ -692,13 +692,15 @@ void World::setMaterial(){
   material.shininess= 0.75;
 }
 
+// x is the amount of Pixels in one row of the image you wanna RayTrace
+// y is the Amount of Pixels in one column of the image you wanna RayTrace
 void World::raytrace(int x, int y){
 
 	std::vector<std::vector<glm::vec4>> image;
 
 	for(int i = 0; i < x; i++){
 		for(int j = 0; j < y; j++){
-			Ray ray = getRay(i,j);
+			Ray ray = getRay(i,j,x,y);
 			RayTraceHelper rth;
 
 			glm::vec2 times = kdTree.get_times(ray);
@@ -716,16 +718,34 @@ void World::raytrace(int x, int y){
 			}
 		}
 	}
-
-	
-
-
-
 	Context::displayTextureWindow();
 };
 
-Ray World::getRay(int x, int y){
-	Ray result = Ray();
+// (x,y) is the pixel you wanna shoot at
+// xPixel is the amount of Pixels in one row of the image you wanna RayTrace
+// yPixel is the Amount of Pixels in one column of the image you wanna RayTrace
+Ray World::getRay(int x, int y, int xPixel, int yPixel){
+	glm::vec3 origin = glm::vec3(0.f,0.f, cameraZMap);
 
-	return result;
+	float xPart, yPart;
+	xPart = ((float) x) / xPixel;
+	yPart = ((float) y) / yPixel;
+
+	//Bin mir nicht 100% sicher, ob die Berechnung 
+	//der vier seiten wirklich korrekt ist, aber ich denke schon.
+	// http://wiki.delphigl.com/index.php/Tutorial_Raytracing_-_Grundlagen_I
+	// https://stackoverflow.com/questions/13078243/ray-tracing-camera
+
+	float left, right, bottom, top;
+	left = -screen.x/2;
+	right = screen.x/2;
+	top = screen.y/2;
+	bottom = -screen.y/2;
+
+	xPart = left + xPart * (right-left);
+	yPart = top + yPart * (bottom - top);	
+
+	glm::vec3 direction = glm::vec3(xPart,yPart,cameraZ);
+
+	return Ray(origin,direction);
 }
