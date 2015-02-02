@@ -493,152 +493,35 @@ void World::display(void){
 	mat4 projectionMatrix;
 	glGetFloatv(GL_PROJECTION_MATRIX, &projectionMatrix[0][0]);
 
-//	if(environmentMapping){ 
-//
-//	  // set up the mirror
-//	  // REMEMBER when transforming: Environment appears mirrored in object
-//	  
-//	  // calculate inverse of model matrix
-//	  // like this, environment appears centered around object initially
-//	  mat4 mirrorMatrix= inverse(modelMatrix);  
-//	  
-//	  // we're inside the sphere, have to invert all positions
-//	  // otherwise we'd be reflecting towards ourselves, and not to the viewer
-//	  mirrorMatrix= scale(mirrorMatrix, vec3(-1,-1,-1));
-//	  //translate to presumed original camera position
-//	  mirrorMatrix= translate(mat4(1), vec3(0, 0, cameraZMap)) * mirrorMatrix;
-//
-//// pass matrices and flags to shader
-//
-//// XXX 
-//
-//  // INSERT YOUR CODE HERE
-//	  sphereMapShader.bind();
-//
-//      sphereMapShader.setUniform("lighting", lighting);
-//	  sphereMapShader.setUniform("showTexture", showTexture);
-//	  sphereMapShader.setUniform("moveEnvironment", moveEnvironment);
-//	  sphereMapShader.setUniform("mirror", mirrorMatrix);
-//
-//	  if(moveEnvironment){
-//		sphereMapShader.setUniform("model", modelMatrix);
-//		sphereMapShader.setUniform("view", cameraMatrix);
-//		sphereMapShader.setUniform("projection", projectionMatrix);
-//		sphereMapShader.setUniform("mirrorView", cameraMatrix * mirrorMatrix);
-//		sphereMapShader.setUniform("modelView", cameraMatrix * modelMatrix);
-//		sphereMapShader.setUniform("normalMatrix", glm::transpose(glm::inverse(cameraMatrix*modelMatrix)));
-//		sphereMapShader.setUniform("mirrorNormalMatrix", glm::transpose(glm::inverse(cameraMatrix*mirrorMatrix)));
-//		sphereMapShader.setUniform("modelViewProjection", projectionMatrix*cameraMatrix*modelMatrix);	  
-//		sphereMapShader.setUniform("mirrorViewProjection", projectionMatrix*cameraMatrix*mirrorMatrix);	
-//	  }else{
-//	  sphereMapShader.setUniform("modelView", cameraMatrix * modelMatrix);
-//	  sphereMapShader.setUniform("normalMatrix", glm::transpose(glm::inverse(cameraMatrix*modelMatrix)));
-//	  sphereMapShader.setUniform("modelViewProjection", projectionMatrix*cameraMatrix*modelMatrix);
-//	  }
-//	 
-//	  sphereMapShader.setUniform("pi", glm::pi<float>());
-//
-//	  sphereMapShader.setUniform("lightSource.ambient", lightSource.ambient);
-//	  sphereMapShader.setUniform("lightSource.diffuse", lightSource.diffuse);
-//	  sphereMapShader.setUniform("lightSource.specular", lightSource.specular);
-//	  sphereMapShader.setUniform("material.ambient", material.ambient);
-//	  sphereMapShader.setUniform("material.diffuse", material.diffuse);
-//	  sphereMapShader.setUniform("material.specular", material.specular);
-//	  sphereMapShader.setUniform("material.shininess", material.shininess);
-//
-//	  texture.bind();
-//	  mesh.draw();
-//	  texture.unbind();
-//	  sphereMapShader.unbind();
-//	  // END XXX
-//	}
-
 	if(drawRect && drawMesh){ // draw a textured quad
 
 // pass matrices and flags to shader
     // XXX
 
-    // INSERT YOUR CODE HERE     
-	   //quadShader.bind();
-    //   quadShader.setUniform("modelView", cameraMatrix * modelMatrix);
-    //   quadShader.setUniform("normalMatrix", glm::transpose(glm::inverse(cameraMatrix*modelMatrix)));
-    //   quadShader.setUniform("modelViewProjection", projectionMatrix*cameraMatrix*modelMatrix);
-    //   quadShader.setUniform("lighting", lighting);
-	   //quadShader.setUniform("showTexture", showTexture);
+     //INSERT YOUR CODE HERE     
+	  texturingShader.bind();
+	  texturingShader.setUniform("modelView", cameraMatrix * modelMatrix);
+      texturingShader.setUniform("normalMatrix", glm::transpose(glm::inverse(cameraMatrix*modelMatrix)));
+      texturingShader.setUniform("modelViewProjection", projectionMatrix*cameraMatrix*modelMatrix);
+      texturingShader.setUniform("lighting", true);
+	  texturingShader.setUniform("showTexture", false);
+	  texturingShader.setUniform("pi", glm::pi<float>());
 
-	   //quadShader.setUniform("lightSource.position", lightSource.position);
-	   //quadShader.setUniform("lightSource.ambient", lightSource.ambient);
-	   //quadShader.setUniform("lightSource.diffuse", lightSource.diffuse);
-	   //quadShader.setUniform("lightSource.specular", lightSource.specular);
-	   //quadShader.setUniform("material.ambient", material.ambient);
-	   //quadShader.setUniform("material.diffuse", material.diffuse);
-	   //quadShader.setUniform("material.specular", material.specular);
-	   //quadShader.setUniform("material.shininess", material.shininess);
-
+	  texturingShader.setUniform("lightSource.position", lightSource.position);
+	  texturingShader.setUniform("lightSource.ambient", lightSource.ambient);
+	  texturingShader.setUniform("lightSource.diffuse", lightSource.diffuse);
+	  texturingShader.setUniform("lightSource.specular", lightSource.specular);
+	  texturingShader.setUniform("material.ambient", material.ambient);
+	  texturingShader.setUniform("material.diffuse", material.diffuse);
+	  texturingShader.setUniform("material.specular", material.specular);
+	  texturingShader.setUniform("material.shininess", material.shininess);
 	   //texture.bind();
 	   mesh.draw();
 	   mesh1.draw();
 	   mesh2.draw();
 	   //texture.unbind();
-	   //quadShader.unbind();
-    // END XXX
-
-
-  } //else if(silhouette){
-	  
-	   //silhouetteShader.bind();
-	   //silhouetteShader.setUniform("pi", glm::pi<float>());
-	   //silhouetteShader.setUniform("modelView", cameraMatrix * modelMatrix);
-    //   silhouetteShader.setUniform("normalMatrix", glm::transpose(glm::inverse(cameraMatrix*modelMatrix)));
-    //   silhouetteShader.setUniform("modelViewProjection", projectionMatrix*cameraMatrix*modelMatrix);
-	   //silhouetteShader.setUniform("projection", projectionMatrix);
-
-	   //texture.bind();
-	   //mesh.draw();
-	   //texture.unbind();
-	   //silhouetteShader.unbind();
-
-	//}else {  // conventional texturing with texture coordinates calculated in TriMesh
-
-// pass matrices and flags to shader
-
-// XXX 
-
-	  // 
-	  //texturingShader.bind();
-	  //texturingShader.setUniform("modelView", cameraMatrix * modelMatrix);
-   //   texturingShader.setUniform("normalMatrix", glm::transpose(glm::inverse(cameraMatrix*modelMatrix)));
-   //   texturingShader.setUniform("modelViewProjection", projectionMatrix*cameraMatrix*modelMatrix);
-   //   texturingShader.setUniform("lighting", lighting);
-	  //texturingShader.setUniform("showTexture", showTexture);
-	  //texturingShader.setUniform("pi", glm::pi<float>());
-
-	  //texturingShader.setUniform("lightSource.position", lightSource.position);
-	  //texturingShader.setUniform("lightSource.ambient", lightSource.ambient);
-	  //texturingShader.setUniform("lightSource.diffuse", lightSource.diffuse);
-	  //texturingShader.setUniform("lightSource.specular", lightSource.specular);
-	  //texturingShader.setUniform("material.ambient", material.ambient);
-	  //texturingShader.setUniform("material.diffuse", material.diffuse);
-	  //texturingShader.setUniform("material.specular", material.specular);
-	  //texturingShader.setUniform("material.shininess", material.shininess);
-	  //
-	  //texture.bind();
-	  //mesh.draw();
-	  //texture.unbind();
-	  //texturingShader.unbind();
- // END XXX
- //}
-
-	// bind texture and draw mesh; then unbind everything
-
-  // XXX
-
-  //texture.bind();
-  //mesh.draw();
-  //texture.unbind();
-
-  // END XXX
-    
+	 texturingShader.unbind();
+	}    
   glutSwapBuffers();
 }
 
