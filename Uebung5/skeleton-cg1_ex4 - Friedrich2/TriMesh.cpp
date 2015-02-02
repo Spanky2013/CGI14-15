@@ -138,6 +138,7 @@ void TriMesh::loadOff(const string& fileName){
 		faces.clear();
 		texCoords.clear();
 		normals.clear();
+		triangles.clear();
 	
 		for(int i=0;i<nodeCount;i++){
 			GLfloat x,y,z;
@@ -157,18 +158,26 @@ void TriMesh::loadOff(const string& fileName){
 			stream >> count >> inX >> inY >> inZ;
 
 			if(winding == PolygonWinding::CW){
-				faces.push_back(glm::uvec3(inX,inY,inZ));	
+				faces.push_back(glm::uvec3(inX,inY,inZ));
+				triangles.push_back(Triangle(positions[inX],positions[inY],positions[inZ]));
 			}else{
 				faces.push_back(glm::uvec3(inZ,inY,inX));
+				triangles.push_back(Triangle(positions[inX],positions[inY],positions[inZ]));
 			}	
-			//cout <<"Faces "<< inX <<" "<< inY <<" " << inZ <<" " <<endl<<faces.size()<<endl;
+			if(i == 0){
+				cout<<"Test"<<endl;
+				cout <<"Faces "<< inX <<" "<< inY <<" " << inZ <<" " <<endl<<faces.size()<<endl;
+				cout <<"Triangle "<< inX << " " << positions[inX].x << " " << positions[inX].y << " " << positions[inX].z<<endl;
+			}
+			
 		}	
 	}
 	fR.close();
 	cout << "loadOff done: |V| "<<nodeCount<<" |F| "<<polyCount<<endl;
-	cout << "Positions: "<<positions.size()<<" Faces "<<faces.size()<<endl;
+	cout << "Positions: "<<positions.size()<<" Faces "<<faces.size()<< " Triangles "<< triangles.size() << endl;
 	
 }
+
 // load triangle mesh in .OFF format wirh offset
 void TriMesh::loadOff(const string& fileName, float off){
 	name = fileName;
@@ -194,6 +203,7 @@ void TriMesh::loadOff(const string& fileName, float off){
 		faces.clear();
 		texCoords.clear();
 		normals.clear();
+		triangles.clear();
 	
 		for(int i=0;i<nodeCount;i++){
 			GLfloat x,y,z;
@@ -214,8 +224,10 @@ void TriMesh::loadOff(const string& fileName, float off){
 
 			if(winding == PolygonWinding::CW){
 				faces.push_back(glm::uvec3(inX,inY,inZ));	
+				triangles.push_back(Triangle(positions[inX],positions[inY],positions[inZ]));
 			}else{
 				faces.push_back(glm::uvec3(inZ,inY,inX));
+				triangles.push_back(Triangle(positions[inX],positions[inY],positions[inZ]));
 			}	
 			//cout <<"Faces "<< inX <<" "<< inY <<" " << inZ <<" " <<endl<<faces.size()<<endl;
 		}	

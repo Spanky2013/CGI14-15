@@ -18,6 +18,7 @@
     <ClCompile Include="KDNode.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="TriMesh.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
@@ -29,6 +30,7 @@
     <ClInclude Include="KDNode.hpp" />
     <ClInclude Include="Ray.hpp" />
     <ClInclude Include="Texture.hpp" />
+    <ClInclude Include="Triangle.hpp" />
     <ClInclude Include="TriMesh.hpp" />
     <ClInclude Include="Window.hpp" />
   </ItemGroup>

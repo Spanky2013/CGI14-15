@@ -4,6 +4,7 @@
 #include "BoundingBox.hpp"
 #include "glm/glm/glm.hpp"
 #include "Ray.hpp"
+#include "Triangle.hpp"
 
 BoundingBox::BoundingBox(){
 }
@@ -40,16 +41,16 @@ int BoundingBox::get_longest_axis(){
 }
 
 
-BoundingBox BoundingBox::get_bounding_box(std::vector<glm::uvec3> triangles, std::vector<glm::vec3> positions){
+BoundingBox BoundingBox::get_bounding_box(std::vector<Triangle> triangles){
   glm::vec3 boundingBoxMin= glm::vec3(std::numeric_limits<float>::max());
   glm::vec3 boundingBoxMax= glm::vec3(std::numeric_limits<float>::min());
-  glm::uvec3 t;
+  Triangle t = Triangle();
 
   for(unsigned int i= 0; i<triangles.size(); i++){
-	  t = triangles[i];
+	 
 	  glm::vec3 first,second,third;
 
-	  first = positions[t.x];
+	  first = triangles[i].fir;
 	  if(first.x < boundingBoxMin.x) boundingBoxMin.x= first.x;
 	  if(first.x > boundingBoxMax.x) boundingBoxMax.x= first.x;
 	  if(first.y < boundingBoxMin.y) boundingBoxMin.y= first.y;
@@ -57,7 +58,7 @@ BoundingBox BoundingBox::get_bounding_box(std::vector<glm::uvec3> triangles, std
 	  if(first.z < boundingBoxMin.z) boundingBoxMin.z= first.z;
 	  if(first.z > boundingBoxMax.z) boundingBoxMax.z= first.z;
 
-	  second = positions[t.y];
+	  second = triangles[i].sec;
 	  if(second.x < boundingBoxMin.x) boundingBoxMin.x= second.x;
 	  if(second.x > boundingBoxMax.x) boundingBoxMax.x= second.x;
 	  if(second.y < boundingBoxMin.y) boundingBoxMin.y= second.y;
@@ -65,7 +66,7 @@ BoundingBox BoundingBox::get_bounding_box(std::vector<glm::uvec3> triangles, std
 	  if(second.z < boundingBoxMin.z) boundingBoxMin.z= second.z;
 	  if(second.z > boundingBoxMax.z) boundingBoxMax.z= second.z;
 	 
-	  third = positions[t.z];
+	  third = triangles[i].thi;
 	  if(third.x < boundingBoxMin.x) boundingBoxMin.x= third.x;
 	  if(third.x > boundingBoxMax.x) boundingBoxMax.x= third.x;
 	  if(third.y < boundingBoxMin.y) boundingBoxMin.y= third.y;

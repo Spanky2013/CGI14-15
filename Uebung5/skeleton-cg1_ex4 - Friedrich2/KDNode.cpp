@@ -10,26 +10,26 @@ KDNode::~KDNode()
 {
 }
 
-KDNode* KDNode::build(std::vector<glm::uvec3> triangles, std::vector<glm::vec3> positions, int depth) const{
+KDNode* KDNode::build(std::vector<Triangle> triangles, int depth) const{
 	KDNode* node = new KDNode();
-	node->faces = triangles;
+	node->triangles = triangles;
 	node->left = NULL;
 	node->right = NULL;
 	node->bbox = BoundingBox();
 
 	//Sind wir in einem Blatt ohne Triangle
-	if(faces.size() == 0){
+	if(triangles.size() == 0){
 		return node;
 	}
 
-	node->bbox = BoundingBox::get_bounding_box(triangles, positions);
+	node->bbox = BoundingBox::get_bounding_box(triangles);
 
 	//Sind wir in einem Blatt mit genau einem Triangle
-	if(faces.size() == 1){		
+	if(triangles.size() == 1){		
 		node->left = new KDNode();
 		node->right = new KDNode();
-		node->left->faces = std::vector<glm::uvec3>();
-		node->right->faces = std::vector<glm::uvec3>();
+		node->left->triangles = std::vector<Triangle>();
+		node->right->triangles = std::vector<Triangle>();
 		return node;
 	}
 
@@ -37,12 +37,12 @@ KDNode* KDNode::build(std::vector<glm::uvec3> triangles, std::vector<glm::vec3> 
 
 	//Jetzt aufteilen
 
-	std::vector<glm::uvec3> leftTris;
-	std::vector<glm::uvec3> rightTris;
+	std::vector<Triangle> leftTris;
+	std::vector<Triangle> rightTris;
 	int axis = node->bbox.get_longest_axis();
 
 	for(int i = 0; i < triangles.size(); i++){
-		glm::vec3 currentMidPoint = get_midPoint_tr(triangles[i], positions);
+		glm::vec3 currentMidPoint = get_midPoint_tr(triangles[i]);
 		switch (axis){
 		case 0: // x-Axis	
 			if(midPoint.x >= currentMidPoint.x){
@@ -71,20 +71,20 @@ KDNode* KDNode::build(std::vector<glm::uvec3> triangles, std::vector<glm::vec3> 
 	// Haben die Dreiecke in beide Hälften aufgeteilt.
 	// Jetzt kommt noch die Rekursion
 
-	node->left = build(leftTris,positions,depth+1);	
-	node->right = build(rightTris,positions,depth+1);
+	node->left = build(leftTris,depth+1);	
+	node->right = build(rightTris,depth+1);
 
 	return node;
 
 }
 
 
-glm::vec3 KDNode::get_midPoint_tr(glm::uvec3 tri, std::vector<glm::vec3> positions) const{
+glm::vec3 KDNode::get_midPoint_tr(Triangle tri) const{
 	glm::vec3 result,first,second,third;
 
-	first = positions[tri.x];
-	second = positions[tri.y];
-	third = positions[tri.z];
+	first = tri.fir;
+	second = tri.sec;
+	third = tri.thi;
 
 	result.x = (first.x+second.x+third.x)/3;
 	result.y = (first.y+second.y+third.y)/3;
@@ -103,18 +103,19 @@ bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, std
 		glm::vec3 hit_pt, local_hit_pt, normal;
 
 		bool hit_left, hit_right;
-		if(node->left->faces.size() > 0 || node->right->faces.size() > 0 ){
+		if(node->left->triangles.size() > 0 || node->right->triangles.size() > 0 ){
 			hit_left = hit_a_tr(node->left, ray, time1, time0, positions);
 			hit_right = hit_a_tr(node->right, ray,time1,time0, positions);
 			return hit_left || hit_right;
 		} else {
 		// Wir sind in ienem Blatt
-			for(int i = 0; i < node->faces.size(); i++){
-				if(hit_ray_tr(ray, node->faces[i], positions, time1, time0)){
+			for(int i = 0; i < node->triangles.size(); i++){
+
+				if(hit_ray_tr(ray, node->triangles[i],time1, time0)){
 					hit_tr = true;
-					time0 = time1;
-					hit_pt = hitPt_ray_tr(ray, node->faces[i],positions);
-					normal = hitNr_ray_tr(node->faces[i],positions);
+					//time0 = time1;
+					hit_pt = hitPt_ray_tr(ray, node->triangles[i]);
+					normal = hitNr_ray_tr(node->triangles[i]);
 				}
 			}
 			if(hit_tr){
@@ -128,20 +129,26 @@ bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, std
 	return false;
 }
 
+// Erster Eintrag ist time0(eintritt in die BBox) 
+// Zweiter Eintrag ist time1 (austritt aus derBBox)
+// Wenn time0 > time 1 dann gibt es keinen Schnittpunkt
 glm::vec2 KDNode::get_times(Ray ray){
-	if(this->faces.size() > 0){
+	if(this->triangles.size() > 0){
 		return glm::vec2(this->bbox.get_times(ray));
+	}else{
+		return glm::vec2(1.f,0.f);
 	}
 }
 
-//hat der Ray in der BBox auch dieses Dreieck getroffen?
-bool KDNode::hit_ray_tr(Ray ray, glm::uvec3 triangle, std::vector<glm::vec3> positions, float t, float tmin){
+//Hat der Ray in der BBox auch dieses Dreieck getroffen?
+//TODO: wozu t und tmin?
+bool KDNode::hit_ray_tr(Ray ray, Triangle tri, float t, float tmin){
 	bool res = false;
 	
 	glm::vec3 first,second,third, s, e1, e2, p, q;
-	first = positions[triangle.x];
-	second = positions[triangle.y];
-	third = positions[triangle.z];
+	first = tri.fir;
+	second = tri.sec;
+	third = tri.thi;
 	s = ray.src-first;
 	e1 = second-first;
 	e2 = third-first;
@@ -166,17 +173,18 @@ bool KDNode::hit_ray_tr(Ray ray, glm::uvec3 triangle, std::vector<glm::vec3> pos
 	return res;
 }
 
-//wo hat der Ray dieses Dreieck getroffen?
-glm::vec3 KDNode::hitPt_ray_tr(Ray ray, glm::uvec3 triangle, std::vector<glm::vec3> positions) const{
+//Wo hat der Ray dieses Dreieck getroffen? Darf nur aufgerufen werden, 
+//wenn auf dieses Triangle bereits hit_ray_tr mit true aufgerufen wurde
+glm::vec3 KDNode::hitPt_ray_tr(Ray ray, Triangle triangle) const{
 	return hitPoint;
 }
 
 //gibt die Normale des getroffenen Dreiecks zurück
-glm::vec3 KDNode::hitNr_ray_tr(glm::uvec3 triangle, std::vector<glm::vec3> positions) const{
+glm::vec3 KDNode::hitNr_ray_tr(Triangle triangle) const{
 	glm::vec3 result = glm::normalize(
 				glm::cross(
-					(positions[triangle.y] - positions[triangle.x]),
-					(positions[triangle.z] - positions[triangle.x])
+					(triangle.sec - triangle.fir),
+					(triangle.thi - triangle.fir)
 				)
 			);
 	return result;

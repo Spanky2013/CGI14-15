@@ -10,6 +10,7 @@
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="KDNode.cpp" />
     <ClCompile Include="Ray.cpp" />
+    <ClCompile Include="Triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Context.hpp" />
@@ -21,5 +22,6 @@
     <ClInclude Include="BoundingBox.hpp" />
     <ClInclude Include="KDNode.hpp" />
     <ClInclude Include="Ray.hpp" />
+    <ClInclude Include="Triangle.hpp" />
   </ItemGroup>
 </Project>

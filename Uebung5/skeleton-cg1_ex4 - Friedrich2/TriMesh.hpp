@@ -12,6 +12,7 @@
 
 #include <string>
 #include <vector>
+#include "Triangle.hpp"
 
 #ifdef __APPLE__ 
   #include <OpenGL/gl.h>
@@ -100,6 +101,7 @@ protected:
   // texture coordinates of the vertices
   std::vector<glm::vec2> texCoords;
   std::vector<glm::uvec3> faces;
+  std::vector<Triangle> triangles;
 
   PolygonWinding winding;
 
