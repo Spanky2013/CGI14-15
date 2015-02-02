@@ -246,7 +246,7 @@ void Texture::display(void){
 
   	normQuadShader.bind();
 	texture.bind();
-	quad.draw();
+	//quad.draw();
 	normQuadShader.unbind();
 	texture.unbind();
 
