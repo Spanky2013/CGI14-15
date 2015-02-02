@@ -1,6 +1,7 @@
 #include <vector>
 #include "KDNode.hpp"
 #include "BoundingBox.hpp"
+#include "RayTraceHelper.hpp"
 
 
 KDNode::KDNode()
@@ -94,7 +95,7 @@ glm::vec3 KDNode::get_midPoint_tr(Triangle tri) const{
 }
 
 // time0 ist der Eintrittspunkt in die Box, time1 der Austrittspunkt
-bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, std::vector<glm::vec3> positions){
+bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, RayTraceHelper rtHelper){
 		
 		//erstma: hat er überhaupt in die bbox getroffen?
 
@@ -104,13 +105,13 @@ bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, std
 
 		bool hit_left, hit_right;
 		if(node->left->triangles.size() > 0 || node->right->triangles.size() > 0 ){
-			hit_left = hit_a_tr(node->left, ray, time1, time0, positions);
-			hit_right = hit_a_tr(node->right, ray,time1,time0, positions);
+			hit_left = hit_a_tr(node->left, ray, time1, time0, rtHelper);
+			hit_right = hit_a_tr(node->right, ray,time1,time0, rtHelper);
 			return hit_left || hit_right;
 		} else {
 		// Wir sind in ienem Blatt
 			for(int i = 0; i < node->triangles.size(); i++){
-
+				//Treffen wir in diesem Blatt ein Triangle
 				if(hit_ray_tr(ray, node->triangles[i],time1, time0)){
 					hit_tr = true;
 					//time0 = time1;
@@ -118,8 +119,10 @@ bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, std
 					normal = hitNr_ray_tr(node->triangles[i]);
 				}
 			}
-			if(hit_tr){
-				
+			if(hit_tr){//Wir haben gerade ein TRaingle getroffen 
+					   //und geben jetzt die wichtigen Dinge zurück
+				rtHelper.intersectionPoint = hit_pt;
+				rtHelper.normalAtIntSec = normal;
 				return true;
 			}
 		return false;

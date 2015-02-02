@@ -33,6 +33,8 @@
 #include "Image.hpp"
 #include "GLSLShader.hpp"
 #include "light_material.h"
+#include "Ray.hpp"
+#include "RayTraceHelper.hpp"
 
 
 using namespace glm;
@@ -795,7 +797,40 @@ void World::setMaterial(){
   material.shininess= 0.75;
 }
 
-void World::raytrace(){
-	//TODO
+void World::raytrace(int x, int y){
+
+	std::vector<std::vector<glm::vec4>> image;
+
+	for(int i = 0; i < x; i++){
+		for(int j = 0; j < y; j++){
+			Ray ray = getRay(i,j);
+			RayTraceHelper rth;
+
+			glm::vec2 times = kdTree.get_times(ray);
+			if(times.x < times.y){ // Schnitt mit der BBox
+				
+				if(kdTree.hit_a_tr(&kdTree, ray, times.y, times.x, rth)){
+					//Wir treffen ein Triangle in der BBox, rth ist jetzt aktualisiert
+					
+					//TODO wie kriegen wir jetzt die Farbe?
+					image[i][j] = glm::vec4();
+				}
+
+			}else{//Kein Schnitt mit der Box => Schwarz?
+			
+			}
+		}
+	}
+
+	
+
+
+
 	Context::displayTextureWindow();
 };
+
+Ray World::getRay(int x, int y){
+	Ray result = Ray();
+
+	return result;
+}

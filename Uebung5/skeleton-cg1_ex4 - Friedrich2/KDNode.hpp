@@ -6,7 +6,7 @@
 #include "BoundingBox.hpp"
 #include "Ray.hpp"
 #include "Triangle.hpp"
-
+#include "RayTraceHelper.hpp"
 
 class KDNode{
 
@@ -21,7 +21,7 @@ public:
 	
 	KDNode* build(std::vector<Triangle> triangles, int depth) const;
 	glm::vec2 KDNode::get_times(Ray ray);
-	bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float t, float tmin, std::vector<glm::vec3> positions);
+	bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float t, float tmin, RayTraceHelper rtHelper);
 
 private:
 

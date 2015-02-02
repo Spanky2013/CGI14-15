@@ -14,6 +14,7 @@
 
 #include "glm/glm.hpp"
 #include "light_material.h"
+#include "KDNode.hpp"
 
 struct LightSource;
 struct Material;
@@ -49,6 +50,8 @@ namespace World{
   extern LightSource lightSource;
   extern Material material;
 
+  static KDNode kdTree;
+
   void display(void);
   void reshape(int width, int height);
   void mousePressed(int button, int state, int x, int y);
@@ -59,5 +62,6 @@ namespace World{
   void setMaterial();
 
 
-  void raytrace();
+  void raytrace(int x, int y);
+  Ray getRay(int x, int y);
 };	
