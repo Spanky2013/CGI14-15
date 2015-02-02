@@ -39,6 +39,7 @@ using namespace glm;
 using namespace std;
 
 static TriMesh mesh;
+static TriMesh mesh2;
 static TriMesh mesh1;
 
 // full screen quad
@@ -369,15 +370,15 @@ Context::displayWorldWindow();
 // WORLD-SPACE WINDOW
 // -------------------------------------------------------
 
-int World::menuOptions[]= {24, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+int World::menuOptions[]= {24, 25, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
 			   0, 15, 16, 17, 18, 19, 20, 21, 22, 23};
-string World::menuText[]= {"    reset", "MODEL", "    Plane", "    Spiky Sphere", "    Car", "    Bunny", "    Cone", "    Cow", "    Cowboy Hat", "    Dragon", "    Chess", "    Temple", "    Cup", "    Space Shuttle", "    Sphere", "    None",
+string World::menuText[]= {"    reset","Objects", "MODEL", "    Plane", "    Spiky Sphere", "    Car", "    Bunny", "    Cone", "    Cow", "    Cowboy Hat", "    Dragon", "    Chess", "    Temple", "    Cup", "    Space Shuttle", "    Sphere", "    None",
 			   "RENDERING", "    Lighting on/off", "    Texture on/off", "    Coordinate System on/off", "    Origin on/off", 
 			   "    Texture Coordinate Correction on/off  ", "    Texture Mode (WRAP/CLAMP) ", "    Environment mapping on/off", "    Move object/environment", "    SilhouetteRendering"};
 
 int World::numOptions= sizeof(World::menuOptions)/sizeof(World::menuOptions[0]);
 
-static string models[]= {"", "data/quad.off", "data/4cow.off", "data/auto3.off", "data/bunny2.off", "data/cone.off", "data/cow.off", "data/cowboyhut.off", "data/MEGADRACHE.off", "data/Schachfigur.off", "data/tempel.off", "data/tasse.off", "data/spaceshuttle.off", "data/sphere.off"};
+static string models[]= {"","", "data/quad.off", "data/4cow.off", "data/auto3.off", "data/bunny2.off", "data/cone.off", "data/cow.off", "data/cowboyhut.off", "data/MEGADRACHE.off", "data/Schachfigur.off", "data/tempel.off", "data/tasse.off", "data/spaceshuttle.off", "data/sphere.off"};
 
 
 vec2 World::previousMouse;
@@ -566,6 +567,7 @@ void World::display(void){
 	   texture.bind();
 	   mesh.draw();
 	   mesh1.draw();
+	   mesh2.draw();
 	   texture.unbind();
 	   quadShader.unbind();
     // END XXX
@@ -692,12 +694,17 @@ void World::menu(int value){
   case 24:
     reset();
     break;
-  case 1:
+  case 25:
     // load rectangle
     mesh.loadOff("meshes/bialetti.off");
 	mesh1.loadOff("meshes/bialetti.off",0.1);
+	mesh2.loadOff("meshes/quad.off");
     drawRect= true;
     break;
+  case 1: 
+	  mesh.loadOff("data/quad.off");
+	  drawRect = true;
+	  break;
   case 2:
   case 3:
   case 4:	
