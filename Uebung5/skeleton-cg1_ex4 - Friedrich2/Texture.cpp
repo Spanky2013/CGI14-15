@@ -591,8 +591,20 @@ void World::menu(int value){
   case 0:
     // load rectangle
     mesh.loadOff("meshes/bialetti.off");
+   // mesh.center();
+    //mesh.unitize();
+    mesh.computeNormals();
+    mesh.computeSphereUVs();
 	mesh1.loadOff("meshes/bialetti.off",0.1);
+	//mesh1.center();
+    //mesh1.unitize();
+    mesh1.computeNormals();
+    mesh1.computeSphereUVs();
 	mesh2.loadOff("meshes/quad.off");
+	//mesh2.center();
+    //mesh2.unitize();
+    mesh2.computeNormals();
+    mesh2.computeSphereUVs();
     drawRect= true;
     break;
   case 3:
