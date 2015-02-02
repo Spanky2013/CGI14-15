@@ -91,12 +91,12 @@ static void createWindows(void){
   textureWindow= Window(&mainWindow, string(), GAP, GAP, subWidth, subHeight);
   textureWindow.registerDisplay(Texture::display);
   textureWindow.registerReshape(Texture::reshape);
-  textureWindow.registerMousePressed(Texture::mousePressed);
-  textureWindow.registerMouseDragged(Texture::mouseDragged);
-  textureWindow.registerMouseMoved(Texture::mouseMoved);
-  textureWindow.registerKeyPressed(Common::keyPressed);
-  textureWindow.registerMenu(Texture::menu);
-  textureWindow.addMenu(Texture::menuOptions, Texture::menuText, Texture::numOptions);
+ // textureWindow.registerMousePressed(Texture::mousePressed);
+ // textureWindow.registerMouseDragged(Texture::mouseDragged);
+ // textureWindow.registerMouseMoved(Texture::mouseMoved);
+ // textureWindow.registerKeyPressed(Common::keyPressed);
+ // textureWindow.registerMenu(Texture::menu);
+ // textureWindow.addMenu(Texture::menuOptions, Texture::menuText, Texture::numOptions);
 
   worldWindow= Window(&mainWindow, "", subWidth + 2*GAP, GAP, subWidth, subHeight);
   worldWindow.registerDisplay(World::display);

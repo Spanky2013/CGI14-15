@@ -219,6 +219,16 @@ vec2 Texture::previousMouse; // previous mouse position
 
 void Texture::reshape(int width, int height){
 
+  //glMatrixMode(GL_PROJECTION);
+  //glLoadIdentity();
+
+  //// Set the viewport to be the entire window
+  //glViewport(0, 0, width, height);
+
+  //gluOrtho2D(0, width, 0, height);
+
+  //screen= vec2(width, height);
+
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 
@@ -235,24 +245,24 @@ void Texture::reshape(int width, int height){
 void Texture::display(void){
 
   // setup model matrix
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
+  //glMatrixMode(GL_MODELVIEW);
+  //glLoadIdentity();
+	
+  glPushAttrib(GL_COLOR_BUFFER_BIT | GL_LIGHTING_BIT | GL_DEPTH_BUFFER_BIT);
+
+  glEnable(GL_DEPTH_TEST);
+  glEnable(GL_LIGHT0);
 
   glClearColor(0.5, 0.5, 0.5, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  // display textured full screen quad
-  // XXX
-
-  	normQuadShader.bind();
-	texture.bind();
-	//quad.draw();
-	normQuadShader.unbind();
-	texture.unbind();
-
-  // END XXX
+	mesh1.draw();
+	mesh.draw();
+	mesh2.draw();
 
   glutSwapBuffers();
+    glPopAttrib();
+
 }
 
 void Texture::mousePressed(int button, int state, int x, int y){
@@ -268,26 +278,26 @@ void Texture::mouseDragged(int x, int y){
   // paint on texture
   // XXX
 
-  if(drag == DragMode::DRAW) {
+  /*if(drag == DragMode::DRAW) {
 		texture.paint((x / screen.x) * texture.getWidth(), ((screen.y - y) / screen.y) * texture.getHeight());
   } else {
 		texture.erase((x / screen.x) * texture.getWidth(), ((screen.y - y) / screen.y) * texture.getHeight());
-  }
+  }*/
   // END XXX
 
-  updateCursor(x, y);		
-		
-  previousMouse= vec2(x, y);
+  //updateCursor(x, y);		
+		//
+  //previousMouse= vec2(x, y);
 
-    Context::displayTextureWindow();
-Context::displayWorldWindow();
+   // Context::displayTextureWindow();
+//Context::displayWorldWindow();
 }
 
 void Texture::mouseMoved(int x, int y){
 
-  if (x > 0 && x < screen.x && y > 0 && y < screen.y){
-    updateCursor(x, y);
-  }
+  //if (x > 0 && x < screen.x && y > 0 && y < screen.y){
+  //  updateCursor(x, y);
+  //}
 }
 
 // menu callback
@@ -311,16 +321,16 @@ void Texture::menu(int value){
   case 14:
   case 15:
   case 16:
-    texture.load(textures[value]);
-    texture.generateTexture();
-    if(value<6) environmentMapping= false;
-    else if(value<13) environmentMapping= true;
+    //texture.load(textures[value]);
+    //texture.generateTexture();
+    //if(value<6) environmentMapping= false;
+    //else if(value<13) environmentMapping= true;
     break;
   case 17:
-    drag= DRAW;
+    //drag= DRAW;
     break;
   case 18:
-    drag= ERASE;
+    //drag= ERASE;
     break;
 
     // add cases for texture filtering
@@ -362,29 +372,34 @@ void Texture::menu(int value){
     break;
   }
 
-      Context::displayTextureWindow();
-Context::displayWorldWindow();
+      //Context::displayTextureWindow();
+//Context::displayWorldWindow();
 }
 
 // -------------------------------------------------------
 // WORLD-SPACE WINDOW
 // -------------------------------------------------------
 
-int World::menuOptions[]= {24, 25, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
-			   0, 15, 16, 17, 18, 19, 20, 21, 22, 23};
-string World::menuText[]= {"    reset","Objects", "MODEL", "    Plane", "    Spiky Sphere", "    Car", "    Bunny", "    Cone", "    Cow", "    Cowboy Hat", "    Dragon", "    Chess", "    Temple", "    Cup", "    Space Shuttle", "    Sphere", "    None",
-			   "RENDERING", "    Lighting on/off", "    Texture on/off", "    Coordinate System on/off", "    Origin on/off", 
-			   "    Texture Coordinate Correction on/off  ", "    Texture Mode (WRAP/CLAMP) ", "    Environment mapping on/off", "    Move object/environment", "    SilhouetteRendering"};
+//int World::menuOptions[]= {24, 25, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+//			   0, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+//string World::menuText[]= {"    reset","Draw Objects", "MODEL", "    Plane", "    Spiky Sphere", "    Car", "    Bunny", "    Cone", "    Cow", "    Cowboy Hat", "    Dragon", "    Chess", "    Temple", "    Cup", "    Space Shuttle", "    Sphere", "    None",
+//			   "RENDERING", "    Lighting on/off", "    Texture on/off", "    Coordinate System on/off", "    Origin on/off", 
+//			   "    Texture Coordinate Correction on/off  ", "    Texture Mode (WRAP/CLAMP) ", "    Environment mapping on/off", "    Move object/environment", "    SilhouetteRendering"};
+//
+//int World::numOptions= sizeof(World::menuOptions)/sizeof(World::menuOptions[0]);
+int World::menuOptions[]= {0, 1, 2, 3, 4, 5, 6, 7};
+string World::menuText[]= {"Draw Objects","Draw None", "Raytrace Scene","RENDERING", "    Lighting on/off", "    Texture on/off", "    Coordinate System on/off", "    Origin on/off"};
+			      // Texture Coordinate Correction on/off  ", "    Texture Mode (WRAP/CLAMP) ", "    Environment mapping on/off", "    Move object/environment", "    SilhouetteRendering"};
 
 int World::numOptions= sizeof(World::menuOptions)/sizeof(World::menuOptions[0]);
 
 static string models[]= {"","", "data/quad.off", "data/4cow.off", "data/auto3.off", "data/bunny2.off", "data/cone.off", "data/cow.off", "data/cowboyhut.off", "data/MEGADRACHE.off", "data/Schachfigur.off", "data/tempel.off", "data/tasse.off", "data/spaceshuttle.off", "data/sphere.off"};
 
+bool showPoints = false;
 
 vec2 World::previousMouse;
 LightSource World::lightSource;
 Material World::material;
-
 void World::reshape(int width, int height){
 
     // setup projection matrix
@@ -456,15 +471,9 @@ void World::display(void){
     glPopMatrix();
   }
 
-  // draw cursor
-  // XXX
-
-  glBegin(GL_LINES);
-  glColor3ub(255,255,0);
-  glVertex3f(0,0,0);
-  glVertex3f(cursor.x*2,cursor.y*2,cursor.z*2);
-  glEnd();
-  // END XXX
+  if(showPoints) {
+	  //TODO render IntersectionPoints
+  }
 
   glScalef(scaling, scaling, scaling);
 	
@@ -477,146 +486,146 @@ void World::display(void){
 
 	mat4 modelMatrix= translate(mat4(1), vec3(shift.x, shift.y, shift.z));
 	modelMatrix*= rotation;
-	modelMatrix= scale(modelMatrix, vec3(scaling));  
+	//modelMatrix= scale(modelMatrix, vec3(scaling));  
 
 	mat4 projectionMatrix;
 	glGetFloatv(GL_PROJECTION_MATRIX, &projectionMatrix[0][0]);
 
-	if(environmentMapping){ 
+//	if(environmentMapping){ 
+//
+//	  // set up the mirror
+//	  // REMEMBER when transforming: Environment appears mirrored in object
+//	  
+//	  // calculate inverse of model matrix
+//	  // like this, environment appears centered around object initially
+//	  mat4 mirrorMatrix= inverse(modelMatrix);  
+//	  
+//	  // we're inside the sphere, have to invert all positions
+//	  // otherwise we'd be reflecting towards ourselves, and not to the viewer
+//	  mirrorMatrix= scale(mirrorMatrix, vec3(-1,-1,-1));
+//	  //translate to presumed original camera position
+//	  mirrorMatrix= translate(mat4(1), vec3(0, 0, cameraZMap)) * mirrorMatrix;
+//
+//// pass matrices and flags to shader
+//
+//// XXX 
+//
+//  // INSERT YOUR CODE HERE
+//	  sphereMapShader.bind();
+//
+//      sphereMapShader.setUniform("lighting", lighting);
+//	  sphereMapShader.setUniform("showTexture", showTexture);
+//	  sphereMapShader.setUniform("moveEnvironment", moveEnvironment);
+//	  sphereMapShader.setUniform("mirror", mirrorMatrix);
+//
+//	  if(moveEnvironment){
+//		sphereMapShader.setUniform("model", modelMatrix);
+//		sphereMapShader.setUniform("view", cameraMatrix);
+//		sphereMapShader.setUniform("projection", projectionMatrix);
+//		sphereMapShader.setUniform("mirrorView", cameraMatrix * mirrorMatrix);
+//		sphereMapShader.setUniform("modelView", cameraMatrix * modelMatrix);
+//		sphereMapShader.setUniform("normalMatrix", glm::transpose(glm::inverse(cameraMatrix*modelMatrix)));
+//		sphereMapShader.setUniform("mirrorNormalMatrix", glm::transpose(glm::inverse(cameraMatrix*mirrorMatrix)));
+//		sphereMapShader.setUniform("modelViewProjection", projectionMatrix*cameraMatrix*modelMatrix);	  
+//		sphereMapShader.setUniform("mirrorViewProjection", projectionMatrix*cameraMatrix*mirrorMatrix);	
+//	  }else{
+//	  sphereMapShader.setUniform("modelView", cameraMatrix * modelMatrix);
+//	  sphereMapShader.setUniform("normalMatrix", glm::transpose(glm::inverse(cameraMatrix*modelMatrix)));
+//	  sphereMapShader.setUniform("modelViewProjection", projectionMatrix*cameraMatrix*modelMatrix);
+//	  }
+//	 
+//	  sphereMapShader.setUniform("pi", glm::pi<float>());
+//
+//	  sphereMapShader.setUniform("lightSource.ambient", lightSource.ambient);
+//	  sphereMapShader.setUniform("lightSource.diffuse", lightSource.diffuse);
+//	  sphereMapShader.setUniform("lightSource.specular", lightSource.specular);
+//	  sphereMapShader.setUniform("material.ambient", material.ambient);
+//	  sphereMapShader.setUniform("material.diffuse", material.diffuse);
+//	  sphereMapShader.setUniform("material.specular", material.specular);
+//	  sphereMapShader.setUniform("material.shininess", material.shininess);
+//
+//	  texture.bind();
+//	  mesh.draw();
+//	  texture.unbind();
+//	  sphereMapShader.unbind();
+//	  // END XXX
+//	}
 
-	  // set up the mirror
-	  // REMEMBER when transforming: Environment appears mirrored in object
-	  
-	  // calculate inverse of model matrix
-	  // like this, environment appears centered around object initially
-	  mat4 mirrorMatrix= inverse(modelMatrix);  
-	  
-	  // we're inside the sphere, have to invert all positions
-	  // otherwise we'd be reflecting towards ourselves, and not to the viewer
-	  mirrorMatrix= scale(mirrorMatrix, vec3(-1,-1,-1));
-	  //translate to presumed original camera position
-	  mirrorMatrix= translate(mat4(1), vec3(0, 0, cameraZMap)) * mirrorMatrix;
-
-// pass matrices and flags to shader
-
-// XXX 
-
-  // INSERT YOUR CODE HERE
-	  sphereMapShader.bind();
-
-      sphereMapShader.setUniform("lighting", lighting);
-	  sphereMapShader.setUniform("showTexture", showTexture);
-	  sphereMapShader.setUniform("moveEnvironment", moveEnvironment);
-	  sphereMapShader.setUniform("mirror", mirrorMatrix);
-
-	  if(moveEnvironment){
-		sphereMapShader.setUniform("model", modelMatrix);
-		sphereMapShader.setUniform("view", cameraMatrix);
-		sphereMapShader.setUniform("projection", projectionMatrix);
-		sphereMapShader.setUniform("mirrorView", cameraMatrix * mirrorMatrix);
-		sphereMapShader.setUniform("modelView", cameraMatrix * modelMatrix);
-		sphereMapShader.setUniform("normalMatrix", glm::transpose(glm::inverse(cameraMatrix*modelMatrix)));
-		sphereMapShader.setUniform("mirrorNormalMatrix", glm::transpose(glm::inverse(cameraMatrix*mirrorMatrix)));
-		sphereMapShader.setUniform("modelViewProjection", projectionMatrix*cameraMatrix*modelMatrix);	  
-		sphereMapShader.setUniform("mirrorViewProjection", projectionMatrix*cameraMatrix*mirrorMatrix);	
-	  }else{
-	  sphereMapShader.setUniform("modelView", cameraMatrix * modelMatrix);
-	  sphereMapShader.setUniform("normalMatrix", glm::transpose(glm::inverse(cameraMatrix*modelMatrix)));
-	  sphereMapShader.setUniform("modelViewProjection", projectionMatrix*cameraMatrix*modelMatrix);
-	  }
-	 
-	  sphereMapShader.setUniform("pi", glm::pi<float>());
-
-	  sphereMapShader.setUniform("lightSource.ambient", lightSource.ambient);
-	  sphereMapShader.setUniform("lightSource.diffuse", lightSource.diffuse);
-	  sphereMapShader.setUniform("lightSource.specular", lightSource.specular);
-	  sphereMapShader.setUniform("material.ambient", material.ambient);
-	  sphereMapShader.setUniform("material.diffuse", material.diffuse);
-	  sphereMapShader.setUniform("material.specular", material.specular);
-	  sphereMapShader.setUniform("material.shininess", material.shininess);
-
-	  texture.bind();
-	  mesh.draw();
-	  texture.unbind();
-	  sphereMapShader.unbind();
-	  // END XXX
-	}
-
-	else if(drawRect){ // draw a textured quad
+	if(drawRect && drawMesh){ // draw a textured quad
 
 // pass matrices and flags to shader
     // XXX
 
     // INSERT YOUR CODE HERE     
-	   quadShader.bind();
-       quadShader.setUniform("modelView", cameraMatrix * modelMatrix);
-       quadShader.setUniform("normalMatrix", glm::transpose(glm::inverse(cameraMatrix*modelMatrix)));
-       quadShader.setUniform("modelViewProjection", projectionMatrix*cameraMatrix*modelMatrix);
-       quadShader.setUniform("lighting", lighting);
-	   quadShader.setUniform("showTexture", showTexture);
+	   //quadShader.bind();
+    //   quadShader.setUniform("modelView", cameraMatrix * modelMatrix);
+    //   quadShader.setUniform("normalMatrix", glm::transpose(glm::inverse(cameraMatrix*modelMatrix)));
+    //   quadShader.setUniform("modelViewProjection", projectionMatrix*cameraMatrix*modelMatrix);
+    //   quadShader.setUniform("lighting", lighting);
+	   //quadShader.setUniform("showTexture", showTexture);
 
-	   quadShader.setUniform("lightSource.position", lightSource.position);
-	   quadShader.setUniform("lightSource.ambient", lightSource.ambient);
-	   quadShader.setUniform("lightSource.diffuse", lightSource.diffuse);
-	   quadShader.setUniform("lightSource.specular", lightSource.specular);
-	   quadShader.setUniform("material.ambient", material.ambient);
-	   quadShader.setUniform("material.diffuse", material.diffuse);
-	   quadShader.setUniform("material.specular", material.specular);
-	   quadShader.setUniform("material.shininess", material.shininess);
+	   //quadShader.setUniform("lightSource.position", lightSource.position);
+	   //quadShader.setUniform("lightSource.ambient", lightSource.ambient);
+	   //quadShader.setUniform("lightSource.diffuse", lightSource.diffuse);
+	   //quadShader.setUniform("lightSource.specular", lightSource.specular);
+	   //quadShader.setUniform("material.ambient", material.ambient);
+	   //quadShader.setUniform("material.diffuse", material.diffuse);
+	   //quadShader.setUniform("material.specular", material.specular);
+	   //quadShader.setUniform("material.shininess", material.shininess);
 
-	   texture.bind();
+	   //texture.bind();
 	   mesh.draw();
 	   mesh1.draw();
 	   mesh2.draw();
-	   texture.unbind();
-	   quadShader.unbind();
+	   //texture.unbind();
+	   //quadShader.unbind();
     // END XXX
 
 
-  } else if(silhouette){
+  } //else if(silhouette){
 	  
-	   silhouetteShader.bind();
-	   silhouetteShader.setUniform("pi", glm::pi<float>());
-	   silhouetteShader.setUniform("modelView", cameraMatrix * modelMatrix);
-       silhouetteShader.setUniform("normalMatrix", glm::transpose(glm::inverse(cameraMatrix*modelMatrix)));
-       silhouetteShader.setUniform("modelViewProjection", projectionMatrix*cameraMatrix*modelMatrix);
-	   silhouetteShader.setUniform("projection", projectionMatrix);
+	   //silhouetteShader.bind();
+	   //silhouetteShader.setUniform("pi", glm::pi<float>());
+	   //silhouetteShader.setUniform("modelView", cameraMatrix * modelMatrix);
+    //   silhouetteShader.setUniform("normalMatrix", glm::transpose(glm::inverse(cameraMatrix*modelMatrix)));
+    //   silhouetteShader.setUniform("modelViewProjection", projectionMatrix*cameraMatrix*modelMatrix);
+	   //silhouetteShader.setUniform("projection", projectionMatrix);
 
-	   texture.bind();
-	   mesh.draw();
-	   texture.unbind();
-	   silhouetteShader.unbind();
+	   //texture.bind();
+	   //mesh.draw();
+	   //texture.unbind();
+	   //silhouetteShader.unbind();
 
-	}else {  // conventional texturing with texture coordinates calculated in TriMesh
+	//}else {  // conventional texturing with texture coordinates calculated in TriMesh
 
 // pass matrices and flags to shader
 
 // XXX 
 
-	   
-	  texturingShader.bind();
-	  texturingShader.setUniform("modelView", cameraMatrix * modelMatrix);
-      texturingShader.setUniform("normalMatrix", glm::transpose(glm::inverse(cameraMatrix*modelMatrix)));
-      texturingShader.setUniform("modelViewProjection", projectionMatrix*cameraMatrix*modelMatrix);
-      texturingShader.setUniform("lighting", lighting);
-	  texturingShader.setUniform("showTexture", showTexture);
-	  texturingShader.setUniform("pi", glm::pi<float>());
+	  // 
+	  //texturingShader.bind();
+	  //texturingShader.setUniform("modelView", cameraMatrix * modelMatrix);
+   //   texturingShader.setUniform("normalMatrix", glm::transpose(glm::inverse(cameraMatrix*modelMatrix)));
+   //   texturingShader.setUniform("modelViewProjection", projectionMatrix*cameraMatrix*modelMatrix);
+   //   texturingShader.setUniform("lighting", lighting);
+	  //texturingShader.setUniform("showTexture", showTexture);
+	  //texturingShader.setUniform("pi", glm::pi<float>());
 
-	  texturingShader.setUniform("lightSource.position", lightSource.position);
-	  texturingShader.setUniform("lightSource.ambient", lightSource.ambient);
-	  texturingShader.setUniform("lightSource.diffuse", lightSource.diffuse);
-	  texturingShader.setUniform("lightSource.specular", lightSource.specular);
-	  texturingShader.setUniform("material.ambient", material.ambient);
-	  texturingShader.setUniform("material.diffuse", material.diffuse);
-	  texturingShader.setUniform("material.specular", material.specular);
-	  texturingShader.setUniform("material.shininess", material.shininess);
-	  
-	  texture.bind();
-	  mesh.draw();
-	  texture.unbind();
-	  texturingShader.unbind();
+	  //texturingShader.setUniform("lightSource.position", lightSource.position);
+	  //texturingShader.setUniform("lightSource.ambient", lightSource.ambient);
+	  //texturingShader.setUniform("lightSource.diffuse", lightSource.diffuse);
+	  //texturingShader.setUniform("lightSource.specular", lightSource.specular);
+	  //texturingShader.setUniform("material.ambient", material.ambient);
+	  //texturingShader.setUniform("material.diffuse", material.diffuse);
+	  //texturingShader.setUniform("material.specular", material.specular);
+	  //texturingShader.setUniform("material.shininess", material.shininess);
+	  //
+	  //texture.bind();
+	  //mesh.draw();
+	  //texture.unbind();
+	  //texturingShader.unbind();
  // END XXX
- }
+ //}
 
 	// bind texture and draw mesh; then unbind everything
 
@@ -694,23 +703,14 @@ void World::menu(int value){
   case 24:
     reset();
     break;
-  case 25:
+  case 0:
     // load rectangle
     mesh.loadOff("meshes/bialetti.off");
 	mesh1.loadOff("meshes/bialetti.off",0.1);
 	mesh2.loadOff("meshes/quad.off");
     drawRect= true;
     break;
-  case 1: 
-	  mesh.loadOff("data/quad.off");
-	  drawRect = true;
-	  break;
-  case 2:
   case 3:
-  case 4:	
-  case 5:	
-  case 6:
-  case 7:
   case 8:
   case 9:
   case 10:
@@ -728,19 +728,19 @@ void World::menu(int value){
     drawRect= false;
     drawMesh= true;
     break;
-  case 14:
+  case 1:
     drawMesh= false;
     break;
-  case 15:
+  case 4:
     lighting= !lighting;
     break;
-  case 16:
+  case 5:
     showTexture= !showTexture;
     break;
-  case 17:
+  case 6:
     showCoordinates= !showCoordinates;
     break;
-  case 18:
+  case 7:
     showOrigin= !showOrigin;
     break;
 
@@ -781,10 +781,10 @@ void World::menu(int value){
 }
 
 void World::setLight(){
-  lightSource.position= vec4(0,0,0,1);
-  lightSource.ambient= vec4(0.1,0.1,0.1,1);
-  lightSource.diffuse= vec4(1,1,1,1);
-  lightSource.specular= vec4(1,1,1,1);
+  lightSource.position= vec4(1.f,0.f,0.f,1.f);
+  lightSource.ambient= vec4(0.1f,0.1f,0.1f,1.f);
+  lightSource.diffuse= vec4(1.f,1.f,1.f,1.f);
+  //lightSource.specular= vec4(1,1,1,1);
 }
 
 // material
@@ -797,4 +797,5 @@ void World::setMaterial(){
 
 void World::raytrace(){
 	//TODO
+	Context::displayTextureWindow();
 };
