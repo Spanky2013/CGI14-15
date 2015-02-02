@@ -272,3 +272,27 @@ void Image::loadPPM(const std::string& filename){
 
   std::cout << "Image " << filename << " loaded. width=" << width << " height=" << height << endl;
 }
+
+void Image::save(const std::string &filename){
+
+  std::string ppm_filename = filename + ".ppm";
+  ofstream file(ppm_filename.c_str(), ofstream::binary);
+    
+  if(!file.is_open()){
+    cerr << "opening file " << filename << " failed" << endl;
+    return;
+  }
+   
+  // set correct magic cookie, creator, width, length, max color value and data
+  
+  string magic = "P6";
+  string creator = "# FST-Raytracer";
+
+  file << magic << endl  << creator << endl << width << " " << height << endl << "255" << endl;
+
+  //TODO: Add data to file
+
+  file.close();
+ 
+  cout << "File saved.";
+}

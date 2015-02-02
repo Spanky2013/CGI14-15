@@ -41,6 +41,9 @@ public:
   // load image from file
   void load(const std::string& filename);
 
+  // save image in file
+  void save(const std::string& filename);
+
   // set texture filter
   void setMinFilter(GLuint min);
   void setMagFilter(GLuint mag);
