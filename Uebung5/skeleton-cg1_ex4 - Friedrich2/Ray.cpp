@@ -7,10 +7,11 @@ Ray::Ray(void)
 {
 }
 
+//directionvector will be normalized
 Ray::Ray(glm::vec3 source, glm::vec3 direction){
-	this->dir = direction;
+	this->dir = glm::normalize(direction);
 	this->src = source;
-	this->inv_dir = glm::vec3(1/dir.x,1/dir.y,1/dir.z);
+	this->inv_dir = glm::vec3(1.f/dir.x,1.f/dir.y,1.f/dir.z);
 	sign[0] = (inv_dir.x < 0);
     sign[1] = (inv_dir.y < 0);
     sign[2] = (inv_dir.z < 0);

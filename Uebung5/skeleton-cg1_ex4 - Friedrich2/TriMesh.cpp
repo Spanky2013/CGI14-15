@@ -337,10 +337,17 @@ void TriMesh::draw(void){
 }
 
 void TriMesh::kdTest(){
-	KDNode node = KDNode::build(triangles, 0);
-	/*if(KDNode::hit_a_tr(&node, Ray(glm::vec3, glm::vec3),)){
-		glm::vec3 pt = 
+	KDNode node = *KDNode::build(triangles, 0);
+	glm::vec3 origin, direction;
+	origin = glm::vec3(-0.35,-0.35,10);
+	direction = glm::vec3(0,0,-1);
+	Ray ray = Ray(origin, direction);
+	glm::vec2 times = node.get_times(ray);
+	RayTraceHelper rth = RayTraceHelper();
+	if(node.hit_a_tr(&node, ray, times.y, times.x, rth)){
+		glm::vec3 pt = rth.intersectionPoint;
+		glm::vec3 n = rth.normalAtIntSec;
 	}else{
 		cout<<"no intersection"<< endl;
-	}*/
+	}
 }

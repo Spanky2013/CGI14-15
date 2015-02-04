@@ -611,6 +611,7 @@ void World::menu(int value){
   case 8:
 	  mesh.loadOff("meshes/test.off");
 	  mesh.kdTest();
+	  break;
   case 9:
   case 10:
   case 11:

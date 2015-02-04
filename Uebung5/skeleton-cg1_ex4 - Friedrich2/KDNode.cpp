@@ -2,7 +2,8 @@
 #include "KDNode.hpp"
 #include "BoundingBox.hpp"
 #include "RayTraceHelper.hpp"
-
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 KDNode::KDNode()
 {
@@ -11,36 +12,36 @@ KDNode::~KDNode()
 {
 }
 
-KDNode KDNode::build(std::vector<Triangle> triangles, int depth){
-	KDNode node = KDNode();
-	node.triangles = triangles;
-	node.left = NULL;
-	node.right = NULL;
-	node.bbox = BoundingBox();
+KDNode* KDNode::build(std::vector<Triangle> triangles, int depth){
+	KDNode* node = new KDNode();
+	node->triangles = triangles;
+	node->left = NULL;
+	node->right = NULL;
+	node->bbox = BoundingBox();
 
 	//Sind wir in einem Blatt ohne Triangle
 	if(triangles.size() == 0){
 		return node;
 	}
 
-	node.bbox = BoundingBox::get_bounding_box(triangles);
+	node->bbox = BoundingBox::get_bounding_box(triangles);
 
 	//Sind wir in einem Blatt mit genau einem Triangle
 	if(triangles.size() == 1){		
-		node.left = new KDNode();
-		node.right = new KDNode();
-		node.left->triangles = std::vector<Triangle>();
-		node.right->triangles = std::vector<Triangle>();
+		node->left = new KDNode();
+		node->right = new KDNode();
+		node->left->triangles = std::vector<Triangle>();
+		node->right->triangles = std::vector<Triangle>();
 		return node;
 	}
 
-	glm::vec3 midPoint = node.bbox.midPoint;
+	glm::vec3 midPoint = node->bbox.midPoint;
 
 	//Jetzt aufteilen
 
 	std::vector<Triangle> leftTris;
 	std::vector<Triangle> rightTris;
-	int axis = node.bbox.get_longest_axis();
+	int axis = node->bbox.get_longest_axis();
 	
 	for(int i = 0; i < triangles.size(); i++){
 		glm::vec3 currentMidPoint = KDNode::get_midPoint_tr(triangles[i]);
@@ -139,19 +140,19 @@ KDNode KDNode::build(std::vector<Triangle> triangles, int depth){
 	// Haben die Dreiecke in beide Hälften aufgeteilt.
 	// Jetzt kommt noch die Rekursion
 
-	if(node.triangles.size() != leftTris.size())
-		node.left = &build(leftTris,depth+1);
+	if(node->triangles.size() != leftTris.size())
+		node->left = build(leftTris,depth+1);
 	else{
-		node.left = new KDNode();
-		node.left->triangles = std::vector<Triangle>();
+		node->left = new KDNode();
+		node->left->triangles = std::vector<Triangle>();
 	}
 
-	if(node.triangles.size() != rightTris.size())
-		node.right = &build(rightTris,depth+1);
+	if(node->triangles.size() != rightTris.size())
+		node->right = build(rightTris,depth+1);
 	else{
 		
-		node.right = new KDNode();
-		node.right->triangles = std::vector<Triangle>();
+		node->right = new KDNode();
+		node->right->triangles = std::vector<Triangle>();
 	}
 
 	return node;
@@ -175,7 +176,7 @@ glm::vec3 KDNode::get_midPoint_tr(Triangle tri){
 
 // time0 ist der Eintrittspunkt in die Box, time1 der Austrittspunkt
 bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, RayTraceHelper rtHelper){
-		
+	bool result = false;	
 		//erstma: hat er überhaupt in die bbox getroffen?
 
 	if(node->bbox.hit_it(ray, time0, time1)){
@@ -186,7 +187,7 @@ bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, Ray
 		if(node->left->triangles.size() > 0 || node->right->triangles.size() > 0 ){
 			hit_left = hit_a_tr(node->left, ray, time1, time0, rtHelper);
 			hit_right = hit_a_tr(node->right, ray,time1,time0, rtHelper);
-			return hit_left || hit_right;
+			result = hit_left || hit_right;
 		} else {
 		// Wir sind in ienem Blatt
 			for(int i = 0; i < node->triangles.size(); i++){
@@ -195,20 +196,19 @@ bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, Ray
 					hit_tr = true;
 					//time0 = time1;
 					hit_pt = hitPt_ray_tr(ray, node->triangles[i]);
-					normal = hitNr_ray_tr(node->triangles[i]);
+					normal = hitNr_ray_tr(ray.dir, node->triangles[i]);
 				}
 			}
-			if(hit_tr){//Wir haben gerade ein Triangle getroffen 
-					   //und geben jetzt die wichtigen Dinge zurück
+			if(hit_tr){//Wir haben gerade ein Triangle getroffen und geben jetzt die wichtigen Dinge zurück
+				result = true;
 				rtHelper.intersectionPoint = hit_pt;
 				rtHelper.normalAtIntSec = normal;
-				return true;
+				
 			}
-		return false;
 		}
 	}
 
-	return false;
+	return result;
 }
 
 // Erster Eintrag ist time0(eintritt in die BBox) 
@@ -262,12 +262,26 @@ glm::vec3 KDNode::hitPt_ray_tr(Ray ray, Triangle triangle) const{
 }
 
 //gibt die Normale des getroffenen Dreiecks zurück
-glm::vec3 KDNode::hitNr_ray_tr(Triangle triangle) const{
+glm::vec3 KDNode::hitNr_ray_tr(glm::vec3 dir, Triangle triangle) const{
 	glm::vec3 result = glm::normalize(
 				glm::cross(
 					(triangle.sec - triangle.fir),
 					(triangle.thi - triangle.fir)
 				)
 			);
+
+	//TODO weiß nicht ob das richtig ist...
+	//------------------------------
+	//Normale vielleicht au fder falschen Seite des Dreiecks
+	
+	//result und dir haben die länge 1!
+	float h = glm::dot(result,dir);
+	// Wenn der Winkel kleiner al 90° ist muss die normale umgedreht werden.
+	if(acos(h) < M_PI/2){
+		result = -1.f*result;
+	}
+	//------------------------------
+
+	
 	return result;
 }
