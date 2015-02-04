@@ -11,39 +11,39 @@ KDNode::~KDNode()
 {
 }
 
-KDNode* KDNode::build(std::vector<Triangle> triangles, int depth) const{
-	KDNode* node = new KDNode();
-	node->triangles = triangles;
-	node->left = NULL;
-	node->right = NULL;
-	node->bbox = BoundingBox();
+KDNode KDNode::build(std::vector<Triangle> triangles, int depth){
+	KDNode node = KDNode();
+	node.triangles = triangles;
+	node.left = NULL;
+	node.right = NULL;
+	node.bbox = BoundingBox();
 
 	//Sind wir in einem Blatt ohne Triangle
 	if(triangles.size() == 0){
 		return node;
 	}
 
-	node->bbox = BoundingBox::get_bounding_box(triangles);
+	node.bbox = BoundingBox::get_bounding_box(triangles);
 
 	//Sind wir in einem Blatt mit genau einem Triangle
 	if(triangles.size() == 1){		
-		node->left = new KDNode();
-		node->right = new KDNode();
-		node->left->triangles = std::vector<Triangle>();
-		node->right->triangles = std::vector<Triangle>();
+		node.left = new KDNode();
+		node.right = new KDNode();
+		node.left->triangles = std::vector<Triangle>();
+		node.right->triangles = std::vector<Triangle>();
 		return node;
 	}
 
-	glm::vec3 midPoint = node->bbox.midPoint;
+	glm::vec3 midPoint = node.bbox.midPoint;
 
 	//Jetzt aufteilen
 
 	std::vector<Triangle> leftTris;
 	std::vector<Triangle> rightTris;
-	int axis = node->bbox.get_longest_axis();
-
+	int axis = node.bbox.get_longest_axis();
+	
 	for(int i = 0; i < triangles.size(); i++){
-		glm::vec3 currentMidPoint = get_midPoint_tr(triangles[i]);
+		glm::vec3 currentMidPoint = KDNode::get_midPoint_tr(triangles[i]);
 		switch (axis){
 		case 0: // x-Axis	
 			if(midPoint.x >= currentMidPoint.x){
@@ -69,18 +69,97 @@ KDNode* KDNode::build(std::vector<Triangle> triangles, int depth) const{
 		}
 	}
 
+	//längste Achse ist nicht unbedingt die beste
+	//Falls Achse nichts bringt
+	/*if((leftTris.size() == 0 && rightTris.size() > 0) || (leftTris.size() > 0 && rightTris.size() == 0)){
+		leftTris.clear();
+		rightTris.clear();
+		axis = (axis + 1) % 3;
+		for(int i = 0; i < triangles.size(); i++){
+			glm::vec3 currentMidPoint = KDNode::get_midPoint_tr(triangles[i]);
+			switch (axis){
+				case 0: // x-Axis	
+					if(midPoint.x >= currentMidPoint.x){
+						rightTris.push_back(triangles[i]);
+					}else{
+						leftTris.push_back(triangles[i]);
+					}
+					break;
+				case 1: // y-axis
+					if(midPoint.y >= currentMidPoint.y){
+						rightTris.push_back(triangles[i]);
+					}else{
+						leftTris.push_back(triangles[i]);
+					}
+					break;
+				case 2: //z-Axis
+					if(midPoint.z >= currentMidPoint.z){
+						rightTris.push_back(triangles[i]);
+					}else{
+						leftTris.push_back(triangles[i]);
+					}
+					break;
+			}
+		}
+	
+		//Falls zweite Achse auch nichts gebracht hat
+		if((leftTris.size() == 0 && rightTris.size() > 0) || (leftTris.size() > 0 && rightTris.size() == 0)){
+			leftTris.clear();
+			rightTris.clear();
+			axis = (axis + 1) % 3;
+			for(int i = 0; i < triangles.size(); i++){
+				glm::vec3 currentMidPoint = KDNode::get_midPoint_tr(triangles[i]);
+				switch (axis){
+					case 0: // x-Axis	
+						if(midPoint.x >= currentMidPoint.x){
+							rightTris.push_back(triangles[i]);
+						}else{
+							leftTris.push_back(triangles[i]);
+						}
+						break;
+					case 1: // y-axis
+						if(midPoint.y >= currentMidPoint.y){
+							rightTris.push_back(triangles[i]);
+						}else{
+							leftTris.push_back(triangles[i]);
+						}
+						break;
+					case 2: //z-Axis
+						if(midPoint.z >= currentMidPoint.z){
+							rightTris.push_back(triangles[i]);
+						}else{
+							leftTris.push_back(triangles[i]);
+						}
+						break;
+				}
+			}
+		}
+	}*/
+
 	// Haben die Dreiecke in beide Hälften aufgeteilt.
 	// Jetzt kommt noch die Rekursion
 
-	node->left = build(leftTris,depth+1);	
-	node->right = build(rightTris,depth+1);
+	if(node.triangles.size() != leftTris.size())
+		node.left = &build(leftTris,depth+1);
+	else{
+		node.left = new KDNode();
+		node.left->triangles = std::vector<Triangle>();
+	}
+
+	if(node.triangles.size() != rightTris.size())
+		node.right = &build(rightTris,depth+1);
+	else{
+		
+		node.right = new KDNode();
+		node.right->triangles = std::vector<Triangle>();
+	}
 
 	return node;
 
 }
 
 
-glm::vec3 KDNode::get_midPoint_tr(Triangle tri) const{
+glm::vec3 KDNode::get_midPoint_tr(Triangle tri){
 	glm::vec3 result,first,second,third;
 
 	first = tri.fir;
@@ -119,7 +198,7 @@ bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, Ray
 					normal = hitNr_ray_tr(node->triangles[i]);
 				}
 			}
-			if(hit_tr){//Wir haben gerade ein TRaingle getroffen 
+			if(hit_tr){//Wir haben gerade ein Triangle getroffen 
 					   //und geben jetzt die wichtigen Dinge zurück
 				rtHelper.intersectionPoint = hit_pt;
 				rtHelper.normalAtIntSec = normal;

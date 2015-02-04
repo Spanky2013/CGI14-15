@@ -13,6 +13,7 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include "KDNode.hpp"
 
 #include "glm\glm\gtc\constants.hpp"
 
@@ -174,7 +175,12 @@ void TriMesh::loadOff(const string& fileName){
 	}
 	fR.close();
 	cout << "loadOff done: |V| "<<nodeCount<<" |F| "<<polyCount<<endl;
-	cout << "Positions: "<<positions.size()<<" Faces "<<faces.size()<< " Triangles "<< triangles.size() << endl;
+	cout << "Positions: "<< positions.size()<<" Faces "<<faces.size()<< " Triangles "<< triangles.size() << endl;
+	for(int i = 0; i < triangles.size(); i++){
+		cout << "Triangle " << i << ": (" << triangles[i].fir.x << "," << triangles[i].fir.y << "," << triangles[i].fir.z << "); (" 
+			<< triangles[i].sec.x << "," << triangles[i].sec.y << "," << triangles[i].sec.z << "); ("
+			<< triangles[i].thi.x << "," << triangles[i].thi.y << "," << triangles[i].thi.z << ")"  << endl;
+	}
 	
 }
 
@@ -328,4 +334,13 @@ void TriMesh::draw(void){
 	if(!faces.empty())
 		glDrawElements(GL_TRIANGLES, faces.size() * 3, GL_UNSIGNED_INT, &faces[0]);
 
+}
+
+void TriMesh::kdTest(){
+	KDNode node = KDNode::build(triangles, 0);
+	/*if(KDNode::hit_a_tr(&node, Ray(glm::vec3, glm::vec3),)){
+		glm::vec3 pt = 
+	}else{
+		cout<<"no intersection"<< endl;
+	}*/
 }

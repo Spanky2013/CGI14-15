@@ -389,8 +389,8 @@ void Texture::menu(int value){
 //			   "    Texture Coordinate Correction on/off  ", "    Texture Mode (WRAP/CLAMP) ", "    Environment mapping on/off", "    Move object/environment", "    SilhouetteRendering"};
 //
 //int World::numOptions= sizeof(World::menuOptions)/sizeof(World::menuOptions[0]);
-int World::menuOptions[]= {0, 1, 2, 3, 4, 5, 6, 7};
-string World::menuText[]= {"Draw Objects","Draw None", "Raytrace Scene","RENDERING", "    Lighting on/off", "    Texture on/off", "    Coordinate System on/off", "    Origin on/off"};
+int World::menuOptions[]= {0, 1, 2, 3, 4, 5, 6, 7, 8};
+string World::menuText[]= {"Draw Objects","Draw None", "Raytrace Scene","RENDERING", "    Lighting on/off", "    Texture on/off", "    Coordinate System on/off", "    Origin on/off", "KD-Test"};
 			      // Texture Coordinate Correction on/off  ", "    Texture Mode (WRAP/CLAMP) ", "    Environment mapping on/off", "    Move object/environment", "    SilhouetteRendering"};
 
 int World::numOptions= sizeof(World::menuOptions)/sizeof(World::menuOptions[0]);
@@ -609,6 +609,8 @@ void World::menu(int value){
     break;
   case 3:
   case 8:
+	  mesh.loadOff("meshes/test.off");
+	  mesh.kdTest();
   case 9:
   case 10:
   case 11:

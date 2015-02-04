@@ -87,6 +87,10 @@ public:
   static const GLuint attribNormal;
   static const GLuint attribColor;
   static const GLuint attribTexCoord;
+
+  // KD
+  void kdTest();
+
   
 protected:
 

@@ -7,6 +7,9 @@
 #include "Triangle.hpp"
 
 BoundingBox::BoundingBox(){
+	this->bBoxMax = glm::vec3();
+	this->bBoxMin = glm::vec3();
+	this->midPoint = glm::vec3();
 }
 
 BoundingBox::~BoundingBox(){
@@ -42,8 +45,9 @@ int BoundingBox::get_longest_axis(){
 
 
 BoundingBox BoundingBox::get_bounding_box(std::vector<Triangle> triangles){
-  glm::vec3 boundingBoxMin= glm::vec3(std::numeric_limits<float>::max());
-  glm::vec3 boundingBoxMax= glm::vec3(std::numeric_limits<float>::min());
+  glm::vec3 boundingBoxMin, boundingBoxMax;
+  boundingBoxMin = glm::vec3(std::numeric_limits<float>::max(),std::numeric_limits<float>::max(),std::numeric_limits<float>::max());
+  boundingBoxMax = glm::vec3(std::numeric_limits<float>::min(),std::numeric_limits<float>::min(),std::numeric_limits<float>::min());
   Triangle t = Triangle();
 
   for(unsigned int i= 0; i<triangles.size(); i++){
@@ -51,28 +55,46 @@ BoundingBox BoundingBox::get_bounding_box(std::vector<Triangle> triangles){
 	  glm::vec3 first,second,third;
 
 	  first = triangles[i].fir;
-	  if(first.x < boundingBoxMin.x) boundingBoxMin.x= first.x;
-	  if(first.x > boundingBoxMax.x) boundingBoxMax.x= first.x;
-	  if(first.y < boundingBoxMin.y) boundingBoxMin.y= first.y;
-	  if(first.y > boundingBoxMax.y) boundingBoxMax.y= first.y;
-	  if(first.z < boundingBoxMin.z) boundingBoxMin.z= first.z;
-	  if(first.z > boundingBoxMax.z) boundingBoxMax.z= first.z;
+	  if(first.x < boundingBoxMin.x) 
+		  boundingBoxMin.x= first.x;
+	  if(first.x > boundingBoxMax.x) 
+		  boundingBoxMax.x= first.x;
+	  if(first.y < boundingBoxMin.y) 
+		  boundingBoxMin.y= first.y;
+	  if(first.y > boundingBoxMax.y) 
+		  boundingBoxMax.y= first.y;
+	  if(first.z < boundingBoxMin.z) 
+		  boundingBoxMin.z= first.z;
+	  if(first.z > boundingBoxMax.z) 
+		  boundingBoxMax.z= first.z;
 
 	  second = triangles[i].sec;
-	  if(second.x < boundingBoxMin.x) boundingBoxMin.x= second.x;
-	  if(second.x > boundingBoxMax.x) boundingBoxMax.x= second.x;
-	  if(second.y < boundingBoxMin.y) boundingBoxMin.y= second.y;
-	  if(second.y > boundingBoxMax.y) boundingBoxMax.y= second.y;
-	  if(second.z < boundingBoxMin.z) boundingBoxMin.z= second.z;
-	  if(second.z > boundingBoxMax.z) boundingBoxMax.z= second.z;
+	  if(second.x < boundingBoxMin.x) 
+		  boundingBoxMin.x= second.x;
+	  if(second.x > boundingBoxMax.x) 
+		  boundingBoxMax.x= second.x;
+	  if(second.y < boundingBoxMin.y) 
+		  boundingBoxMin.y= second.y;
+	  if(second.y > boundingBoxMax.y) 
+		  boundingBoxMax.y= second.y;
+	  if(second.z < boundingBoxMin.z) 
+		  boundingBoxMin.z= second.z;
+	  if(second.z > boundingBoxMax.z) 
+		  boundingBoxMax.z= second.z;
 	 
 	  third = triangles[i].thi;
-	  if(third.x < boundingBoxMin.x) boundingBoxMin.x= third.x;
-	  if(third.x > boundingBoxMax.x) boundingBoxMax.x= third.x;
-	  if(third.y < boundingBoxMin.y) boundingBoxMin.y= third.y;
-	  if(third.y > boundingBoxMax.y) boundingBoxMax.y= third.y;
-	  if(third.z < boundingBoxMin.z) boundingBoxMin.z= third.z;
-	  if(third.z > boundingBoxMax.z) boundingBoxMax.z= third.z;	  
+	  if(third.x < boundingBoxMin.x) 
+		  boundingBoxMin.x= third.x;
+	  if(third.x > boundingBoxMax.x) 
+		  boundingBoxMax.x= third.x;
+	  if(third.y < boundingBoxMin.y) 
+		  boundingBoxMin.y= third.y;
+	  if(third.y > boundingBoxMax.y) 
+		  boundingBoxMax.y= third.y;
+	  if(third.z < boundingBoxMin.z) 
+		  boundingBoxMin.z= third.z;
+	  if(third.z > boundingBoxMax.z) 
+		  boundingBoxMax.z= third.z;	  
 		
 	  }
 	// So jetzt haben wir die extremen Ecken in dieser Gruppe Dreiecke.
