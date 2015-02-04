@@ -90,7 +90,7 @@ public:
 
   // KD
   void kdTest();
-
+  std::vector<Triangle> triangles;
   
 protected:
 
@@ -105,7 +105,7 @@ protected:
   // texture coordinates of the vertices
   std::vector<glm::vec2> texCoords;
   std::vector<glm::uvec3> faces;
-  std::vector<Triangle> triangles;
+  
 
   PolygonWinding winding;
 

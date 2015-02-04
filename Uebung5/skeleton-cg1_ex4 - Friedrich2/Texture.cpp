@@ -610,7 +610,8 @@ void World::menu(int value){
   case 3:
   case 8:
 	  mesh.loadOff("meshes/test.off");
-	  mesh.kdTest();
+	  kdTree = *KDNode::build(mesh.triangles, 0);
+	  raytrace(5,1);
 	  break;
   case 9:
   case 10:
@@ -699,11 +700,13 @@ void World::setMaterial(){
 // y is the Amount of Pixels in one column of the image you wanna RayTrace
 void World::raytrace(int x, int y){
 
-	std::vector<std::vector<glm::vec4>> image;
+	std::vector<std::vector<glm::vec4>> image = std::vector<std::vector<glm::vec4>>();
 
 	for(int i = 0; i < x; i++){
+		image.push_back(std::vector<glm::vec4>());
 		for(int j = 0; j < y; j++){
 			Ray ray = getRay(i,j,x,y);
+			cout<< "Ray src(" << ray.src.x << "," << ray.src.y << "," << ray.src.z << ") dir(" << ray.dir.x << "," << ray.dir.y << "," << ray.dir.z << ")" << endl; 
 			RayTraceHelper rth;
 
 			glm::vec2 times = kdTree.get_times(ray);
@@ -714,15 +717,15 @@ void World::raytrace(int x, int y){
 					// hier mürde es dann mit der Rekusrion irgendwie losgehen
 					
 					//TODO wie kriegen wir jetzt die Farbe?
-					image[i][j] = glm::vec4();
+					image[i].push_back(glm::vec4());
 				}else{
 					//Hintergrundfarbe
-					image[i][j] = glm::vec4();
+					image[i].push_back(glm::vec4());
 				}
 
 			}else{//Kein Schnitt mit der Box => Schwarz?
 				//Hintergrundfarbe
-				image[i][j] = glm::vec4();
+				image[i].push_back(glm::vec4());
 			}
 		}
 	}
@@ -733,10 +736,10 @@ void World::raytrace(int x, int y){
 };
 
 // (x,y) is the pixel you wanna shoot at
-// xPixel is the amount of Pixels in one row of the image you wanna RayTrace
-// yPixel is the Amount of Pixels in one column of the image you wanna RayTrace
+// xPixel is the amount of Pixels in one row of the image you wanna RayTrace (normaly x of the screen-onject))
+// yPixel is the Amount of Pixels in one column of the image you wanna RayTrace (normaly y of the screen-onject))
 Ray World::getRay(int x, int y, int xPixel, int yPixel){
-	glm::vec3 origin = glm::vec3(0.f,0.f, cameraZMap);
+	glm::vec3 origin = glm::vec3(0.f,0.f, cameraZ);
 
 	float xPart, yPart;
 	xPart = ((float) x) / xPixel;
@@ -747,16 +750,23 @@ Ray World::getRay(int x, int y, int xPixel, int yPixel){
 	// http://wiki.delphigl.com/index.php/Tutorial_Raytracing_-_Grundlagen_I
 	// https://stackoverflow.com/questions/13078243/ray-tracing-camera
 
+	
 	float left, right, bottom, top;
-	left = -screen.x/2;
-	right = screen.x/2;
-	top = screen.y/2;
-	bottom = -screen.y/2;
+	left = -xPixel/2;
+	cout << left << endl;
+	right = xPixel/2;
+	cout << right << endl;
+	top = yPixel/2;
+	cout << top << endl;
+	bottom = -yPixel/2;
+	cout << bottom << endl;
 
 	xPart = left + xPart * (right-left);
+	cout << xPart << endl;
 	yPart = top + yPart * (bottom - top);	
+	cout << yPart << endl;
 
-	glm::vec3 direction = glm::vec3(xPart,yPart,cameraZ);
+	glm::vec3 direction = glm::normalize(glm::vec3(xPart,yPart,-cameraZ));
 
 	return Ray(origin,direction);
 }
