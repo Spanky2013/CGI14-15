@@ -710,17 +710,25 @@ void World::raytrace(int x, int y){
 			if(times.x < times.y){ // Schnitt mit der BBox
 				
 				if(kdTree.hit_a_tr(&kdTree, ray, times.y, times.x, rth)){
-					//Wir treffen ein Triangle in der BBox, rth ist jetzt aktualisiert
+					//Wir treffen ein Triangle in der BBox, rth ist jetzt aktualisiert und hat den genauen Punkt und die Normale
+					// hier mürde es dann mit der Rekusrion irgendwie losgehen
 					
 					//TODO wie kriegen wir jetzt die Farbe?
+					image[i][j] = glm::vec4();
+				}else{
+					//Hintergrundfarbe
 					image[i][j] = glm::vec4();
 				}
 
 			}else{//Kein Schnitt mit der Box => Schwarz?
-			
+				//Hintergrundfarbe
+				image[i][j] = glm::vec4();
 			}
 		}
 	}
+
+	//TODO die Farben -vektoren aus Image jetzt zu einer Textur umwandeln!
+
 	Context::displayTextureWindow();
 };
 
