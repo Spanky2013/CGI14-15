@@ -347,6 +347,8 @@ void TriMesh::kdTest(){
 	if(node.hit_a_tr(&node, ray, times.y, times.x, rth)){
 		glm::vec3 pt = rth.intersectionPoint;
 		glm::vec3 n = rth.normalAtIntSec;
+		cout << "Intersection at " << pt.x << " " << pt.y << " " << pt.z << endl;
+		cout << "Normal of " << n.x << " " << n.y << " " << n.z << endl;
 	}else{
 		cout<<"no intersection"<< endl;
 	}

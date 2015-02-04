@@ -175,10 +175,9 @@ glm::vec3 KDNode::get_midPoint_tr(Triangle tri){
 }
 
 // time0 ist der Eintrittspunkt in die Box, time1 der Austrittspunkt
-bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, RayTraceHelper rtHelper){
-	bool result = false;	
-		//erstma: hat er überhaupt in die bbox getroffen?
-
+bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, RayTraceHelper& rtHelper){
+	
+	//erstma: hat er überhaupt in die bbox getroffen?
 	if(node->bbox.hit_it(ray, time0, time1)){
 		bool hit_tr = false;
 		glm::vec3 hit_pt, local_hit_pt, normal;
@@ -187,7 +186,7 @@ bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, Ray
 		if(node->left->triangles.size() > 0 || node->right->triangles.size() > 0 ){
 			hit_left = hit_a_tr(node->left, ray, time1, time0, rtHelper);
 			hit_right = hit_a_tr(node->right, ray,time1,time0, rtHelper);
-			result = hit_left || hit_right;
+			return hit_left || hit_right;
 		} else {
 		// Wir sind in ienem Blatt
 			for(int i = 0; i < node->triangles.size(); i++){
@@ -200,15 +199,14 @@ bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, Ray
 				}
 			}
 			if(hit_tr){//Wir haben gerade ein Triangle getroffen und geben jetzt die wichtigen Dinge zurück
-				result = true;
 				rtHelper.intersectionPoint = hit_pt;
 				rtHelper.normalAtIntSec = normal;
-				
+				return true;
 			}
 		}
+	}else{
+		return false;
 	}
-
-	return result;
 }
 
 // Erster Eintrag ist time0(eintritt in die BBox) 
