@@ -195,6 +195,7 @@ bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, Ray
 				rtHelper.normalAtIntSec = normal;
 				return true;
 			}
+			return false;
 		}
 	}else{
 		return false;

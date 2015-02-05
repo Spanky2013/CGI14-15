@@ -63,6 +63,6 @@ namespace World{
   void setMaterial();
 
 
-  void raytrace(float x, float y);
+  void raytrace(const float x,const float y);
   Ray getRay(int x, int y, float xPixel, float yPixel);
 };	

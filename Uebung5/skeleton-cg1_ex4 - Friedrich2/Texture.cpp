@@ -73,6 +73,7 @@ static GLuint modulation= GL_MODULATE;
 static GLuint wrap= GL_CLAMP_TO_BORDER;
 
 static mat4 cameraMatrix;
+static mat4 modelView;
 static mat4 rotation= mat4(1); // current rotation of object
 static vec3 shift= vec3(0); // offset
 static float scaling= 1; // scale
@@ -423,7 +424,7 @@ void World::reshape(int width, int height){
     glViewport(0, 0, width, height);
 
     //cameraZ= 1 / tan(fov/180.0);
-	cameraZ = 1;
+	cameraZ = 1.0;
     // near and far plane
     nearPlane= cameraZ/10.0f;
     farPlane= cameraZ*10.0f;
@@ -509,6 +510,7 @@ void World::display(void){
 
 	mat4 modelMatrix= translate(mat4(1), vec3(shift.x, shift.y, shift.z));
 	modelMatrix *= rotation;
+	modelView = cameraMatrix * modelMatrix;
 	//modelMatrix= scale(modelMatrix, vec3(scaling));  
 
 	mat4 projectionMatrix;
@@ -747,7 +749,8 @@ void World::raytrace(float x, float y){
 		//image.push_back(std::vector<glm::vec4>());
 		for(int j = 0; j < y; j++){
 			Ray ray = getRay(i,j,x,y);
-			//cout<< "Ray src(" << ray.src.x << "," << ray.src.y << "," << ray.src.z << ") dir(" << ray.dir.x << "," << ray.dir.y << "," << ray.dir.z << ")" << endl; 
+			if(i==j)
+			cout<< "Ray src(" << ray.src.x << "," << ray.src.y << "," << ray.src.z << ") dir(" << ray.dir.x << "," << ray.dir.y << "," << ray.dir.z << ")" << endl; 
 			RayTraceHelper rth;
 
 			float time0 = 0;
@@ -787,9 +790,7 @@ void World::raytrace(float x, float y){
 // yPixel is the Amount of Pixels in one column of the image you wanna RayTrace (normaly y of the screen-onject))
 Ray World::getRay(int x, int y, float xPixel, float yPixel){
 
-	glm::vec3 origin = glm::vec3(0,0,0);
-
-	
+	glm::vec3 origin = glm::vec3(0.f,0.f,0.f);
 
 	//cout << origin.x << "," << origin.y << "," << origin.z << endl;
 
@@ -799,11 +800,13 @@ Ray World::getRay(int x, int y, float xPixel, float yPixel){
 	}else{
 		xPart = ((float) x) / (xPixel);
 	}
+	//cout << xPart << endl;
 	if(yPixel > 1){
 		yPart = ((float) y) / (yPixel-1);
 	}else{
 		yPart = ((float) y) / (yPixel);
-	}	
+	}
+	//cout << yPart << endl;
 
 	//Bin mir nicht 100% sicher, ob die Berechnung 
 	//der vier seiten wirklich korrekt ist, aber ich denke schon.
@@ -812,13 +815,24 @@ Ray World::getRay(int x, int y, float xPixel, float yPixel){
 
 	
 	float left, right, bottom, top;
-	left = -(xPixel-1)/2.f;
+	float tan = glm::tan((fov/180)/2);
+	//cout << tan << endl;
+	/*left = -(xPixel-1)/2.f;
 	//cout << left << endl;
 	right = (xPixel-1)/2.f;
 	//cout << right << endl;
-	top = (yPixel-1)/2.f;
+	top = -(yPixel-1)/2.f;
 	//cout << top << endl;
-	bottom = -(yPixel-1)/2.f;
+	bottom = (yPixel-1)/2.f;
+	//cout << bottom << endl;
+	*/
+	left = -tan;
+	//cout << left << endl;
+	right = tan;
+	//cout << right << endl;
+	top = -tan;
+	//cout << top << endl;
+	bottom = tan;
 	//cout << bottom << endl;
 
 	xPart = left + xPart * (right-left);
@@ -826,7 +840,7 @@ Ray World::getRay(int x, int y, float xPixel, float yPixel){
 	yPart = top + yPart * (bottom - top);	
 	//cout << yPart << endl;
 
-	glm::vec3 direction = glm::normalize(glm::vec3(xPart,yPart,cameraZ));
+	glm::vec3 direction = glm::normalize(glm::vec3(xPart,yPart,-1.f));
 
 	glm::vec4 helper =  glm::inverse(cameraMatrix) * glm::vec4(origin, 1.f);
 	origin.x = helper.x;
@@ -836,6 +850,7 @@ Ray World::getRay(int x, int y, float xPixel, float yPixel){
 	direction.x = helper.x;
 	direction.y = helper.y;
 	direction.z = helper.z;
+	
 
 	if(x==0 && y == 0)
 		cout << "origin " << origin.x << "," << origin.y << ","<< origin.z << endl;
