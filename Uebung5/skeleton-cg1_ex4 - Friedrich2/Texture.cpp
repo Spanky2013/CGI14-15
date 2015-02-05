@@ -255,9 +255,6 @@ void Texture::display(void){
   //glLoadIdentity();
 	
 	//TODO Wenn Raytrace, dann RayTrace anzeigen und nicht den shader
-	if(rayTracer){
-	}else{
-	}
 	
   glPushAttrib(GL_COLOR_BUFFER_BIT | GL_LIGHTING_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -267,9 +264,15 @@ void Texture::display(void){
   glClearColor(0.5, 0.5, 0.5, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	mesh1.draw();
-	mesh.draw();
-	mesh2.draw();
+  	if(rayTracer){
+
+
+	}else{
+		mesh1.draw();
+		mesh.draw();
+		mesh2.draw();
+	}
+
 
   glutSwapBuffers();
     glPopAttrib();
@@ -398,8 +401,8 @@ void Texture::menu(int value){
 //			   "    Texture Coordinate Correction on/off  ", "    Texture Mode (WRAP/CLAMP) ", "    Environment mapping on/off", "    Move object/environment", "    SilhouetteRendering"};
 //
 //int World::numOptions= sizeof(World::menuOptions)/sizeof(World::menuOptions[0]);
-int World::menuOptions[]= {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-string World::menuText[]= {"Draw Objects","Draw None", "KD-Calc", "Raytrace Scene", "RENDERING", "    Lighting on/off", "    Texture on/off", "    Coordinate System on/off", "    Origin on/off", "Create Scene"};
+int World::menuOptions[]= {0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10};
+string World::menuText[]= {"Draw Objects","Draw None", "KD-Calc", "Raytrace Scene", "RENDERING", "    Lighting on/off", "    Texture on/off", "    Coordinate System on/off", "    Origin on/off","Points on/off", "Create Scene"};
 			      // Texture Coordinate Correction on/off  ", "    Texture Mode (WRAP/CLAMP) ", "    Environment mapping on/off", "    Move object/environment", "    SilhouetteRendering"};
 
 int World::numOptions= sizeof(World::menuOptions)/sizeof(World::menuOptions[0]);
@@ -484,14 +487,17 @@ void World::display(void){
   }
 
   if(showPoints) {
+	  glColor3f(1.0,0.0,5.0);
+	  glPushMatrix();
+	  glBegin(GL_POINTS);
+
 	  //TODO render IntersectionPoints
-	  for(unsigned int i = 0; i < intPts.size();i++){
-		glColor3f(1.0,0.0,5.0);
-		glPushMatrix();
-   
-		glutSolidSphere(0.05f, 10, 10);
-	    glPopMatrix();
+	  for(unsigned int i = 0; i < intPts.size();i++){   
+		glm::vec3 point = intPts[i];
+		glVertex3f(point.x, point.y, point.z);
 	  }
+	  glEnd();
+	  glPopMatrix();
   }
 
   glScalef(scaling, scaling, scaling);
@@ -641,7 +647,8 @@ void World::menu(int value){
 	  drawRect = true;
 	  break;
   case 8:
-	  
+	showPoints= !showPoints;
+    break;
   case 9:
 	 Scene::createScene(scene);
 	 break;

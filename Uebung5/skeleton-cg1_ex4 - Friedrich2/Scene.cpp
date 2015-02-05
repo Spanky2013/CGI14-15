@@ -31,7 +31,7 @@ void Scene::AddObject(std::string modelName, float off){
 	sceneObjects.push_back(mesh);
 };
 
-void Scene::RenderScene(static GLSLShader shader, glm::mat4 modelMatrix, glm::mat4 projectionMatrix, static glm::mat4 cameraMatrix, LightSource lightSource,
+void Scene::RenderScene(GLSLShader shader, glm::mat4 modelMatrix, glm::mat4 projectionMatrix, glm::mat4 cameraMatrix, LightSource lightSource,
 				 Material material){
 
 	shader.bind();
