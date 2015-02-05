@@ -182,19 +182,19 @@ void Common::keyPressed(unsigned char key, int x, int y){
     break;
 
   case 's':
-    scaling*=0.9;
+    scaling*=0.9f;
     break;
 
   case 'S':
-    scaling*=1.1;
+    scaling*=1.1f;
     break;
 
   case 'c':
-    cameraZMap+=0.1;
+    cameraZMap+=0.1f;
     break;
     
   case 'C':
-    cameraZMap-=0.1;
+    cameraZMap-=0.1f;
     break;
 	 
   default: 
@@ -418,8 +418,8 @@ void World::reshape(int width, int height){
     //cameraZ= 1 / tan(fov/180.0);
 	cameraZ = 1;
     // near and far plane
-    nearPlane= cameraZ/10.0;
-    farPlane= cameraZ*10.0;
+    nearPlane= cameraZ/10.0f;
+    farPlane= cameraZ*10.0f;
     
     gluPerspective(fov, (float)width/(float)height, nearPlane, farPlane);
     
@@ -436,7 +436,7 @@ void World::reshape(int width, int height){
 // XXX: NEEDS TO BE IMPLEMENTED
 void World::display(void){
 
-  glClearColor(0.2, 0.2, 0.2, 0.0);
+  glClearColor(0.2f, 0.2f, 0.2f, 0.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
   glMatrixMode(GL_MODELVIEW);
@@ -479,7 +479,7 @@ void World::display(void){
 
   if(showPoints) {
 	  //TODO render IntersectionPoints
-	  for(int i = 0; i < intPts.size();i++){
+	  for(unsigned int i = 0; i < intPts.size();i++){
 		glColor3f(1.0,0.0,5.0);
 		glPushMatrix();
    
@@ -571,16 +571,16 @@ void World::mouseDragged(int x, int y){
 		break;
 	case SHIFT_XY:
 	  if(false){
-	    shift.x+= 3.3*v.x;
-	    shift.y-= 3.3*v.y;	
+	    shift.x+= 3.3f*v.x;
+	    shift.y-= 3.3f*v.y;	
 	  }
 	  else{
-	    shift.x+= 3.3*v.x;
-	    shift.y-= 3.3*v.y;
+	    shift.x+= 3.3f*v.x;
+	    shift.y-= 3.3f*v.y;
 	  }  
 		break;
 	case SHIFT_Z:
-	 shift.z+= 3.3*sign(dot(v, vec2(1,1))) * length(v);
+	 shift.z+= 3.3f*sign(dot(v, vec2(1,1))) * length(v);
 	  break;
 	default:
 	  break;
@@ -606,7 +606,7 @@ void World::menu(int value){
     //mesh.unitize();
     mesh.computeNormals();
     mesh.computeSphereUVs();
-	mesh1.loadOff("meshes/bialetti.off",0.1);
+	mesh1.loadOff("meshes/bialetti.off",0.1f);
 	//mesh1.center();
     //mesh1.unitize();
     mesh1.computeNormals();
@@ -722,13 +722,14 @@ void World::setMaterial(){
 
 // x is the amount of Pixels in one row of the image you wanna RayTrace
 // y is the Amount of Pixels in one column of the image you wanna RayTrace
-void World::raytrace(int x, int y){
+void World::raytrace(float x, float y){
 
 	cout << "Scrren " << x << " mal " << y << endl;
 
 	std::vector<std::vector<glm::vec4>> image = std::vector<std::vector<glm::vec4>>();
 
-	int blacks,whites;
+	int blacks = 0;
+	int whites = 0;
 
 	for(int i = 0; i < x; i++){
 		//cout << i;
