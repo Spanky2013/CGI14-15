@@ -634,7 +634,7 @@ void World::menu(int value){
 	  cout << "end KD after " << ((clock() - tstart)/CLOCKS_PER_SEC) << endl;;
 	  break;
   case 3: 
-	  rayTrace = true;
+	  rayTracer = true;
 	  tstart = clock();
 	  raytrace(screen.x,screen.y);
 	  cout << "end raytrace after " << ((clock() - tstart)/CLOCKS_PER_SEC) << endl;	  
