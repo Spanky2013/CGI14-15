@@ -611,8 +611,12 @@ void World::menu(int value){
   case 8:
 	  mesh.loadOff("meshes/test.off");
 	  kdTree = *KDNode::build(mesh.triangles, 0);
+<<<<<<< HEAD
 	  raytrace(5,1);
 	  drawRect = true;
+=======
+	  raytrace(1,5);
+>>>>>>> origin/master
 	  break;
   case 9:
 	 Scene::createScene(scene);
@@ -712,24 +716,23 @@ void World::raytrace(int x, int y){
 			cout<< "Ray src(" << ray.src.x << "," << ray.src.y << "," << ray.src.z << ") dir(" << ray.dir.x << "," << ray.dir.y << "," << ray.dir.z << ")" << endl; 
 			RayTraceHelper rth;
 
-			glm::vec2 times = kdTree.get_times(ray);
-			if(times.x < times.y){ // Schnitt mit der BBox
-				
-				if(kdTree.hit_a_tr(&kdTree, ray, times.y, times.x, rth)){
-					//Wir treffen ein Triangle in der BBox, rth ist jetzt aktualisiert und hat den genauen Punkt und die Normale
-					// hier mürde es dann mit der Rekusrion irgendwie losgehen
+			float time0 = 0;
+			float time1 = std::numeric_limits<float>::max();
+			
+			if(kdTree.hit_a_tr(&kdTree, ray, time1, time0, rth)){
+				//Wir treffen ein Triangle in der BBox, rth ist jetzt aktualisiert und hat den genauen Punkt und die Normale
+				// hier mürde es dann mit der Rekusrion irgendwie losgehen
 					
-					//TODO wie kriegen wir jetzt die Farbe?
-					image[i].push_back(glm::vec4());
-				}else{
-					//Hintergrundfarbe
-					image[i].push_back(glm::vec4());
-				}
-
-			}else{//Kein Schnitt mit der Box => Schwarz?
+				//TODO wie kriegen wir jetzt die Farbe?
+				image[i].push_back(glm::vec4(0,0,0,1));
+				cout << image[i][j].x << endl;
+			}else{
 				//Hintergrundfarbe
-				image[i].push_back(glm::vec4());
+				image[i].push_back(glm::vec4(1,1,1,1));
+				cout << image[i][j].x << endl;
 			}
+
+			
 		}
 	}
 
@@ -741,12 +744,22 @@ void World::raytrace(int x, int y){
 // (x,y) is the pixel you wanna shoot at
 // xPixel is the amount of Pixels in one row of the image you wanna RayTrace (normaly x of the screen-onject))
 // yPixel is the Amount of Pixels in one column of the image you wanna RayTrace (normaly y of the screen-onject))
-Ray World::getRay(int x, int y, int xPixel, int yPixel){
-	glm::vec3 origin = glm::vec3(0.f,0.f, cameraZ);
+Ray World::getRay(int x, int y, float xPixel, float yPixel){
+	glm::vec3 origin = glm::vec3(0,0,cameraZ);
+
+	cout << origin.x << "," << origin.y << "," << origin.z << endl;
 
 	float xPart, yPart;
-	xPart = ((float) x) / xPixel;
-	yPart = ((float) y) / yPixel;
+	if(xPixel > 1){
+		xPart = ((float) x) / (xPixel-1);
+	}else{
+		xPart = ((float) x) / (xPixel);
+	}
+	if(yPixel > 1){
+		yPart = ((float) y) / (yPixel-1);
+	}else{
+		yPart = ((float) y) / (yPixel);
+	}	
 
 	//Bin mir nicht 100% sicher, ob die Berechnung 
 	//der vier seiten wirklich korrekt ist, aber ich denke schon.
@@ -755,13 +768,13 @@ Ray World::getRay(int x, int y, int xPixel, int yPixel){
 
 	
 	float left, right, bottom, top;
-	left = -xPixel/2;
+	left = -(xPixel-1)/2.f;
 	cout << left << endl;
-	right = xPixel/2;
+	right = (xPixel-1)/2.f;
 	cout << right << endl;
-	top = yPixel/2;
+	top = (yPixel-1)/2.f;
 	cout << top << endl;
-	bottom = -yPixel/2;
+	bottom = -(yPixel-1)/2.f;
 	cout << bottom << endl;
 
 	xPart = left + xPart * (right-left);

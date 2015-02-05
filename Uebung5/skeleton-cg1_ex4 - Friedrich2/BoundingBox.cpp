@@ -1,10 +1,13 @@
 #pragma once
 
+#include <string>
 #include <iostream>
 #include "BoundingBox.hpp"
 #include "glm/glm/glm.hpp"
 #include "Ray.hpp"
 #include "Triangle.hpp"
+
+using namespace std;
 
 BoundingBox::BoundingBox(){
 	this->bBoxMax = glm::vec3();
@@ -22,7 +25,7 @@ BoundingBox::BoundingBox( glm::vec3 boundingBoxMin, glm::vec3 boundingBoxMax){
 }
 
 // 0 = x-axis, 1 = y-Axis, 2 = z-axis
-int BoundingBox::get_longest_axis(){
+int BoundingBox::get_longest_axis() const{
 	float x = abs(this->bBoxMax.x - this->bBoxMin.x);
 	float y = abs(this->bBoxMax.y - this->bBoxMin.y);
 	float z = abs(this->bBoxMax.z - this->bBoxMin.z);
@@ -113,19 +116,21 @@ BoundingBox BoundingBox::get_bounding_box(std::vector<Triangle> triangles){
  *      Journal of graphics tools, 10(1):49-54, 2005
  *
  */
-bool BoundingBox::hit_it(Ray ray, float time0, float time1){
+bool BoundingBox::hit_it(Ray ray, float time0, float time1) const{
 
 	glm::vec3 paras[2];
-	paras[0] = this->bBoxMin;
-	paras[1] = this->bBoxMax;
-	
+	paras[0] = glm::vec3(this->bBoxMin.x,this->bBoxMin.y,this->bBoxMin.z);
+	paras[1] = glm::vec3(this->bBoxMax.x,this->bBoxMax.y,this->bBoxMax.z);
+
+	/*paras[0] = this->bBoxMax;
+	paras[1] = this->bBoxMin;*/
 	// Smith's Method
 	float txmin,txmax,tymin,tymax,tzmin,tzmax;
 
 	txmin = (paras[ray.sign[0]].x - ray.src.x) * ray.inv_dir.x;
 	txmax = (paras[1-ray.sign[0]].x - ray.src.x) * ray.inv_dir.x;
-	tymin = (paras[ray.sign[0]].y - ray.src.y) * ray.inv_dir.y;
-	tymax = (paras[1-ray.sign[0]].y - ray.src.y) * ray.inv_dir.y;
+	tymin = (paras[ray.sign[1]].y - ray.src.y) * ray.inv_dir.y;
+	tymax = (paras[1-ray.sign[1]].y - ray.src.y) * ray.inv_dir.y;
 	if ( (txmin > tymax) || (tymin > txmax) ) 
 		return false;
 
@@ -134,8 +139,8 @@ bool BoundingBox::hit_it(Ray ray, float time0, float time1){
 	if (tymax < txmax)
 		txmax = tymax;
 
-	tzmin = (paras[ray.sign[0]].z - ray.src.z) * ray.inv_dir.z;
-	tzmax = (paras[1-ray.sign[0]].z - ray.src.z) * ray.inv_dir.z;
+	tzmin = (paras[ray.sign[2]].z - ray.src.z) * ray.inv_dir.z;
+	tzmax = (paras[1-ray.sign[2]].z - ray.src.z) * ray.inv_dir.z;
 	if ( (txmin > tzmax) || (tzmin > txmax) ) 
 		return false;
 
@@ -150,32 +155,35 @@ bool BoundingBox::hit_it(Ray ray, float time0, float time1){
 
 //Liefert die beiden Schnittpunkte mit der BBox
 //wenn time0 > time 1 dann gibt es keinen Schnittpunkt
-glm::vec2 BoundingBox::get_times(Ray ray){
+glm::vec2 BoundingBox::get_times(Ray ray) const{
 	glm::vec3 paras[2];
 	paras[0] = this->bBoxMin;
 	paras[1] = this->bBoxMax;
 	
 	// Smith's Method
 	float txmin,txmax,tymin,tymax,tzmin,tzmax;
-
+	cout << "Smiths:" << endl;
 	txmin = (paras[ray.sign[0]].x - ray.src.x) * ray.inv_dir.x;
+	cout << txmin << endl;
 	txmax = (paras[1-ray.sign[0]].x - ray.src.x) * ray.inv_dir.x;
-	tymin = (paras[ray.sign[0]].y - ray.src.y) * ray.inv_dir.y;
-	tymax = (paras[1-ray.sign[0]].y - ray.src.y) * ray.inv_dir.y;
-	tzmin = (paras[ray.sign[0]].z - ray.src.z) * ray.inv_dir.z;
-	tzmax = (paras[1-ray.sign[0]].z - ray.src.z) * ray.inv_dir.z;
+	cout << txmax << endl;
+	tymin = (paras[ray.sign[1]].y - ray.src.y) * ray.inv_dir.y;
+	cout << tymin << endl;
+	tymax = (paras[1-ray.sign[1]].y - ray.src.y) * ray.inv_dir.y;
+	cout << tymax << endl;
+	tzmin = (paras[ray.sign[2]].z - ray.src.z) * ray.inv_dir.z;
+	cout << tzmin << endl;
+	tzmax = (paras[1-ray.sign[2]].z - ray.src.z) * ray.inv_dir.z;
+	cout << tzmax << endl;
 	
 	glm::vec3 src_to_tmin = glm::vec3(txmin-ray.src.x,tymin-ray.src.y,tzmin-ray.src.z);
 	glm::vec3 src_to_tmax = glm::vec3(txmax-ray.src.x,tymax-ray.src.y,tzmax-ray.src.z);
 
-	float time0 = src_to_tmin.x/ray.dir.x;
-	if(abs(time0 - src_to_tmin.y/ray.dir.y) > 0.001f || abs(time0 - src_to_tmin.y/ray.dir.y)  > 0.001f )
-		std::cout << "it went sth wrong in time0!! "<<time0<<";"<<(src_to_tmin.y/ray.dir.y)<<";"<<(src_to_tmin.z/ray.dir.z);
+	float time0 = glm::dot(src_to_tmin, src_to_tmin);
+	std::cout << "time0 " << time0 << endl;
 
-	float time1 = src_to_tmax.x/ray.dir.x;
-	if(abs(time0 - src_to_tmin.y/ray.dir.y) > 0.001f || abs(time0 - src_to_tmin.y/ray.dir.y)  > 0.001f )
-		std::cout << "it went sth wrong in time1!! "<<time0<<";"<<(src_to_tmin.y/ray.dir.y)<<";"<<(src_to_tmin.z/ray.dir.z);
-
+	float time1 = glm::dot(src_to_tmax, src_to_tmax);
+	std::cout << "time1 " << time1 << endl;
 	//falls wir in einem Polygon sind kann ein Punkt hinter uns liegen, 
 	/*if(time0 < 0)
 		time0 = 0;

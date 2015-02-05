@@ -212,13 +212,13 @@ bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, Ray
 // Erster Eintrag ist time0(eintritt in die BBox) 
 // Zweiter Eintrag ist time1 (austritt aus derBBox)
 // Wenn time0 > time 1 dann gibt es keinen Schnittpunkt
-glm::vec2 KDNode::get_times(Ray ray){
+/*glm::vec2 KDNode::get_times(Ray ray){
 	if(this->triangles.size() > 0){
 		return glm::vec2(this->bbox.get_times(ray));
 	}else{
 		return glm::vec2(1.f,0.f);
 	}
-}
+}*/
 
 //Hat der Ray in der BBox auch dieses Dreieck getroffen?
 //TODO: wozu t und tmin?
