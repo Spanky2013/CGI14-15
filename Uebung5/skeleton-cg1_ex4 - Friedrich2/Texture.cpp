@@ -401,8 +401,8 @@ void Texture::menu(int value){
 //			   "    Texture Coordinate Correction on/off  ", "    Texture Mode (WRAP/CLAMP) ", "    Environment mapping on/off", "    Move object/environment", "    SilhouetteRendering"};
 //
 //int World::numOptions= sizeof(World::menuOptions)/sizeof(World::menuOptions[0]);
-int World::menuOptions[]= {0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10};
-string World::menuText[]= {"Draw Objects","Draw None", "KD-Calc", "Raytrace Scene", "RENDERING", "    Lighting on/off", "    Texture on/off", "    Coordinate System on/off", "    Origin on/off","Points on/off", "Create Scene"};
+int World::menuOptions[]= {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+string World::menuText[]= {"Draw Objects","Draw None", "KD-Calc", "Raytrace Scene", "    Lighting on/off", "    Texture on/off", "    Coordinate System on/off", "    Origin on/off","Points on/off", "Create Scene"};
 			      // Texture Coordinate Correction on/off  ", "    Texture Mode (WRAP/CLAMP) ", "    Environment mapping on/off", "    Move object/environment", "    SilhouetteRendering"};
 
 int World::numOptions= sizeof(World::menuOptions)/sizeof(World::menuOptions[0]);
@@ -608,9 +608,6 @@ void World::menu(int value){
   double tstart;
   std::vector<Triangle> sum;
   switch(value){
-  case 24:
-    reset();
-    break;
   case 0:
     // load rectangle
     mesh.loadOff("meshes/bialetti.off");
@@ -630,6 +627,9 @@ void World::menu(int value){
     mesh2.computeSphereUVs();
     drawRect= true;
     break;
+  case 1:
+    drawMesh= false;
+    break;
   case 2: 
 	 //mesh.loadOff("meshes/bunny.off");	
 	 tstart = clock();
@@ -646,6 +646,18 @@ void World::menu(int value){
 	  cout << "end raytrace after " << ((clock() - tstart)/CLOCKS_PER_SEC) << endl;	  
 	  drawRect = true;
 	  break;
+  case 4:
+    lighting= !lighting;
+    break;
+  case 5:
+    showTexture= !showTexture;
+    break;
+  case 6:
+    showCoordinates= !showCoordinates;
+    break;
+  case 7:
+    showOrigin= !showOrigin;
+    break;
   case 8:
 	showPoints= !showPoints;
     break;
@@ -667,22 +679,6 @@ void World::menu(int value){
     drawRect= false;
     drawMesh= true;
     break;
-  case 1:
-    drawMesh= false;
-    break;
-  case 4:
-    lighting= !lighting;
-    break;
-  case 5:
-    showTexture= !showTexture;
-    break;
-  case 6:
-    showCoordinates= !showCoordinates;
-    break;
-  case 7:
-    showOrigin= !showOrigin;
-    break;
-
   case 19:
     textureCorrection= !textureCorrection;
     // enable/disable texture correction in Image (not obligatory, but useful for debugging)
@@ -713,6 +709,9 @@ void World::menu(int value){
 	  silhouette = !silhouette;
 	  if(environmentMapping) environmentMapping = !environmentMapping;
 	  break;
+  case 24:
+    reset();
+    break;
   default:
     break;
   }
