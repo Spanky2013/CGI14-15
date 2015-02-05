@@ -389,8 +389,8 @@ void Texture::menu(int value){
 //			   "    Texture Coordinate Correction on/off  ", "    Texture Mode (WRAP/CLAMP) ", "    Environment mapping on/off", "    Move object/environment", "    SilhouetteRendering"};
 //
 //int World::numOptions= sizeof(World::menuOptions)/sizeof(World::menuOptions[0]);
-int World::menuOptions[]= {0, 1, 2, 3, 4, 5, 6, 7, 8};
-string World::menuText[]= {"Draw Objects","Draw None", "Raytrace Scene","RENDERING", "    Lighting on/off", "    Texture on/off", "    Coordinate System on/off", "    Origin on/off", "KD-Test"};
+int World::menuOptions[]= {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+string World::menuText[]= {"Draw Objects","Draw None", "Raytrace Scene","RENDERING", "    Lighting on/off", "    Texture on/off", "    Coordinate System on/off", "    Origin on/off", "KD-Calc", "Create Scene", "Raytrace"};
 			      // Texture Coordinate Correction on/off  ", "    Texture Mode (WRAP/CLAMP) ", "    Environment mapping on/off", "    Move object/environment", "    SilhouetteRendering"};
 
 int World::numOptions= sizeof(World::menuOptions)/sizeof(World::menuOptions[0]);
@@ -611,13 +611,14 @@ void World::menu(int value){
   case 8:
 	  mesh.loadOff("meshes/test.off");
 	  kdTree = *KDNode::build(mesh.triangles, 0);
-	  raytrace(5,1);
-	  drawRect = true;
 	  break;
   case 9:
 	 Scene::createScene(scene);
-
+	  break;
   case 10:
+	  raytrace(screen.x,screen.y);
+	  drawRect = true;
+	  break;
   case 11:
   case 12:
   case 13:
@@ -703,13 +704,17 @@ void World::setMaterial(){
 // y is the Amount of Pixels in one column of the image you wanna RayTrace
 void World::raytrace(int x, int y){
 
+	cout << "Scrren " << x << " mal " << y << endl;
+
 	std::vector<std::vector<glm::vec4>> image = std::vector<std::vector<glm::vec4>>();
+
+	int blacks,whites;
 
 	for(int i = 0; i < x; i++){
 		image.push_back(std::vector<glm::vec4>());
 		for(int j = 0; j < y; j++){
 			Ray ray = getRay(i,j,x,y);
-			cout<< "Ray src(" << ray.src.x << "," << ray.src.y << "," << ray.src.z << ") dir(" << ray.dir.x << "," << ray.dir.y << "," << ray.dir.z << ")" << endl; 
+			//cout<< "Ray src(" << ray.src.x << "," << ray.src.y << "," << ray.src.z << ") dir(" << ray.dir.x << "," << ray.dir.y << "," << ray.dir.z << ")" << endl; 
 			RayTraceHelper rth;
 
 			float time0 = 0;
@@ -720,18 +725,20 @@ void World::raytrace(int x, int y){
 				// hier mürde es dann mit der Rekusrion irgendwie losgehen
 					
 				//TODO wie kriegen wir jetzt die Farbe?
-				image[i].push_back(glm::vec4(0,0,0,1));
-				cout << image[i][j].x << endl;
+				image[i].push_back(material.ambient);
+				whites++;
+				
 			}else{
 				//Hintergrundfarbe
-				image[i].push_back(glm::vec4(1,1,1,1));
-				cout << image[i][j].x << endl;
+				image[i].push_back(glm::vec4(0,0,0,1));
+				blacks++;
 			}
 
 			
 		}
 	}
 
+	cout << "Balck " << blacks << "; White " << whites << endl;
 	//TODO die Farben -vektoren aus Image jetzt zu einer Textur umwandeln!
 
 	Context::displayTextureWindow();
@@ -743,7 +750,7 @@ void World::raytrace(int x, int y){
 Ray World::getRay(int x, int y, float xPixel, float yPixel){
 	glm::vec3 origin = glm::vec3(0,0,cameraZ);
 
-	cout << origin.x << "," << origin.y << "," << origin.z << endl;
+	//cout << origin.x << "," << origin.y << "," << origin.z << endl;
 
 	float xPart, yPart;
 	if(xPixel > 1){
@@ -765,18 +772,18 @@ Ray World::getRay(int x, int y, float xPixel, float yPixel){
 	
 	float left, right, bottom, top;
 	left = -(xPixel-1)/2.f;
-	cout << left << endl;
+	//cout << left << endl;
 	right = (xPixel-1)/2.f;
-	cout << right << endl;
+	//cout << right << endl;
 	top = (yPixel-1)/2.f;
-	cout << top << endl;
+	//cout << top << endl;
 	bottom = -(yPixel-1)/2.f;
-	cout << bottom << endl;
+	//cout << bottom << endl;
 
 	xPart = left + xPart * (right-left);
-	cout << xPart << endl;
+	//cout << xPart << endl;
 	yPart = top + yPart * (bottom - top);	
-	cout << yPart << endl;
+	//cout << yPart << endl;
 
 	glm::vec3 direction = glm::normalize(glm::vec3(xPart,yPart,-cameraZ));
 

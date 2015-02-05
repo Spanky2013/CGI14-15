@@ -11,6 +11,6 @@ public:
 	Triangle(glm::vec3 first, glm::vec3 second, glm::vec3 third);
 	~Triangle(void);
 
-	glm::vec3 fir,sec,thi;
+	glm::vec3 fir,sec,thi, midPoint, normal;
 };
 

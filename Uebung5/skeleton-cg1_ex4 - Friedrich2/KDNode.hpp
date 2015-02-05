@@ -27,7 +27,6 @@ private:
 
 	glm::vec3 hitPoint;
 
-	static glm::vec3 get_midPoint_tr(Triangle tri);
 	bool hit_ray_tr(const Ray ray, Triangle triangle, float t, float tmin);
 	glm::vec3 hitPt_ray_tr(Ray ray, Triangle tri) const;
 	glm::vec3 KDNode::hitNr_ray_tr(glm::vec3 dir, Triangle tri) const;

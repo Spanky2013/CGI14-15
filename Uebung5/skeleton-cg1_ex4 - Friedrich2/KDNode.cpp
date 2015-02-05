@@ -44,7 +44,7 @@ KDNode* KDNode::build(std::vector<Triangle> triangles, int depth){
 	int axis = node->bbox.get_longest_axis();
 	
 	for(int i = 0; i < triangles.size(); i++){
-		glm::vec3 currentMidPoint = KDNode::get_midPoint_tr(triangles[i]);
+		glm::vec3 currentMidPoint = triangles[i].midPoint;
 		switch (axis){
 		case 0: // x-Axis	
 			if(midPoint.x >= currentMidPoint.x){
@@ -160,20 +160,6 @@ KDNode* KDNode::build(std::vector<Triangle> triangles, int depth){
 }
 
 
-glm::vec3 KDNode::get_midPoint_tr(Triangle tri){
-	glm::vec3 result,first,second,third;
-
-	first = tri.fir;
-	second = tri.sec;
-	third = tri.thi;
-
-	result.x = (first.x+second.x+third.x)/3;
-	result.y = (first.y+second.y+third.y)/3;
-	result.z = (first.z+second.z+third.z)/3;
-
-	return result;
-}
-
 // time0 ist der Eintrittspunkt in die Box, time1 der Austrittspunkt
 bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, RayTraceHelper& rtHelper){
 	
@@ -209,7 +195,7 @@ bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, Ray
 	}
 }
 
-// Erster Eintrag ist time0(eintritt in die BBox) 
+// Erster Eintrag ist time0 (eintritt in die BBox) 
 // Zweiter Eintrag ist time1 (austritt aus derBBox)
 // Wenn time0 > time 1 dann gibt es keinen Schnittpunkt
 /*glm::vec2 KDNode::get_times(Ray ray){
@@ -261,16 +247,10 @@ glm::vec3 KDNode::hitPt_ray_tr(Ray ray, Triangle triangle) const{
 
 //gibt die Normale des getroffenen Dreiecks zurück
 glm::vec3 KDNode::hitNr_ray_tr(glm::vec3 dir, Triangle triangle) const{
-	glm::vec3 result = glm::normalize(
-				glm::cross(
-					(triangle.sec - triangle.fir),
-					(triangle.thi - triangle.fir)
-				)
-			);
-
+	glm::vec3 result= triangle.normal;
 	//TODO weiß nicht ob das richtig ist...
 	//------------------------------
-	//Normale vielleicht au fder falschen Seite des Dreiecks
+	//Normale vielleicht auf der falschen Seite des Dreiecks
 	
 	//result und dir haben die länge 1!
 	float h = glm::dot(result,dir);
@@ -279,7 +259,6 @@ glm::vec3 KDNode::hitNr_ray_tr(glm::vec3 dir, Triangle triangle) const{
 		result = -1.f*result;
 	}
 	//------------------------------
-
 	
 	return result;
 }
