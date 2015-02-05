@@ -40,6 +40,7 @@ public:
 
   // load image from file
   void load(const std::string& filename);
+  void load(const std::vector<glm::vec4>& data, int width, int height);
 
   // save image in file
   void save(const std::string& filename);

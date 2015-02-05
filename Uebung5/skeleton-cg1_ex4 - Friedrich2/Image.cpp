@@ -223,6 +223,14 @@ void Image::load(const std::string& filename){
   }
 }
 
+void Image::load(const std::vector<glm::vec4>& data, int width, int height) {
+	this->data.clear();
+
+	this->data = data;
+	this->width = width;
+	this->height = height;
+}
+
 void Image::loadPPM(const std::string& filename){
 
   ifstream file(filename.c_str(), ios::binary);

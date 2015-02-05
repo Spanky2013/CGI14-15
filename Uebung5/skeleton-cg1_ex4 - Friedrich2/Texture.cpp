@@ -89,6 +89,7 @@ static GLfloat nearPlane;
 static GLfloat farPlane;
 
 static Image texture;
+static Image rayTexture;
 
 static std::vector<glm::vec3> intPts; 
 
@@ -251,21 +252,18 @@ void Texture::reshape(int width, int height){
 void Texture::display(void){
 
   // setup model matrix
-  //glMatrixMode(GL_MODELVIEW);
-  //glLoadIdentity();
-	
-	//TODO Wenn Raytrace, dann RayTrace anzeigen und nicht den shader
-	
-  glPushAttrib(GL_COLOR_BUFFER_BIT | GL_LIGHTING_BIT | GL_DEPTH_BUFFER_BIT);
-
-  glEnable(GL_DEPTH_TEST);
-  glEnable(GL_LIGHT0);
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
 
   glClearColor(0.5, 0.5, 0.5, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   	if(rayTracer){
-
+		normQuadShader.bind();
+		rayTexture.bind();
+		quad.draw();
+		rayTexture.unbind();
+		normQuadShader.unbind();
 
 	}else{
 		mesh1.draw();
@@ -275,7 +273,7 @@ void Texture::display(void){
 
 
   glutSwapBuffers();
-    glPopAttrib();
+//    glPopAttrib();
 
 }
 
@@ -739,14 +737,14 @@ void World::raytrace(float x, float y){
 
 	cout << "Scrren " << x << " mal " << y << endl;
 
-	std::vector<std::vector<glm::vec4>> image = std::vector<std::vector<glm::vec4>>();
-
+	//std::vector<std::vector<glm::vec4>> image = std::vector<std::vector<glm::vec4>>();
+	std::vector<glm::vec4> image;
 	int blacks = 0;
 	int whites = 0;
 
 	for(int i = 0; i < x; i++){
 		//cout << i;
-		image.push_back(std::vector<glm::vec4>());
+		//image.push_back(std::vector<glm::vec4>());
 		for(int j = 0; j < y; j++){
 			Ray ray = getRay(i,j,x,y);
 			//cout<< "Ray src(" << ray.src.x << "," << ray.src.y << "," << ray.src.z << ") dir(" << ray.dir.x << "," << ray.dir.y << "," << ray.dir.z << ")" << endl; 
@@ -761,12 +759,14 @@ void World::raytrace(float x, float y){
 				// hier mürde es dann mit der Rekusrion irgendwie losgehen
 					
 				//TODO wie kriegen wir jetzt die Farbe?
-				image[i].push_back(material.ambient);
+				//image[i].push_back(material.ambient);
+				image.push_back(glm::vec4(1,0,0,0));
 				whites++;
 				
 			}else{
 				//Hintergrundfarbe Schwarz
-				image[i].push_back(glm::vec4(0,0,0,1));
+				//image[i].push_back(glm::vec4(0,0,0,1));
+				image.push_back(glm::vec4(0,0,0,1));
 				blacks++;
 			}
 
@@ -776,6 +776,8 @@ void World::raytrace(float x, float y){
 
 	cout << "Balck " << blacks << "; White " << whites << endl;
 	//TODO die Farben -vektoren aus Image jetzt zu einer Textur umwandeln!
+	rayTexture.load(image,x,y);
+	rayTexture.generateTexture();
 
 	Context::displayTextureWindow();
 };
