@@ -611,12 +611,12 @@ void World::menu(int value){
   case 8:
 	  mesh.loadOff("meshes/test.off");
 	  kdTree = *KDNode::build(mesh.triangles, 0);
-//<<<<<<< HEAD
-//	  raytrace(5,1);
-//	  drawRect = true;
-//=======
-//	  raytrace(1,5);
-//>>>>>>> origin/master
+<<<<<<< HEAD
+	  raytrace(5,1);
+	  drawRect = true;
+=======
+	  raytrace(1,5);
+>>>>>>> origin/master
 	  break;
   case 9:
 	 Scene::createScene(scene);
