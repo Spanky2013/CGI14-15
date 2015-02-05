@@ -58,6 +58,10 @@ void RenderScene(static GLSLShader shader, glm::mat4 modelMatrix, glm::mat4 proj
 	   mesh.draw();
 	   mesh.computeNormals();
        mesh.computeSphereUVs();
+
+	   for each(Triangle t in mesh.triangles) {
+		   Scene::triangles.push_back(t);
+	   };
 	}
 	shader.unbind();	
 };
