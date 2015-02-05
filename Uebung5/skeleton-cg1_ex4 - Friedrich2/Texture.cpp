@@ -390,8 +390,8 @@ void Texture::menu(int value){
 //			   "    Texture Coordinate Correction on/off  ", "    Texture Mode (WRAP/CLAMP) ", "    Environment mapping on/off", "    Move object/environment", "    SilhouetteRendering"};
 //
 //int World::numOptions= sizeof(World::menuOptions)/sizeof(World::menuOptions[0]);
-int World::menuOptions[]= {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-string World::menuText[]= {"Draw Objects","Draw None", "Raytrace Scene","RENDERING", "    Lighting on/off", "    Texture on/off", "    Coordinate System on/off", "    Origin on/off", "KD-Calc", "Create Scene", "Raytrace"};
+int World::menuOptions[]= {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+string World::menuText[]= {"Draw Objects","Draw None", "KD-Calc", "Raytrace Scene", "RENDERING", "    Lighting on/off", "    Texture on/off", "    Coordinate System on/off", "    Origin on/off", "Create Scene"};
 			      // Texture Coordinate Correction on/off  ", "    Texture Mode (WRAP/CLAMP) ", "    Environment mapping on/off", "    Move object/environment", "    SilhouetteRendering"};
 
 int World::numOptions= sizeof(World::menuOptions)/sizeof(World::menuOptions[0]);
@@ -584,7 +584,8 @@ Context::displayWorldWindow();
 // menu callback
 // XXX: NEEDS TO BE IMPLEMENTED
 void World::menu(int value){
-   
+  double tstart;
+  std::vector<Triangle> sum;
   switch(value){
   case 24:
     reset();
@@ -608,24 +609,27 @@ void World::menu(int value){
     mesh2.computeSphereUVs();
     drawRect= true;
     break;
-  case 3:
-  case 8:
-	  mesh.loadOff("meshes/bunny.off");
-	  cout << "start KD " << endl;
-	  kdTree = *KDNode::build(mesh.triangles, 0);
-	  cout << "end KD " << endl;
+  case 2: 
+	 //mesh.loadOff("meshes/bunny.off");	
+	 tstart = clock();
+	 sum = std::vector<Triangle>(mesh.triangles);
+	 sum.insert(sum.end(), mesh1.triangles.begin(), mesh1.triangles.end());	  
+	  sum.insert(sum.end(), mesh2.triangles.begin(), mesh2.triangles.end());
+	  kdTree = *KDNode::build(sum, 0);
+	  cout << "end KD after " << ((clock() - tstart)/CLOCKS_PER_SEC) << endl;;
 	  break;
-  case 9:
-	 Scene::createScene(scene);
-	  break;
-  case 10:
-	  double time0, tstart;
-	  time0 = 0.0;
+  case 3: 
 	  tstart = clock();
-	  raytrace(100,100);
-	  cout << ((clock() - tstart)/CLOCKS_PER_SEC);
+	  raytrace(screen.x,screen.y);
+	  cout << "end raytrace after " << ((clock() - tstart)/CLOCKS_PER_SEC) << endl;
 	  drawRect = true;
 	  break;
+  case 8:
+	  
+  case 9:
+	 Scene::createScene(scene);
+	 break;
+  case 10:
   case 11:
   case 12:
   case 13:
@@ -718,7 +722,7 @@ void World::raytrace(int x, int y){
 	int blacks,whites;
 
 	for(int i = 0; i < x; i++){
-		cout << i;
+		//cout << i;
 		image.push_back(std::vector<glm::vec4>());
 		for(int j = 0; j < y; j++){
 			Ray ray = getRay(i,j,x,y);
@@ -756,7 +760,10 @@ void World::raytrace(int x, int y){
 // xPixel is the amount of Pixels in one row of the image you wanna RayTrace (normaly x of the screen-onject))
 // yPixel is the Amount of Pixels in one column of the image you wanna RayTrace (normaly y of the screen-onject))
 Ray World::getRay(int x, int y, float xPixel, float yPixel){
-	glm::vec3 origin = glm::vec3(0,0,cameraZ);
+
+	glm::vec3 origin = glm::vec3(0,0,0);
+
+	
 
 	//cout << origin.x << "," << origin.y << "," << origin.z << endl;
 
@@ -793,7 +800,21 @@ Ray World::getRay(int x, int y, float xPixel, float yPixel){
 	yPart = top + yPart * (bottom - top);	
 	//cout << yPart << endl;
 
-	glm::vec3 direction = glm::normalize(glm::vec3(xPart,yPart,-cameraZ));
+	glm::vec3 direction = glm::normalize(glm::vec3(xPart,yPart,cameraZ));
 
-	return Ray(origin,direction);
+	glm::vec4 helper =  glm::inverse(cameraMatrix) * glm::vec4(origin, 1.f);
+	origin.x = helper.x;
+	origin.y = helper.y;
+	origin.z = helper.z;
+	helper = glm::inverse(cameraMatrix) * glm::vec4(direction, 0.f);
+	direction.x = helper.x;
+	direction.y = helper.y;
+	direction.z = helper.z;
+
+	if(x==0 && y == 0)
+		cout << "origin " << origin.x << "," << origin.y << ","<< origin.z << endl;
+	if(x==0 && y == 0)
+		cout << "direction " << direction.x << "," << direction.y << ","<< direction.z << endl;
+
+	return Ray(origin,glm::normalize(direction));
 }

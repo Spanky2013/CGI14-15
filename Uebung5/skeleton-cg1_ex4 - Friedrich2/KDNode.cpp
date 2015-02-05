@@ -146,14 +146,14 @@ KDNode* KDNode::build(std::vector<Triangle> triangles, int depth){
 	// Haben die Dreiecke in beide Hälften aufgeteilt.
 	// Jetzt kommt noch die Rekursion
 
-	if(node->triangles.size() != leftTris.size() && leftTris.size() > 4)
+	if(node->triangles.size() != leftTris.size() && leftTris.size() > 50)
 		node->left = build(leftTris,depth+1);
 	else{
 		node->left = new KDNode();
 		node->left->triangles = std::vector<Triangle>();
 	}
 
-	if(node->triangles.size() != rightTris.size() && rightTris.size() > 4)
+	if(node->triangles.size() != rightTris.size() && rightTris.size() > 50)
 		node->right = build(rightTris,depth+1);
 	else{
 		
