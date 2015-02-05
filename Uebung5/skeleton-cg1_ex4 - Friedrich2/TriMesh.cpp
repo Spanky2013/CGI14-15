@@ -165,22 +165,22 @@ void TriMesh::loadOff(const string& fileName){
 				faces.push_back(glm::uvec3(inZ,inY,inX));
 				triangles.push_back(Triangle(positions[inX],positions[inY],positions[inZ]));
 			}	
-			if(i == 0){
+			/*if(i == 0){
 				cout<<"Test"<<endl;
 				cout <<"Faces "<< inX <<" "<< inY <<" " << inZ <<" " <<endl<<faces.size()<<endl;
 				cout <<"Triangle "<< inX << " " << positions[inX].x << " " << positions[inX].y << " " << positions[inX].z<<endl;
-			}
+			}*/
 			
 		}	
 	}
 	fR.close();
 	cout << "loadOff done: |V| "<<nodeCount<<" |F| "<<polyCount<<endl;
 	cout << "Positions: "<< positions.size()<<" Faces "<<faces.size()<< " Triangles "<< triangles.size() << endl;
-	for(int i = 0; i < triangles.size(); i++){
+	/*for(int i = 0; i < triangles.size(); i++){
 		cout << "Triangle " << i << ": (" << triangles[i].fir.x << "," << triangles[i].fir.y << "," << triangles[i].fir.z << "); (" 
 			<< triangles[i].sec.x << "," << triangles[i].sec.y << "," << triangles[i].sec.z << "); ("
 			<< triangles[i].thi.x << "," << triangles[i].thi.y << "," << triangles[i].thi.z << ")"  << endl;
-	}
+	}*/
 	
 }
 

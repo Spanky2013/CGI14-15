@@ -19,6 +19,7 @@
 #include <GL/freeglut.h>
 #endif
 
+#include <time.h>
 #include <string>
 #include <iostream>
 
@@ -609,14 +610,20 @@ void World::menu(int value){
     break;
   case 3:
   case 8:
-	  mesh.loadOff("meshes/test.off");
+	  mesh.loadOff("meshes/bunny.off");
+	  cout << "start KD " << endl;
 	  kdTree = *KDNode::build(mesh.triangles, 0);
+	  cout << "end KD " << endl;
 	  break;
   case 9:
 	 Scene::createScene(scene);
 	  break;
   case 10:
-	  raytrace(screen.x,screen.y);
+	  double time0, tstart;
+	  time0 = 0.0;
+	  tstart = clock();
+	  raytrace(100,100);
+	  cout << ((clock() - tstart)/CLOCKS_PER_SEC);
 	  drawRect = true;
 	  break;
   case 11:
@@ -711,6 +718,7 @@ void World::raytrace(int x, int y){
 	int blacks,whites;
 
 	for(int i = 0; i < x; i++){
+		cout << i;
 		image.push_back(std::vector<glm::vec4>());
 		for(int j = 0; j < y; j++){
 			Ray ray = getRay(i,j,x,y);
@@ -729,7 +737,7 @@ void World::raytrace(int x, int y){
 				whites++;
 				
 			}else{
-				//Hintergrundfarbe
+				//Hintergrundfarbe Schwarz
 				image[i].push_back(glm::vec4(0,0,0,1));
 				blacks++;
 			}

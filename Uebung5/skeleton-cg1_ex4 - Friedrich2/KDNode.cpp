@@ -35,10 +35,16 @@ KDNode* KDNode::build(std::vector<Triangle> triangles, int depth){
 		return node;
 	}
 
+	//Schlechter midPoint Mitte der BBox
 	glm::vec3 midPoint = node->bbox.midPoint;
 
+	//besserer midPoint
+	midPoint = glm::vec3(0,0,0);
+	for(int i = 0; i < triangles.size();i++){
+		midPoint = midPoint + ((1.f/triangles.size()) * triangles[i].midPoint);
+	}
+	
 	//Jetzt aufteilen
-
 	std::vector<Triangle> leftTris;
 	std::vector<Triangle> rightTris;
 	int axis = node->bbox.get_longest_axis();
@@ -140,14 +146,14 @@ KDNode* KDNode::build(std::vector<Triangle> triangles, int depth){
 	// Haben die Dreiecke in beide Hälften aufgeteilt.
 	// Jetzt kommt noch die Rekursion
 
-	if(node->triangles.size() != leftTris.size())
+	if(node->triangles.size() != leftTris.size() && leftTris.size() > 4)
 		node->left = build(leftTris,depth+1);
 	else{
 		node->left = new KDNode();
 		node->left->triangles = std::vector<Triangle>();
 	}
 
-	if(node->triangles.size() != rightTris.size())
+	if(node->triangles.size() != rightTris.size() && rightTris.size() > 4)
 		node->right = build(rightTris,depth+1);
 	else{
 		
