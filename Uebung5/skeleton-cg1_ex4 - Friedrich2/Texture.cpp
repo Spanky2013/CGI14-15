@@ -67,6 +67,7 @@ static bool moveEnvironment= false;
 static bool drawMesh= true;
 static bool drawRect= false;
 static bool silhouette = false;
+static bool rayTracer = false;
 
 static GLuint modulation= GL_MODULATE;
 static GLuint wrap= GL_CLAMP_TO_BORDER;
@@ -252,6 +253,11 @@ void Texture::display(void){
   // setup model matrix
   //glMatrixMode(GL_MODELVIEW);
   //glLoadIdentity();
+	
+	//TODO Wenn Raytrace, dann RayTrace anzeigen und nicht den shader
+	if(rayTracer){
+	}else{
+	}
 	
   glPushAttrib(GL_COLOR_BUFFER_BIT | GL_LIGHTING_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -498,7 +504,7 @@ void World::display(void){
 // draw the geometry
 
 	mat4 modelMatrix= translate(mat4(1), vec3(shift.x, shift.y, shift.z));
-	modelMatrix*= rotation;
+	modelMatrix *= rotation;
 	//modelMatrix= scale(modelMatrix, vec3(scaling));  
 
 	mat4 projectionMatrix;
@@ -628,9 +634,10 @@ void World::menu(int value){
 	  cout << "end KD after " << ((clock() - tstart)/CLOCKS_PER_SEC) << endl;;
 	  break;
   case 3: 
+	  rayTrace = true;
 	  tstart = clock();
 	  raytrace(screen.x,screen.y);
-	  cout << "end raytrace after " << ((clock() - tstart)/CLOCKS_PER_SEC) << endl;
+	  cout << "end raytrace after " << ((clock() - tstart)/CLOCKS_PER_SEC) << endl;	  
 	  drawRect = true;
 	  break;
   case 8:

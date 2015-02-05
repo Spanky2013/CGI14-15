@@ -11,33 +11,32 @@
 using namespace glm;
 using namespace std;
 
-static std::vector<Scene::SceneObject> sceneObjects;
-
-Scene::Scene(){};
+Scene::Scene(){
+	std::vector<TriMesh> sceneObjects = std::vector<TriMesh>();
+	triangles = std::vector<Triangle>();
+};
 
 void Scene::createScene(Scene scene){
 	scene.AddObject("meshes/bialetti.off",0);
 	scene.AddObject("meshes/bialetti.off",0);
-	scene.AddObject("meshes/quad.off",0);	
+	scene.AddObject("meshes/quad.off",0);		
 };
 
 void Scene::AddObject(std::string modelName, float off){
 	TriMesh mesh;
 	mesh.loadOff(modelName,off);
 
-	SceneObject o;
-	o.mesh = mesh;
+	mesh;
 
-	sceneObjects.push_back(o);
-
+	sceneObjects.push_back(mesh);
 };
-void RenderScene(static GLSLShader shader, glm::mat4 modelMatrix, glm::mat4 projectionMatrix,static glm::mat4 cameraMatrix, LightSource lightSource,
+
+void Scene::RenderScene(static GLSLShader shader, glm::mat4 modelMatrix, glm::mat4 projectionMatrix, static glm::mat4 cameraMatrix, LightSource lightSource,
 				 Material material){
+
 	shader.bind();
 
-	for each(Scene::SceneObject o in sceneObjects) {
-		TriMesh mesh;
-		mesh = o.mesh;
+	for each(TriMesh mesh in sceneObjects) {		
 		// TODO: Apply the model matrix for each mode to the model view matrix
 	  shader.setUniform("modelView", cameraMatrix * modelMatrix);
       shader.setUniform("normalMatrix", glm::transpose(glm::inverse(cameraMatrix*modelMatrix)));
@@ -60,7 +59,7 @@ void RenderScene(static GLSLShader shader, glm::mat4 modelMatrix, glm::mat4 proj
        mesh.computeSphereUVs();
 
 	   for each(Triangle t in mesh.triangles) {
-		   Scene::triangles.push_back(t);
+		   triangles.push_back(t);
 	   };
 	}
 	shader.unbind();	

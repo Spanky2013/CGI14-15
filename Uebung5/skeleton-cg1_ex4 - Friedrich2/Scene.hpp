@@ -18,17 +18,19 @@ using namespace glm;
 
 class Scene {
 	 	public:
-		struct SceneObject {
-			TriMesh mesh;
-		};
+		
+		TriMesh mesh;
+		
 	
 		Scene(void);
 
 		static void Scene::createScene(Scene scene);
 		void Scene::AddObject(std::string modelName, float off);
-		static void Scene::RenderScene(static GLSLShader shader, glm::mat4 modelMatrix, glm::mat4 projectionMatrix, static glm::mat4 cameraMatrix, 
+
+		void RenderScene(static GLSLShader shader, glm::mat4 modelMatrix, glm::mat4 projectionMatrix, static glm::mat4 cameraMatrix, 
 			LightSource lightSource, Material material);
 
-		static std::vector<Triangle> triangles;
+		std::vector<Triangle> triangles;
+		std::vector<TriMesh> sceneObjects;
 
 };
