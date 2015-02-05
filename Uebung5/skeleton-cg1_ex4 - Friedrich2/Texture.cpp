@@ -402,6 +402,7 @@ bool showPoints = false;
 vec2 World::previousMouse;
 LightSource World::lightSource;
 Material World::material;
+static Scene scene;
 void World::reshape(int width, int height){
 
     // setup projection matrix
@@ -493,9 +494,8 @@ void World::display(void){
 	mat4 projectionMatrix;
 	glGetFloatv(GL_PROJECTION_MATRIX, &projectionMatrix[0][0]);
 
-	if(drawRect && drawMesh){ // draw a textured quad
-
-// pass matrices and flags to shader
+	if(drawMesh){ // draw a textured quad
+	//Scene::RenderScene(texturingShader,modelMatrix, projectionMatrix, cameraMatrix, lightSource,material);// pass matrices and flags to shader
     // XXX
 
      //INSERT YOUR CODE HERE     
@@ -612,8 +612,11 @@ void World::menu(int value){
 	  mesh.loadOff("meshes/test.off");
 	  kdTree = *KDNode::build(mesh.triangles, 0);
 	  raytrace(5,1);
+	  drawRect = true;
 	  break;
   case 9:
+	 Scene::createScene(scene);
+
   case 10:
   case 11:
   case 12:

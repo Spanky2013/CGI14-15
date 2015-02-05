@@ -12,6 +12,7 @@
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="RayTraceHelper.cpp" />
+    <ClCompile Include="Scene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Context.hpp" />
@@ -25,5 +26,6 @@
     <ClInclude Include="Ray.hpp" />
     <ClInclude Include="Triangle.hpp" />
     <ClInclude Include="RayTraceHelper.hpp" />
+    <ClInclude Include="Scene.hpp" />
   </ItemGroup>
 </Project>

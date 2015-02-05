@@ -15,6 +15,7 @@
 #include "glm/glm.hpp"
 #include "light_material.h"
 #include "KDNode.hpp"
+#include "Scene.hpp"
 
 struct LightSource;
 struct Material;
