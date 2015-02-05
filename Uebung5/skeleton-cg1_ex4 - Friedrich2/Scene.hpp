@@ -21,14 +21,13 @@ class Scene {
 		struct SceneObject {
 			TriMesh mesh;
 		};
-	
 		Scene(void);
+		static std::vector<Triangle> trianglesAll;
 
 		static void Scene::createScene(Scene scene);
 		void Scene::AddObject(std::string modelName, float off);
-		static void Scene::RenderScene(static GLSLShader shader, glm::mat4 modelMatrix, glm::mat4 projectionMatrix, static glm::mat4 cameraMatrix, 
+		static void Scene::RenderScene( GLSLShader shader, glm::mat4 modelMatrix, glm::mat4 projectionMatrix,  glm::mat4 cameraMatrix, 
 			LightSource lightSource, Material material);
 
-		static std::vector<Triangle> triangles;
 
 };

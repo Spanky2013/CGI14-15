@@ -31,7 +31,7 @@ void Scene::AddObject(std::string modelName, float off){
 	sceneObjects.push_back(o);
 
 };
-void RenderScene(static GLSLShader shader, glm::mat4 modelMatrix, glm::mat4 projectionMatrix,static glm::mat4 cameraMatrix, LightSource lightSource,
+void RenderScene(GLSLShader shader, glm::mat4 modelMatrix, glm::mat4 projectionMatrix,glm::mat4 cameraMatrix, LightSource lightSource,
 				 Material material){
 	shader.bind();
 
@@ -60,7 +60,7 @@ void RenderScene(static GLSLShader shader, glm::mat4 modelMatrix, glm::mat4 proj
        mesh.computeSphereUVs();
 
 	   for each(Triangle t in mesh.triangles) {
-		   Scene::triangles.push_back(t);
+		 Scene::trianglesAll.push_back(t);
 	   };
 	}
 	shader.unbind();	
