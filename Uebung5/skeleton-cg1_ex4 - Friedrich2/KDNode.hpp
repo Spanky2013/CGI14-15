@@ -20,7 +20,7 @@ public:
 	~KDNode();
 	
 	static KDNode* build(std::vector<Triangle> triangles, int depth);
-	glm::vec2 KDNode::get_times(Ray ray);
+	/*glm::vec2 KDNode::get_times(Ray ray);*/
 	bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float t, float tmin, RayTraceHelper& rtHelper);
 
 private:

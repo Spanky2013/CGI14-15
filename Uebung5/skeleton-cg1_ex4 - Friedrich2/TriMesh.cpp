@@ -342,9 +342,10 @@ void TriMesh::kdTest(){
 	origin = glm::vec3(-0.35,-0.35,10);
 	direction = glm::vec3(0,0,-1);
 	Ray ray = Ray(origin, direction);
-	glm::vec2 times = node.get_times(ray);
+	float time0 = 0;
+	float time1 = std::numeric_limits<float>::max();
 	RayTraceHelper rth = RayTraceHelper();
-	if(node.hit_a_tr(&node, ray, times.y, times.x, rth)){
+	if(node.hit_a_tr(&node, ray, time1, time0, rth)){
 		glm::vec3 pt = rth.intersectionPoint;
 		glm::vec3 n = rth.normalAtIntSec;
 		cout << "Intersection at " << pt.x << " " << pt.y << " " << pt.z << endl;
