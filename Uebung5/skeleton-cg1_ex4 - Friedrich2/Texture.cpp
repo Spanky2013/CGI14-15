@@ -262,8 +262,8 @@ void Texture::display(void){
 		normQuadShader.bind();
 		rayTexture.bind();
 		quad.draw();
-		rayTexture.unbind();
 		normQuadShader.unbind();
+		rayTexture.unbind();
 
 	}else{
 		mesh1.draw();
