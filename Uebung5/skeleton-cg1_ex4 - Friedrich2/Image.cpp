@@ -223,7 +223,7 @@ void Image::load(const std::string& filename){
   }
 }
 
-void Image::load(const std::vector<glm::vec4>& data, int width, int height) {
+void Image::loadRT(const std::vector<glm::vec4>& data, int width, int height) {
 	this->data.clear();
 
 	this->data = data;

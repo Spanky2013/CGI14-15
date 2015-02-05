@@ -642,6 +642,7 @@ void World::menu(int value){
   case 3: 
 	  rayTracer = true;
 	  tstart = clock();
+	  raytrace(10,10);
 	  raytrace(screen.x,screen.y);
 	  cout << "end raytrace after " << ((clock() - tstart)/CLOCKS_PER_SEC) << endl;	  
 	  drawRect = true;
@@ -740,22 +741,22 @@ void World::raytrace(float x, float y){
 	cout << "Scrren " << x << " mal " << y << endl;
 
 	//std::vector<std::vector<glm::vec4>> image = std::vector<std::vector<glm::vec4>>();
-	std::vector<glm::vec4> image;
+	std::vector<glm::vec4> image = std::vector<glm::vec4>();
 	int blacks = 0;
 	int whites = 0;
 
-	for(int i = 0; i < x; i++){
+	for(int i = 0; i < y; i++){
 		//cout << i;
 		//image.push_back(std::vector<glm::vec4>());
-		for(int j = 0; j < y; j++){
-			Ray ray = getRay(i,j,x,y);
-			if(i==j)
-			cout<< "Ray src(" << ray.src.x << "," << ray.src.y << "," << ray.src.z << ") dir(" << ray.dir.x << "," << ray.dir.y << "," << ray.dir.z << ")" << endl; 
-			RayTraceHelper rth;
-
+		for(int j = 0; j < x; j++){
+			Ray ray = getRay(j,i,x,y);
+			//if(i==j)
+			//cout<< "Ray src(" << ray.src.x << "," << ray.src.y << "," << ray.src.z << ") dir(" << ray.dir.x << "," << ray.dir.y << "," << ray.dir.z << ")" << endl; 		
+						
+			RayTraceHelper rth = RayTraceHelper();
 			float time0 = 0;
 			float time1 = std::numeric_limits<float>::max();
-			
+
 			if(kdTree.hit_a_tr(&kdTree, ray, time1, time0, rth)){
 				intPts.push_back(rth.intersectionPoint);
 				//Wir treffen ein Triangle in der BBox, rth ist jetzt aktualisiert und hat den genauen Punkt und die Normale
@@ -763,7 +764,7 @@ void World::raytrace(float x, float y){
 					
 				//TODO wie kriegen wir jetzt die Farbe?
 				//image[i].push_back(material.ambient);
-				image.push_back(glm::vec4(1,0,0,0));
+				image.push_back(glm::vec4(1,0,0,1));
 				whites++;
 				
 			}else{
@@ -778,8 +779,8 @@ void World::raytrace(float x, float y){
 	}
 
 	cout << "Balck " << blacks << "; White " << whites << endl;
-	//TODO die Farben -vektoren aus Image jetzt zu einer Textur umwandeln!
-	rayTexture.load(image,x,y);
+	//TODO die Farben -vektoren aus Image jetzt zu einer Textur umwandeln!	
+	rayTexture.loadRT(image,x,y);
 	rayTexture.generateTexture();
 
 	Context::displayTextureWindow();
@@ -842,11 +843,11 @@ Ray World::getRay(int x, int y, float xPixel, float yPixel){
 
 	glm::vec3 direction = glm::normalize(glm::vec3(xPart,yPart,-1.f));
 
-	glm::vec4 helper =  glm::inverse(cameraMatrix) * glm::vec4(origin, 1.f);
+	glm::vec4 helper =  glm::inverse(modelView) * glm::vec4(origin, 1.f);
 	origin.x = helper.x;
 	origin.y = helper.y;
 	origin.z = helper.z;
-	helper = glm::inverse(cameraMatrix) * glm::vec4(direction, 0.f);
+	helper = glm::inverse(modelView) * glm::vec4(direction, 0.f);
 	direction.x = helper.x;
 	direction.y = helper.y;
 	direction.z = helper.z;
