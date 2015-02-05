@@ -89,6 +89,8 @@ static GLfloat farPlane;
 
 static Image texture;
 
+static std::vector<glm::vec3> intPts; 
+
 static vec3 cursor= vec3(1,1,1);
 
 static GLSLShader quadShader;
@@ -477,6 +479,13 @@ void World::display(void){
 
   if(showPoints) {
 	  //TODO render IntersectionPoints
+	  for(int i = 0; i < intPts.size();i++){
+		glColor3f(1.0,0.0,5.0);
+		glPushMatrix();
+   
+		glutSolidSphere(0.05f, 10, 10);
+	    glPopMatrix();
+	  }
   }
 
   glScalef(scaling, scaling, scaling);
@@ -733,6 +742,7 @@ void World::raytrace(int x, int y){
 			float time1 = std::numeric_limits<float>::max();
 			
 			if(kdTree.hit_a_tr(&kdTree, ray, time1, time0, rth)){
+				intPts.push_back(rth.intersectionPoint);
 				//Wir treffen ein Triangle in der BBox, rth ist jetzt aktualisiert und hat den genauen Punkt und die Normale
 				// hier mürde es dann mit der Rekusrion irgendwie losgehen
 					
