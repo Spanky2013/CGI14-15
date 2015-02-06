@@ -412,6 +412,7 @@ bool showPoints = false;
 
 vec2 World::previousMouse;
 LightSource World::lightSource;
+std::vector<LightSource> World::lightSources;
 Material World::material;
 static Scene scene;
 void World::reshape(int width, int height){
@@ -642,8 +643,8 @@ void World::menu(int value){
   case 3: 
 	  rayTracer = true;
 	  tstart = clock();
-	  //raytrace(50,50,2);
-	  raytrace(screen.x,screen.y,1);
+	  raytrace(50,50,1);
+	  //raytrace(screen.x,screen.y,1);
 	  cout << "end raytrace1 after " << ((clock() - tstart)/CLOCKS_PER_SEC) << endl;	  
 	  drawRect = true;
 	  break;
@@ -741,10 +742,25 @@ void World::menu(int value){
 }
 
 void World::setLight(){
-  lightSource.position= vec4(1.f,0.f,0.f,1.f);
+
+  lightSource.position= vec4(1.f,1.f,1.f,1.f);
   lightSource.ambient= vec4(0.1f,0.1f,0.1f,1.f);
   lightSource.diffuse= vec4(1.f,1.f,1.f,1.f);
   //lightSource.specular= vec4(1,1,1,1);
+  lightSources.push_back(lightSource);
+
+   lightSource.position= vec4(-1.f,0.2f,1.f,1.f);
+  lightSource.ambient= vec4(0.1f,0.1f,0.1f,1.f);
+  lightSource.diffuse= vec4(0.5f,1.f,0.f,1.f);
+  //lightSource.specular= vec4(1,1,1,1);
+  lightSources.push_back(lightSource);
+
+  lightSource.position= vec4(1.f,0.2f,-1.f,1.f);
+  lightSource.ambient= vec4(0.1f,0.1f,0.1f,1.f);
+  lightSource.diffuse= vec4(1.f,0.f,0.5f,1.f);
+  //lightSource.specular= vec4(1,1,1,1);
+  lightSources.push_back(lightSource);
+
 }
 
 // material
@@ -782,22 +798,39 @@ void World::raytrace(float x, float y, float subsampler){
 			if(intersectTriangle(kdTree.triangles, rays[i], rth)){
 			//if(kdTree.hit_a_tr(&kdTree, rays[i], time1, time0, rth)){
 				intPts.push_back(rth.intersectionPoint);
-				glColor3f(1.0,1.0,1.0);	
+				
+				/*glColor3f(1.0,1.0,1.0);	
 				glPointSize(1);
 				glBegin(GL_POINTS);  
 				glVertex3f(rth.intersectionPoint.x, rth.intersectionPoint.y, rth.intersectionPoint.z);
-			    glEnd();			   
+			    glEnd();*/			   
 				//Wir treffen ein Triangle in der BBox, rth ist jetzt aktualisiert und hat den genauen Punkt und die Normale
 				// hier mürde es dann mit der Rekusrion irgendwie losgehen
+
+				//Aufgabe 4
+				for(int j = 0; j < lightSources.size();j++){
+					glm::vec4 helper = lightSources[j].ambient*material.ambient;
+					//Lambert
+					glm::vec4 lightV = lightSources[j].position - glm::vec4(rth.intersectionPoint, 1.f);
+					//cout << lightV.x << "," << lightV.y << "," << lightV.z << endl;
+					float cos = glm::dot(glm::vec4(rth.normalAtIntSec, 0.f), glm::normalize(lightV));
+					cos = glm::max(cos,0.f);
+					//cout << "cos " << cos;
+					//Lamber Ende
+					helper += material.diffuse*lightSources[j].diffuse*cos;
+					//cout << lightV.x << "," << lightV.y << "," << lightV.z << endl;
+					color += helper;		
+				}
+				
+				color = 1/(subQ*lightSources.size())*color;
+						
 					
 				//TODO wie kriegen wir jetzt die Farbe?
-				//image[i].push_back(material.ambient);
-				color += (1/subQ) * glm::vec4(1,0,0,1);
+				//image[i].push_back(material.ambient);				
 				whites++;
 				
 			}else{
-				//Hintergrundfarbe Schwarz
-				//image[i].push_back(glm::vec4(0,0,0,1));
+				//Hintergrundfarbe Schwarz				
 				color += (1/subQ) * glm::vec4(0,0,0,1);
 				blacks++;
 			}			
@@ -822,9 +855,10 @@ void World::raytrace(float x, float y, float subsampler){
 	Context::displayTextureWindow();
 };
 
-bool World::intersectTriangle(std::vector<Triangle> triangles, Ray ray, RayTraceHelper rth){
+bool World::intersectTriangle(std::vector<Triangle> triangles, Ray ray, RayTraceHelper& rth){
 	bool res = false;
 	std::vector<glm::vec3> hitpoints;
+	std::vector<glm::vec3> normals;
 	for(int i = 0; i < triangles.size();i++){
 		glm::vec3 first,second,third, s, e1, e2, p, q;
 		first = triangles[i].fir;
@@ -848,7 +882,7 @@ bool World::intersectTriangle(std::vector<Triangle> triangles, Ray ray, RayTrace
 			hitPoint.z = (1-u-v)*first.z + u*second.z + v*third.z;
 
 			hitpoints.push_back(hitPoint);
-
+			normals.push_back(triangles[i].normal);
 			res = true;
 		}
 	}
@@ -865,6 +899,7 @@ bool World::intersectTriangle(std::vector<Triangle> triangles, Ray ray, RayTrace
 		}
 
 		rth.intersectionPoint = hitpoints[index];
+		rth.normalAtIntSec = normals[index];
 		
 	}
 	

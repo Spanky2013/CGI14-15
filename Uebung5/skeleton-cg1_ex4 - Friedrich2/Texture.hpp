@@ -49,6 +49,7 @@ namespace World{
   extern int numOptions;
   extern glm::vec2 previousMouse; // previous mouse position
   extern LightSource lightSource;
+  extern std::vector<LightSource> lightSources; 
   extern Material material;
 
   static KDNode kdTree;
@@ -65,6 +66,6 @@ namespace World{
 
   void raytrace(const float x,const float y, const float subsampler);
   std::vector<Ray> createPrimaryRays(float x, float y, float subsampling);
-  bool intersectTriangle(std::vector<Triangle> triangles, Ray rays, RayTraceHelper rth);
+  bool intersectTriangle(std::vector<Triangle> triangles, Ray rays, RayTraceHelper& rth);
   Ray getRay(int x, int y, float xPixel, float yPixel);
 };	

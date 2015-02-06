@@ -272,6 +272,11 @@ void TriMesh::computeNormals(void){
 		normal /= numFaces;
 		normals.push_back(glm::normalize(normal));
 	}
+
+	for(int i = 0;i< faces.size();i++){
+		triangles[i].adNormals(normals[faces[i].x],normals[faces[i].y],normals[faces[i].z]);		
+	}
+
 }
 
   // Compute uv coordinates with a spherical mapping
