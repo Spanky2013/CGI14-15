@@ -44,6 +44,7 @@ using namespace std;
 static TriMesh mesh;
 static TriMesh mesh2;
 static TriMesh mesh1;
+static int rekDepth = 0;
 
 // full screen quad
 static TriMesh quad("data/quad.off"); // do not center and unitize
@@ -67,7 +68,7 @@ static bool moveEnvironment= false;
 static bool drawMesh= true;
 static bool drawRect= false;
 static bool silhouette = false;
-static bool rayTracer = false;
+static bool rayTraceMode = false;
 
 static GLuint modulation= GL_MODULATE;
 static GLuint wrap= GL_CLAMP_TO_BORDER;
@@ -259,7 +260,7 @@ void Texture::display(void){
   glClearColor(0.5, 0.5, 0.5, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  	if(rayTracer){
+  	if(rayTraceMode){
 		normQuadShader.bind();
 		rayTexture.bind();
 		quad.draw();
@@ -400,8 +401,10 @@ void Texture::menu(int value){
 //			   "    Texture Coordinate Correction on/off  ", "    Texture Mode (WRAP/CLAMP) ", "    Environment mapping on/off", "    Move object/environment", "    SilhouetteRendering"};
 //
 //int World::numOptions= sizeof(World::menuOptions)/sizeof(World::menuOptions[0]);
-int World::menuOptions[]= {0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12};
-string World::menuText[]= {"Draw Objects","Draw None", "KD-Calc", "Raytrace, 1Ray/Pixel", "Raytrace, 4Ray/Pixel","Raytrace, 9Ray/Pixel","Raytrace, 16Ray/Pixel","    Lighting on/off", "    Texture on/off", "    Coordinate System on/off", "    Origin on/off","Points on/off", "Create Scene"};
+int World::menuOptions[]= {0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17};
+string World::menuText[]= {"Draw Objects","Draw None", "KD-Calc", "Raytrace, 1Ray/Pixel", "Raytrace, 4Ray/Pixel","Raytrace, 9Ray/Pixel","Raytrace, 16Ray/Pixel", 
+	"Voreinstellungen:", "    rekursion 0", "    rekursion 1", "    rekursion 2", "    rekursion 3", 
+	"    Lighting on/off", "    Texture on/off", "    Coordinate System on/off", "    Origin on/off","Points on/off", "Create Scene"};
 			      // Texture Coordinate Correction on/off  ", "    Texture Mode (WRAP/CLAMP) ", "    Environment mapping on/off", "    Move object/environment", "    SilhouetteRendering"};
 
 int World::numOptions= sizeof(World::menuOptions)/sizeof(World::menuOptions[0]);
@@ -641,7 +644,7 @@ void World::menu(int value){
 	  cout << "end KD after " << ((clock() - tstart)/CLOCKS_PER_SEC) << endl;;
 	  break;
   case 3: 
-	  rayTracer = true;
+	  rayTraceMode = true;
 	  tstart = clock();
 	  raytrace(50,50,1);
 	  //raytrace(screen.x,screen.y,1);
@@ -649,7 +652,7 @@ void World::menu(int value){
 	  drawRect = true;
 	  break;
 	case 4: 
-	  rayTracer = true;
+	  rayTraceMode = true;
 	  tstart = clock();
 	  //raytrace(50,50,2);
 	  raytrace(screen.x,screen.y,2);
@@ -657,7 +660,7 @@ void World::menu(int value){
 	  drawRect = true;
 	  break;
 	case 5: 
-	  rayTracer = true;
+	  rayTraceMode = true;
 	  tstart = clock();
 	  //raytrace(10,10,3);
 	  raytrace(screen.x,screen.y,3);
@@ -665,32 +668,44 @@ void World::menu(int value){
 	  drawRect = true;
 	  break;
 	case 6: 
-	  rayTracer = true;
+	  rayTraceMode = true;
 	  tstart = clock();
 	  //raytrace(10,10,4);
 	  raytrace(screen.x,screen.y,4);
 	  cout << "end raytrace4 after " << ((clock() - tstart)/CLOCKS_PER_SEC) << endl;	  
 	  drawRect = true;
 	  break;
-  case 7:
+	case 8:
+		rekDepth = 0;
+		break;
+	case 9:
+		rekDepth = 1;
+		break;
+	case 10:
+		rekDepth = 2;
+		break;
+	case 11:
+		rekDepth = 3;
+		break;		
+  case 12:
     lighting= !lighting;
     break;
-  case 8:
+  case 13:
     showTexture= !showTexture;
     break;
-  case 9:
+  case 14:
     showCoordinates= !showCoordinates;
     break;
-  case 10:
+  case 15:
     showOrigin= !showOrigin;
     break;
-  case 11:
+  case 16:
 	showPoints= !showPoints;
     break;
-  case 12:
+  case 17:
 	 Scene::createScene(scene);
 	 break;
-  case 13:
+  case 18:
     mesh.correctTexture(textureCorrection);
       if(models[value] == "data/bunny2.off" || models[value] == "data/cow.off" || models[value] == "data/cone.off"){ mesh.setWinding(TriMesh::CCW); }
     else mesh.setWinding(TriMesh::CW);
@@ -782,8 +797,7 @@ void World::raytrace(float x, float y, float subsampler){
 
 	//std::vector<std::vector<glm::vec4>> image = std::vector<std::vector<glm::vec4>>();
 	std::vector<glm::vec4> image = std::vector<glm::vec4>();
-	int blacks = 0;
-	int whites = 0;
+	
 
 	std::vector<Ray> rays = createPrimaryRays(x,y,subsampler);
 
@@ -795,57 +809,8 @@ void World::raytrace(float x, float y, float subsampler){
 			float time0 = 0;
 			float time1 = std::numeric_limits<float>::max();
 			
-			if(intersectTriangle(kdTree.triangles, rays[i], rth)){
-			//if(kdTree.hit_a_tr(&kdTree, rays[i], time1, time0, rth)){
-				intPts.push_back(rth.intersectionPoint);
-				
-				/*glColor3f(1.0,1.0,1.0);	
-				glPointSize(1);
-				glBegin(GL_POINTS);  
-				glVertex3f(rth.intersectionPoint.x, rth.intersectionPoint.y, rth.intersectionPoint.z);
-			    glEnd();*/			   
-				//Wir treffen ein Triangle in der BBox, rth ist jetzt aktualisiert und hat den genauen Punkt und die Normale
-				// hier mürde es dann mit der Rekusrion irgendwie losgehen
-
-				//Aufgabe 4
-				float bias = 0.005;
-				for(int j = 0; j < lightSources.size();j++){
-					glm::vec4 helper = lightSources[j].ambient*material.ambient;
-					//Lambert
-					glm::vec4 lightV = glm::normalize(lightSources[j].position - glm::vec4(rth.intersectionPoint, 1.f));
-
-					//Aufgabe 5
-					glm::vec3 newD = glm::normalize(glm::vec3(lightV));
-					//Ray shadowRay = Ray(rth.intersectionPoint+bias*newD, newD);
-					Ray shadowRay = Ray(rth.intersectionPoint+bias*newD, newD);
-					if(intersectTriangle(kdTree.triangles, shadowRay, RayTraceHelper())){
-					//if(kdTree.hit_a_tr(&kdTree, shadowRay, time1, time0, RayTraceHelper())){
-						//Shadow!!
-						helper += glm::vec4(0,0,0,1);
-					}else{
-						float cos = glm::dot(glm::vec4(rth.normalAtIntSec, 0.f), lightV);
-						cos = glm::max(cos,0.f);
-						//cout << "cos " << cos;
-						//Lamber Ende
-						helper += material.diffuse*lightSources[j].diffuse*cos;
-					}
-					// ENDE Aufgabe 5
-
-					color += helper;		
-				}
-				
-				color = 1/(subQ*lightSources.size())*color;
-						
+			color = rayTracer(rays[i], 0, rth, subQ);
 					
-				//TODO wie kriegen wir jetzt die Farbe?
-				//image[i].push_back(material.ambient);				
-				whites++;
-				
-			}else{
-				//Hintergrundfarbe Schwarz				
-				color += (1/subQ) * glm::vec4(0,0,0,1);
-				blacks++;
-			}			
 			
 			if((i+1) % (int)subQ == 0){
 
@@ -859,13 +824,76 @@ void World::raytrace(float x, float y, float subsampler){
 					
 	}
 
-	cout << "Balck " << blacks << "; White " << whites << endl;
-	//TODO die Farben -vektoren aus Image jetzt zu einer Textur umwandeln!	
+	
+	//die Farben -vektoren aus Image jetzt zu einer Textur umwandeln!	
 	rayTexture.loadRT(image,x,y);
 	rayTexture.generateTexture();
 
 	Context::displayTextureWindow();
 };
+
+glm::vec4 World::rayTracer(Ray ray, int depth, RayTraceHelper& rth, float subSqu){
+	
+	if(intersectTriangle(kdTree.triangles, ray, rth)){
+	//if(kdTree.hit_a_tr(&kdTree, rays[i], time1, time0, rth)){
+		glm::vec4 result;
+		float bias = 0.005;
+		if(rekDepth-depth == 0){
+			
+			intPts.push_back(rth.intersectionPoint);
+				
+			/*glColor3f(1.0,1.0,1.0);	
+			glPointSize(1);
+			glBegin(GL_POINTS);  
+			glVertex3f(rth.intersectionPoint.x, rth.intersectionPoint.y, rth.intersectionPoint.z);
+			glEnd();*/			   
+			//Wir treffen ein Triangle in der BBox, rth ist jetzt aktualisiert und hat den genauen Punkt und die Normale
+			// hier mürde es dann mit der Rekusrion irgendwie losgehen
+
+			//Aufgabe 4
+			for(int j = 0; j < lightSources.size();j++){
+				glm::vec4 helper = lightSources[j].ambient*material.ambient;
+				//Lambert
+				glm::vec4 lightV = glm::normalize(lightSources[j].position - glm::vec4(rth.intersectionPoint, 1.f));
+				//Aufgabe 5
+				glm::vec3 newD = glm::normalize(glm::vec3(lightV));
+				Ray shadowRay = Ray(rth.intersectionPoint+bias*newD, newD);				
+				if(intersectTriangle(kdTree.triangles, shadowRay, RayTraceHelper())){
+					//if(kdTree.hit_a_tr(&kdTree, shadowRay, time1, time0, RayTraceHelper())){
+					//Shadow!!
+					helper += glm::vec4(0,0,0,1);
+				}else{
+					float cos = glm::dot(glm::vec4(rth.normalAtIntSec, 0.f), lightV);
+					cos = glm::max(cos,0.f);
+					//cout << "cos " << cos;
+					//Lamber Ende
+					helper += material.diffuse*lightSources[j].diffuse*cos;
+				}
+				// ENDE Aufgabe 5
+
+				result += helper;		
+			}
+				
+			return 1/(subSqu*lightSources.size())*result;
+			// ENDE AUfgabe 4
+
+		}else{
+			//TODO Rekusrion
+			for(int j = 0; j < lightSources.size();j++){
+					result += lightSources[j].ambient*material.ambient;
+			}
+
+			glm::vec3 reflect = glm::normalize(glm::reflect(rth.intersectionPoint - ray.src, rth.normalAtIntSec));
+
+			Ray newRay = Ray(rth.intersectionPoint+bias*reflect, reflect);
+			result += rayTracer(newRay, depth+1, RayTraceHelper(), 1);
+			return result;
+		}
+	}else{
+		//Hintergrundfarbe Schwarz				
+		return (1/subSqu) * glm::vec4(0,0,0,1);
+	}
+}
 
 bool World::intersectTriangle(std::vector<Triangle> triangles, Ray ray, RayTraceHelper& rth){
 	bool res = false;

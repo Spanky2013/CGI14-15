@@ -67,5 +67,6 @@ namespace World{
   void raytrace(const float x,const float y, const float subsampler);
   std::vector<Ray> createPrimaryRays(float x, float y, float subsampling);
   bool intersectTriangle(std::vector<Triangle> triangles, Ray rays, RayTraceHelper& rth);
+  glm::vec4 rayTracer(Ray ray, int depth, RayTraceHelper& rth, float subSqu);
   Ray getRay(int x, int y, float xPixel, float yPixel);
 };	
