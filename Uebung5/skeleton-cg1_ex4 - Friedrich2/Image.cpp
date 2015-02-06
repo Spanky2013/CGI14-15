@@ -312,25 +312,22 @@ void Image::writePPM(const std::string& filename) {
 	file.open(filename);
 	if(!file.is_open()) {
 	cerr << "opening file " << filename << " failed" << endl;
-	cout << "File open err" <<endl;
 	return;
 	}
-
-	cout << "File open" << endl;
-	// Write the header
+	//fileheader
 	file << "P3" << endl;
-	// Write the width and height
+	//width,height
 	file << width << " " << height << endl;
-	// Write the max value
+	//max value
 	file << 255 << endl;
-	// Write the file data
+	//data
 	for(int y = height - 1; y >= 0; y--) {
 		for(int x = 0; x < width; x++) {
-			vec4 p = get(x, y);
-			p *= 255.0f;
-			file << (int) p.x << " " << (int) p.y << " " << (int) p.z << " ";
+			vec4 in = get(x, y);
+			in *= 255.0f;
+			file << (int) in.x << " " << (int) in.y << " " << (int) in.z << " ";
 			}
-		file << std::endl;
+		file << endl;
 	}
 	file.close();
 	cout << "Image saved" << endl;
