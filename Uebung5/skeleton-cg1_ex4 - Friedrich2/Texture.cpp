@@ -404,7 +404,7 @@ void Texture::menu(int value){
 int World::menuOptions[]= {0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17};
 string World::menuText[]= {"Draw Objects","Draw None", "KD-Calc", "Raytrace, 1Ray/Pixel", "Raytrace, 4Ray/Pixel","Raytrace, 9Ray/Pixel","Raytrace, 16Ray/Pixel", 
 	"Voreinstellungen:", "    rekursion 0", "    rekursion 1", "    rekursion 2", "    rekursion 3", 
-	"    Lighting on/off", "    Texture on/off", "    Coordinate System on/off", "    Origin on/off","Points on/off", "Create Scene"};
+	"    Lighting on/off", "    Texture on/off", "    Coordinate System on/off", "    Origin on/off","Points on/off", "Draw Lights"};
 			      // Texture Coordinate Correction on/off  ", "    Texture Mode (WRAP/CLAMP) ", "    Environment mapping on/off", "    Move object/environment", "    SilhouetteRendering"};
 
 int World::numOptions= sizeof(World::menuOptions)/sizeof(World::menuOptions[0]);
@@ -412,6 +412,7 @@ int World::numOptions= sizeof(World::menuOptions)/sizeof(World::menuOptions[0]);
 static string models[]= {"","", "data/quad.off", "data/4cow.off", "data/auto3.off", "data/bunny2.off", "data/cone.off", "data/cow.off", "data/cowboyhut.off", "data/MEGADRACHE.off", "data/Schachfigur.off", "data/tempel.off", "data/tasse.off", "data/spaceshuttle.off", "data/sphere.off"};
 
 bool showPoints = false;
+bool showLights = false;
 
 vec2 World::previousMouse;
 LightSource World::lightSource;
@@ -501,6 +502,16 @@ void World::display(void){
 	  }
 	  glEnd();
 	  glPopMatrix();
+  }
+
+  if(showLights) {
+  	for each(LightSource l in lightSources) {
+		glColor3f(l.diffuse.x, l.diffuse.y, l.diffuse.z);
+		glPushMatrix();
+		glTranslatef(l.position.x, l.position.y, l.position.z);
+		glutSolidSphere(0.05f, 20, 20);
+		glPopMatrix();
+	}
   }
 
   glScalef(scaling, scaling, scaling);
@@ -703,7 +714,7 @@ void World::menu(int value){
 	showPoints= !showPoints;
     break;
   case 17:
-	 Scene::createScene(scene);
+	 showLights = !showLights;
 	 break;
   case 18:
     mesh.correctTexture(textureCorrection);
