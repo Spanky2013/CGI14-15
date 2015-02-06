@@ -315,7 +315,7 @@ void Image::writePPM(const std::string& filename) {
 	return;
 	}
 	//fileheader
-	file << "P3" << endl;
+	file << "P6" << endl;
 	//width,height
 	file << width << " " << height << endl;
 	//max value

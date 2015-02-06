@@ -665,8 +665,8 @@ void World::menu(int value){
 	case 4: 
 	  rayTraceMode = true;
 	  tstart = clock();
-	  raytrace(50,50,2);
-	  //raytrace(screen.x,screen.y,2);
+	  //raytrace(50,50,2);
+	  raytrace(screen.x,screen.y,2);
 	  cout << "end raytrace2 after " << ((clock() - tstart)/CLOCKS_PER_SEC) << endl;	  
 	  drawRect = true;
 	  break;
