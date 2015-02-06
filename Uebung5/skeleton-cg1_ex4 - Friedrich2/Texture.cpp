@@ -838,6 +838,7 @@ glm::vec4 World::rayTracer(Ray ray, int depth, RayTraceHelper& rth, float subSqu
 	//if(kdTree.hit_a_tr(&kdTree, rays[i], time1, time0, rth)){
 		glm::vec4 result;
 		float bias = 0.005;
+		//Aufgabe 6
 		if(rekDepth-depth == 0){
 			
 			intPts.push_back(rth.intersectionPoint);
@@ -889,6 +890,7 @@ glm::vec4 World::rayTracer(Ray ray, int depth, RayTraceHelper& rth, float subSqu
 			result += rayTracer(newRay, depth+1, RayTraceHelper(), 1);
 			return result;
 		}
+		//Ende Aufgabe 6
 	}else{
 		//Hintergrundfarbe Schwarz				
 		return (1/subSqu) * glm::vec4(0,0,0,1);
