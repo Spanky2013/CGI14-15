@@ -22,12 +22,13 @@ Triangle::Triangle(glm::vec3 first, glm::vec3 second, glm::vec3 third){
 	float z = (first.z+second.z+third.z)/3;
 
 	this->midPoint = glm::vec3(x,y,z);
+}
 
-	this->normal = glm::normalize(
-				glm::cross(
-					(second - first),
-					(third - first)
-				)
-			);
+void Triangle::adNormals(glm::vec3 n1,glm::vec3 n2,glm::vec3 n3){
+	this->firN = n1;
+	this->secN = n2;
+	this->thiN = n3;
+
+	this->normal = glm::normalize(n1+n2+n3);
 
 }

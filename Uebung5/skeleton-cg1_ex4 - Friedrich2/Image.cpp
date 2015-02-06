@@ -26,10 +26,10 @@ Image::Image(int width, int height)
   : width(width)
   , height(height)
   , data(width*height)
-  , wrapS(GL_REPEAT)
+   /*,wrapS(GL_REPEAT)
   , wrapT(GL_REPEAT)
   , min(GL_LINEAR)
-  , mag(GL_LINEAR)
+  , mag(GL_LINEAR)*/
   , textureID(0)
 {}
 
@@ -55,11 +55,12 @@ void Image::generateTexture(){
   // texture filtering and repeat
   // XXX
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapS);
+	/*glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapS);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, mag);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, min);
-
+	*/
+	
   // END XXX
 
   //enable automatic mipmap generation

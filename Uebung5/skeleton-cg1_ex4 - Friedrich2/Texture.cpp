@@ -400,8 +400,8 @@ void Texture::menu(int value){
 //			   "    Texture Coordinate Correction on/off  ", "    Texture Mode (WRAP/CLAMP) ", "    Environment mapping on/off", "    Move object/environment", "    SilhouetteRendering"};
 //
 //int World::numOptions= sizeof(World::menuOptions)/sizeof(World::menuOptions[0]);
-int World::menuOptions[]= {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-string World::menuText[]= {"Draw Objects","Draw None", "KD-Calc", "Raytrace Scene", "    Lighting on/off", "    Texture on/off", "    Coordinate System on/off", "    Origin on/off","Points on/off", "Create Scene"};
+int World::menuOptions[]= {0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12};
+string World::menuText[]= {"Draw Objects","Draw None", "KD-Calc", "Raytrace, 1Ray/Pixel", "Raytrace, 4Ray/Pixel","Raytrace, 9Ray/Pixel","Raytrace, 16Ray/Pixel","    Lighting on/off", "    Texture on/off", "    Coordinate System on/off", "    Origin on/off","Points on/off", "Create Scene"};
 			      // Texture Coordinate Correction on/off  ", "    Texture Mode (WRAP/CLAMP) ", "    Environment mapping on/off", "    Move object/environment", "    SilhouetteRendering"};
 
 int World::numOptions= sizeof(World::menuOptions)/sizeof(World::menuOptions[0]);
@@ -486,7 +486,7 @@ void World::display(void){
   }
 
   if(showPoints) {
-	  glColor3f(1.0,0.0,5.0);
+	  glColor3f(0.0,5.0,5.0);
 	  glPushMatrix();
 	  glBegin(GL_POINTS);
 
@@ -642,32 +642,53 @@ void World::menu(int value){
   case 3: 
 	  rayTracer = true;
 	  tstart = clock();
-	  raytrace(10,10);
-	  raytrace(screen.x,screen.y);
-	  cout << "end raytrace after " << ((clock() - tstart)/CLOCKS_PER_SEC) << endl;	  
+	  //raytrace(50,50,2);
+	  raytrace(screen.x,screen.y,1);
+	  cout << "end raytrace1 after " << ((clock() - tstart)/CLOCKS_PER_SEC) << endl;	  
 	  drawRect = true;
 	  break;
-  case 4:
+	case 4: 
+	  rayTracer = true;
+	  tstart = clock();
+	  //raytrace(50,50,2);
+	  raytrace(screen.x,screen.y,2);
+	  cout << "end raytrace2 after " << ((clock() - tstart)/CLOCKS_PER_SEC) << endl;	  
+	  drawRect = true;
+	  break;
+	case 5: 
+	  rayTracer = true;
+	  tstart = clock();
+	  //raytrace(10,10,3);
+	  raytrace(screen.x,screen.y,3);
+	  cout << "end raytrace3 after " << ((clock() - tstart)/CLOCKS_PER_SEC) << endl;	  
+	  drawRect = true;
+	  break;
+	case 6: 
+	  rayTracer = true;
+	  tstart = clock();
+	  //raytrace(10,10,4);
+	  raytrace(screen.x,screen.y,4);
+	  cout << "end raytrace4 after " << ((clock() - tstart)/CLOCKS_PER_SEC) << endl;	  
+	  drawRect = true;
+	  break;
+  case 7:
     lighting= !lighting;
     break;
-  case 5:
+  case 8:
     showTexture= !showTexture;
     break;
-  case 6:
+  case 9:
     showCoordinates= !showCoordinates;
     break;
-  case 7:
+  case 10:
     showOrigin= !showOrigin;
     break;
-  case 8:
+  case 11:
 	showPoints= !showPoints;
     break;
-  case 9:
+  case 12:
 	 Scene::createScene(scene);
 	 break;
-  case 10:
-  case 11:
-  case 12:
   case 13:
     mesh.correctTexture(textureCorrection);
       if(models[value] == "data/bunny2.off" || models[value] == "data/cow.off" || models[value] == "data/cone.off"){ mesh.setWinding(TriMesh::CCW); }
@@ -736,46 +757,61 @@ void World::setMaterial(){
 
 // x is the amount of Pixels in one row of the image you wanna RayTrace
 // y is the Amount of Pixels in one column of the image you wanna RayTrace
-void World::raytrace(float x, float y){
+// subsampler is the amount each axis is subsampled
+void World::raytrace(float x, float y, float subsampler){
 
-	cout << "Scrren " << x << " mal " << y << endl;
+	float subQ = subsampler*subsampler;
+
+	cout << "Scrren " << x << " mal " << y << " mit " << subQ << endl;
 
 	//std::vector<std::vector<glm::vec4>> image = std::vector<std::vector<glm::vec4>>();
 	std::vector<glm::vec4> image = std::vector<glm::vec4>();
 	int blacks = 0;
 	int whites = 0;
 
-	for(int i = 0; i < y; i++){
-		//cout << i;
-		//image.push_back(std::vector<glm::vec4>());
-		for(int j = 0; j < x; j++){
-			Ray ray = getRay(j,i,x,y);
-			//if(i==j)
-			//cout<< "Ray src(" << ray.src.x << "," << ray.src.y << "," << ray.src.z << ") dir(" << ray.dir.x << "," << ray.dir.y << "," << ray.dir.z << ")" << endl; 		
-						
+	std::vector<Ray> rays = createPrimaryRays(x,y,subsampler);
+
+	glm::vec4 color = glm::vec4(0.f,0.f,0.f,0.f);
+
+	for(int i = 0; i < rays.size(); i++){		
+			//cout << i;
 			RayTraceHelper rth = RayTraceHelper();
 			float time0 = 0;
 			float time1 = std::numeric_limits<float>::max();
-
-			if(kdTree.hit_a_tr(&kdTree, ray, time1, time0, rth)){
+			
+			if(intersectTriangle(kdTree.triangles, rays[i], rth)){
+			//if(kdTree.hit_a_tr(&kdTree, rays[i], time1, time0, rth)){
 				intPts.push_back(rth.intersectionPoint);
+				glColor3f(1.0,1.0,1.0);	
+				glPointSize(1);
+				glBegin(GL_POINTS);  
+				glVertex3f(rth.intersectionPoint.x, rth.intersectionPoint.y, rth.intersectionPoint.z);
+			    glEnd();			   
 				//Wir treffen ein Triangle in der BBox, rth ist jetzt aktualisiert und hat den genauen Punkt und die Normale
 				// hier mürde es dann mit der Rekusrion irgendwie losgehen
 					
 				//TODO wie kriegen wir jetzt die Farbe?
 				//image[i].push_back(material.ambient);
-				image.push_back(glm::vec4(1,0,0,1));
+				color += (1/subQ) * glm::vec4(1,0,0,1);
 				whites++;
 				
 			}else{
 				//Hintergrundfarbe Schwarz
 				//image[i].push_back(glm::vec4(0,0,0,1));
-				image.push_back(glm::vec4(0,0,0,1));
+				color += (1/subQ) * glm::vec4(0,0,0,1);
 				blacks++;
-			}
-
+			}			
 			
-		}
+			if((i+1) % (int)subQ == 0){
+
+				image.push_back(color);
+				color.x = 0.f;
+				color.y = 0.f;
+				color.z = 0.f;
+				color.w = 0.f;
+			}
+			
+					
 	}
 
 	cout << "Balck " << blacks << "; White " << whites << endl;
@@ -786,9 +822,77 @@ void World::raytrace(float x, float y){
 	Context::displayTextureWindow();
 };
 
+bool World::intersectTriangle(std::vector<Triangle> triangles, Ray ray, RayTraceHelper rth){
+	bool res = false;
+	std::vector<glm::vec3> hitpoints;
+	for(int i = 0; i < triangles.size();i++){
+		glm::vec3 first,second,third, s, e1, e2, p, q;
+		first = triangles[i].fir;
+		second = triangles[i].sec;
+		third = triangles[i].thi;
+		s = ray.src-first;
+		e1 = second-first;
+		e2 = third-first;
+		p = glm::cross(ray.dir,e2);
+		q = glm::cross(s,e1);
+
+		float mul = 1/(glm::dot(p,e1));
+
+		float u = mul*glm::dot(p,s);
+		float v = mul*glm::dot(q,ray.dir);
+
+		if( u >= 0 && v >= 0 && u+v<=1){
+			glm::vec3 hitPoint;
+			hitPoint.x = (1-u-v)*first.x + u*second.x + v*third.x;
+			hitPoint.y = (1-u-v)*first.y + u*second.y + v*third.y;
+			hitPoint.z = (1-u-v)*first.z + u*second.z + v*third.z;
+
+			hitpoints.push_back(hitPoint);
+
+			res = true;
+		}
+	}
+	if(res){
+		int index = 0;
+		float min = std::numeric_limits<float>::max();
+		for(int i = 0; i < hitpoints.size(); i++){
+			glm::vec3 helper = hitpoints[i] - ray.src;
+			float length = glm::length(helper);
+			if(length < min){
+				min = length;
+				index = i;
+			}
+		}
+
+		rth.intersectionPoint = hitpoints[index];
+		
+	}
+	
+
+	return res;
+}
+
+std::vector<Ray> World::createPrimaryRays(float x, float y, float subsampling){
+	float xh,yh;
+	xh = x*subsampling;
+	yh = y*subsampling;
+	std::vector<Ray> result = std::vector<Ray>();
+	for(int i = 0; i < y; i++){		
+		for(int j = 0; j < x; j++){
+			for(int k = 0; k < subsampling; k++){
+				for(int l = 0; l < subsampling; l++){
+					result.push_back(World::getRay((j*subsampling)+k,(i*subsampling)+l,xh,yh));
+				}				
+			}			
+		}
+	}
+
+	return result;
+}
+
 // (x,y) is the pixel you wanna shoot at
-// xPixel is the amount of Pixels in one row of the image you wanna RayTrace (normaly x of the screen-onject))
-// yPixel is the Amount of Pixels in one column of the image you wanna RayTrace (normaly y of the screen-onject))
+// xPixel is the amount of Rays in one row of the image you wanna RayTrace (normaly x of the screen-onject))
+// yPixel is the Amount of Rays in one column of the image you wanna RayTrace (normaly y of the screen-onject))
 Ray World::getRay(int x, int y, float xPixel, float yPixel){
 
 	glm::vec3 origin = glm::vec3(0.f,0.f,0.f);
@@ -807,8 +911,7 @@ Ray World::getRay(int x, int y, float xPixel, float yPixel){
 	}else{
 		yPart = ((float) y) / (yPixel);
 	}
-	//cout << yPart << endl;
-
+	
 	//Bin mir nicht 100% sicher, ob die Berechnung 
 	//der vier seiten wirklich korrekt ist, aber ich denke schon.
 	// http://wiki.delphigl.com/index.php/Tutorial_Raytracing_-_Grundlagen_I
@@ -816,7 +919,7 @@ Ray World::getRay(int x, int y, float xPixel, float yPixel){
 
 	
 	float left, right, bottom, top;
-	float tan = glm::tan((fov/180)/2);
+	float tan = glm::tan((fov/180)/(2));
 	//cout << tan << endl;
 	/*left = -(xPixel-1)/2.f;
 	//cout << left << endl;

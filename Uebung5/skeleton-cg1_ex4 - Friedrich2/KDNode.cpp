@@ -35,11 +35,8 @@ KDNode* KDNode::build(std::vector<Triangle> triangles, int depth){
 		return node;
 	}
 
-	//Schlechter midPoint Mitte der BBox
-	glm::vec3 midPoint = node->bbox.midPoint;
-
 	//besserer midPoint
-	midPoint = glm::vec3(0,0,0);
+	glm::vec3 midPoint = glm::vec3(0,0,0);
 	for(int i = 0; i < triangles.size();i++){
 		midPoint = midPoint + ((1.f/triangles.size()) * triangles[i].midPoint);
 	}
@@ -75,73 +72,6 @@ KDNode* KDNode::build(std::vector<Triangle> triangles, int depth){
 			break;
 		}
 	}
-
-	//längste Achse ist nicht unbedingt die beste
-	//Falls Achse nichts bringt
-	/*if((leftTris.size() == 0 && rightTris.size() > 0) || (leftTris.size() > 0 && rightTris.size() == 0)){
-		leftTris.clear();
-		rightTris.clear();
-		axis = (axis + 1) % 3;
-		for(int i = 0; i < triangles.size(); i++){
-			glm::vec3 currentMidPoint = KDNode::get_midPoint_tr(triangles[i]);
-			switch (axis){
-				case 0: // x-Axis	
-					if(midPoint.x >= currentMidPoint.x){
-						rightTris.push_back(triangles[i]);
-					}else{
-						leftTris.push_back(triangles[i]);
-					}
-					break;
-				case 1: // y-axis
-					if(midPoint.y >= currentMidPoint.y){
-						rightTris.push_back(triangles[i]);
-					}else{
-						leftTris.push_back(triangles[i]);
-					}
-					break;
-				case 2: //z-Axis
-					if(midPoint.z >= currentMidPoint.z){
-						rightTris.push_back(triangles[i]);
-					}else{
-						leftTris.push_back(triangles[i]);
-					}
-					break;
-			}
-		}
-	
-		//Falls zweite Achse auch nichts gebracht hat
-		if((leftTris.size() == 0 && rightTris.size() > 0) || (leftTris.size() > 0 && rightTris.size() == 0)){
-			leftTris.clear();
-			rightTris.clear();
-			axis = (axis + 1) % 3;
-			for(int i = 0; i < triangles.size(); i++){
-				glm::vec3 currentMidPoint = KDNode::get_midPoint_tr(triangles[i]);
-				switch (axis){
-					case 0: // x-Axis	
-						if(midPoint.x >= currentMidPoint.x){
-							rightTris.push_back(triangles[i]);
-						}else{
-							leftTris.push_back(triangles[i]);
-						}
-						break;
-					case 1: // y-axis
-						if(midPoint.y >= currentMidPoint.y){
-							rightTris.push_back(triangles[i]);
-						}else{
-							leftTris.push_back(triangles[i]);
-						}
-						break;
-					case 2: //z-Axis
-						if(midPoint.z >= currentMidPoint.z){
-							rightTris.push_back(triangles[i]);
-						}else{
-							leftTris.push_back(triangles[i]);
-						}
-						break;
-				}
-			}
-		}
-	}*/
 
 	// Haben die Dreiecke in beide Hälften aufgeteilt.
 	// Jetzt kommt noch die Rekursion

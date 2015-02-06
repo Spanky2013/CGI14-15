@@ -118,6 +118,9 @@ BoundingBox BoundingBox::get_bounding_box(std::vector<Triangle> triangles){
  */
 bool BoundingBox::hit_it(Ray ray, float time0, float time1) const{
 
+	if(bBoxMax == bBoxMin)
+		return false;
+
 	glm::vec3 paras[2];
 	paras[0] = glm::vec3(this->bBoxMin.x,this->bBoxMin.y,this->bBoxMin.z);
 	paras[1] = glm::vec3(this->bBoxMax.x,this->bBoxMax.y,this->bBoxMax.z);
