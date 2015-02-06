@@ -808,17 +808,29 @@ void World::raytrace(float x, float y, float subsampler){
 				// hier mürde es dann mit der Rekusrion irgendwie losgehen
 
 				//Aufgabe 4
+				float bias = 0.005;
 				for(int j = 0; j < lightSources.size();j++){
 					glm::vec4 helper = lightSources[j].ambient*material.ambient;
 					//Lambert
-					glm::vec4 lightV = lightSources[j].position - glm::vec4(rth.intersectionPoint, 1.f);
-					//cout << lightV.x << "," << lightV.y << "," << lightV.z << endl;
-					float cos = glm::dot(glm::vec4(rth.normalAtIntSec, 0.f), glm::normalize(lightV));
-					cos = glm::max(cos,0.f);
-					//cout << "cos " << cos;
-					//Lamber Ende
-					helper += material.diffuse*lightSources[j].diffuse*cos;
-					//cout << lightV.x << "," << lightV.y << "," << lightV.z << endl;
+					glm::vec4 lightV = glm::normalize(lightSources[j].position - glm::vec4(rth.intersectionPoint, 1.f));
+
+					//Aufgabe 5
+					glm::vec3 newD = glm::normalize(glm::vec3(lightV));
+					//Ray shadowRay = Ray(rth.intersectionPoint+bias*newD, newD);
+					Ray shadowRay = Ray(rth.intersectionPoint+bias*newD, newD);
+					if(intersectTriangle(kdTree.triangles, shadowRay, RayTraceHelper())){
+					//if(kdTree.hit_a_tr(&kdTree, shadowRay, time1, time0, RayTraceHelper())){
+						//Shadow!!
+						helper += glm::vec4(0,0,0,1);
+					}else{
+						float cos = glm::dot(glm::vec4(rth.normalAtIntSec, 0.f), lightV);
+						cos = glm::max(cos,0.f);
+						//cout << "cos " << cos;
+						//Lamber Ende
+						helper += material.diffuse*lightSources[j].diffuse*cos;
+					}
+					// ENDE Aufgabe 5
+
 					color += helper;		
 				}
 				
@@ -872,10 +884,11 @@ bool World::intersectTriangle(std::vector<Triangle> triangles, Ray ray, RayTrace
 
 		float mul = 1/(glm::dot(p,e1));
 
+		float t = mul*glm::dot(q,e2);
 		float u = mul*glm::dot(p,s);
 		float v = mul*glm::dot(q,ray.dir);
 
-		if( u >= 0 && v >= 0 && u+v<=1){
+		if( u >= 0 && v >= 0 && u+v<=1 && t > 0){
 			glm::vec3 hitPoint;
 			hitPoint.x = (1-u-v)*first.x + u*second.x + v*third.x;
 			hitPoint.y = (1-u-v)*first.y + u*second.y + v*third.y;

@@ -145,7 +145,7 @@ bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, Ray
 
 //Hat der Ray in der BBox auch dieses Dreieck getroffen?
 //TODO: wozu t und tmin?
-bool KDNode::hit_ray_tr(Ray ray, Triangle tri, float t, float tmin){
+bool KDNode::hit_ray_tr(Ray ray, Triangle tri, float tmax, float tmin){
 	bool res = false;
 	
 	glm::vec3 first,second,third, s, e1, e2, p, q;
@@ -160,10 +160,11 @@ bool KDNode::hit_ray_tr(Ray ray, Triangle tri, float t, float tmin){
 
 	float mul = 1/(glm::dot(p,e1));
 
+	float t = mul*glm::dot(q,e2);
 	float u = mul*glm::dot(p,s);
 	float v = mul*glm::dot(q,ray.dir);
 
-	if( u >= 0 && v >= 0 && u+v<=1){
+		if( u >= 0 && v >= 0 && u+v<=1 && t > 0){
 		this->hitPoint.x = (1-u-v)*first.x + u*second.x + v*third.x;
 		this->hitPoint.y = (1-u-v)*first.y + u*second.y + v*third.y;
 		this->hitPoint.z = (1-u-v)*first.z + u*second.z + v*third.z;

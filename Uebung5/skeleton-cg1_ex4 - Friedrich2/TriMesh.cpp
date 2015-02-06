@@ -239,8 +239,8 @@ void TriMesh::loadOff(const string& fileName, float off){
 		}	
 	}
 	fR.close();
-	cout << "loadOff done: |V| "<<nodeCount<<" |F| "<<polyCount<<endl;
-	cout << "Positions: "<<positions.size()<<" Faces "<<faces.size()<<endl;
+	//cout << "loadOff done: |V| "<<nodeCount<<" |F| "<<polyCount<<endl;
+	//cout << "Positions: "<<positions.size()<<" Faces "<<faces.size()<<endl;
 	
 }
 
