@@ -646,8 +646,8 @@ void World::menu(int value){
   case 3: 
 	  rayTraceMode = true;
 	  tstart = clock();
-	  raytrace(50,50,1);
-	  //raytrace(screen.x,screen.y,1);
+	  //raytrace(50,50,1);
+	  raytrace(screen.x,screen.y,1);
 	  cout << "end raytrace1 after " << ((clock() - tstart)/CLOCKS_PER_SEC) << endl;	  
 	  drawRect = true;
 	  break;
@@ -993,7 +993,7 @@ Ray World::getRay(int x, int y, float xPixel, float yPixel){
 
 	
 	float left, right, bottom, top;
-	float tan = glm::tan((fov/180)/(2));
+	float tan = glm::tan((fov/180));
 	//cout << tan << endl;
 
 	left = -tan;

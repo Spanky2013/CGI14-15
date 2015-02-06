@@ -21,13 +21,13 @@ public:
 	
 	static KDNode* build(std::vector<Triangle> triangles, int depth);
 	/*glm::vec2 KDNode::get_times(Ray ray);*/
-	bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float t, float tmin, RayTraceHelper& rtHelper);
+	bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float& t, float& tmin, RayTraceHelper& rtHelper);
 
 private:
 
 	glm::vec3 hitPoint;
 
-	bool hit_ray_tr(const Ray ray, Triangle triangle, float t, float tmin, RayTraceHelper rth);
+	bool hit_ray_tr(const Ray ray, Triangle triangle, float t, float tmin, RayTraceHelper& rth);
 	glm::vec3 hitPt_ray_tr(Ray ray, Triangle tri) const;
 	glm::vec3 KDNode::hitNr_ray_tr(glm::vec3 dir, Triangle tri) const;
 };

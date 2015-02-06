@@ -98,7 +98,7 @@ KDNode* KDNode::build(std::vector<Triangle> triangles, int depth){
 
 
 // time0 ist der Eintrittspunkt in die Box, time1 der Austrittspunkt
-bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, RayTraceHelper& rtHelper){
+bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float& time1, float& time0, RayTraceHelper& rtHelper){
 	
 	//erstma: hat er überhaupt in die bbox getroffen?
 	if(node->bbox.hit_it(ray, time0, time1)){
@@ -116,7 +116,7 @@ bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, Ray
 				//Treffen wir in diesem Blatt ein Triangle
 				if(hit_ray_tr(ray, node->triangles[i],time1, time0, rtHelper)){
 					hit_tr = true;
-					//time0 = time1;
+					time1 = rtHelper.time;
 					hit_pt = hitPt_ray_tr(ray, node->triangles[i]);
 					normal = hitNr_ray_tr(ray.dir, node->triangles[i]);
 				}
@@ -147,7 +147,7 @@ bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, Ray
 
 //Hat der Ray in der BBox auch dieses Dreieck getroffen?
 //TODO: wozu t und tmin?
-bool KDNode::hit_ray_tr(Ray ray, Triangle tri, float tmax, float tmin, RayTraceHelper rth){
+bool KDNode::hit_ray_tr(Ray ray, Triangle tri, float tmax, float tmin, RayTraceHelper& rth){
 	bool res = false;
 	
 	glm::vec3 first,second,third, s, e1, e2, p, q;
@@ -166,7 +166,7 @@ bool KDNode::hit_ray_tr(Ray ray, Triangle tri, float tmax, float tmin, RayTraceH
 	float u = mul*glm::dot(p,s);
 	float v = mul*glm::dot(q,ray.dir);
 
-	if( u >= 0 && v >= 0 && u+v<=1 && t <= tmax && t >= tmin){
+	if( u >= 0 && v >= 0 && u+v<=1 && t < tmax && t >= tmin){
 
 		rth.time = t;
 
