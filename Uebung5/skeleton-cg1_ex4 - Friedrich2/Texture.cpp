@@ -821,6 +821,8 @@ void World::raytrace(float x, float y, float subsampler){
 			
 			color += rayTracer(rays[i], 0, rth, subQ);
 
+			//color = 1/(1.f*rekDepth)*color;
+
 			intPts.push_back(rth.intersectionPoint);		
 			
 			if((i+1) % (int)subQ == 0){
@@ -888,8 +890,33 @@ glm::vec4 World::rayTracer(Ray ray, int depth, RayTraceHelper& rth, float subSqu
 		}else{
 			
 			for(int j = 0; j < lightSources.size();j++){
-					result += lightSources[j].ambient*material.ambient;
+					//result += lightSources[j].ambient*material.ambient;
+				
+				glm::vec4 helper = lightSources[j].ambient*material.ambient;
+				//Lambert
+				glm::vec4 lightV = glm::normalize(lightSources[j].position - glm::vec4(rth.intersectionPoint, 1.f));
+				//Aufgabe 5
+				glm::vec3 newD = glm::normalize(glm::vec3(lightV));
+				Ray shadowRay = Ray(rth.intersectionPoint+bias*newD, newD);				
+				//if(intersectTriangle(kdTree.triangles, shadowRay, RayTraceHelper())){
+				time0 = 0;
+				time1 = std::numeric_limits<float>::max();
+				if(kdTree.hit_a_tr(&kdTree, shadowRay, time1, time0, RayTraceHelper())){
+					//Shadow!!
+					helper += glm::vec4(0,0,0,1);
+				}else{
+					float cos = glm::dot(glm::vec4(rth.normalAtIntSec, 0.f), lightV);
+					cos = glm::max(cos,0.f);
+					//cout << "cos " << cos;
+					//Lamber Ende
+					helper += material.diffuse*lightSources[j].diffuse*cos;
+				}
+				// ENDE Aufgabe 5
+
+				result += helper;		
+			
 			}
+			result =  1 /(1.f*lightSources.size()) * result;
 
 			glm::vec3 reflect = glm::normalize(glm::reflect(rth.intersectionPoint - ray.src, rth.normalAtIntSec));
 
