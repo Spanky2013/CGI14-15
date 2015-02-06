@@ -9,6 +9,7 @@ public:
 	~RayTraceHelper(void);
 	
 	glm::vec3 intersectionPoint;
+	float time;
 	glm::vec3 normalAtIntSec;
 };
 

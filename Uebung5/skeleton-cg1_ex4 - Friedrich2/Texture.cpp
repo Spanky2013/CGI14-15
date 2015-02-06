@@ -836,8 +836,8 @@ glm::vec4 World::rayTracer(Ray ray, int depth, RayTraceHelper& rth, float subSqu
 	float time0 = 0;
 	float time1 = std::numeric_limits<float>::max();
 
-	if(intersectTriangle(kdTree.triangles, ray, rth)){
-	//if(kdTree.hit_a_tr(&kdTree, ray, time1, time0, rth)){
+	//if(intersectTriangle(kdTree.triangles, ray, rth)){
+	if(kdTree.hit_a_tr(&kdTree, ray, time1, time0, rth)){
 		glm::vec4 result;
 		float bias = 0.005;
 		//Aufgabe 6
@@ -853,8 +853,10 @@ glm::vec4 World::rayTracer(Ray ray, int depth, RayTraceHelper& rth, float subSqu
 				//Aufgabe 5
 				glm::vec3 newD = glm::normalize(glm::vec3(lightV));
 				Ray shadowRay = Ray(rth.intersectionPoint+bias*newD, newD);				
-				if(intersectTriangle(kdTree.triangles, shadowRay, RayTraceHelper())){
-					//if(kdTree.hit_a_tr(&kdTree, shadowRay, time1, time0, RayTraceHelper())){
+				//if(intersectTriangle(kdTree.triangles, shadowRay, RayTraceHelper())){
+				time0 = 0;
+				time1 = std::numeric_limits<float>::max();
+				if(kdTree.hit_a_tr(&kdTree, shadowRay, time1, time0, RayTraceHelper())){
 					//Shadow!!
 					helper += glm::vec4(0,0,0,1);
 				}else{

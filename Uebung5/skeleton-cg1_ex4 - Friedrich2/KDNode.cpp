@@ -4,6 +4,8 @@
 #include "RayTraceHelper.hpp"
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <string>
+#include <iostream>
 
 KDNode::KDNode()
 {
@@ -47,6 +49,8 @@ KDNode* KDNode::build(std::vector<Triangle> triangles, int depth){
 	int axis = node->bbox.get_longest_axis();
 	
 	for(int i = 0; i < triangles.size(); i++){
+	//	if(triangles[i].fir.x == 1)
+		//	std::cout << "stop";
 		glm::vec3 currentMidPoint = triangles[i].midPoint;
 		switch (axis){
 		case 0: // x-Axis	
@@ -76,20 +80,17 @@ KDNode* KDNode::build(std::vector<Triangle> triangles, int depth){
 	// Haben die Dreiecke in beide Hälften aufgeteilt.
 	// Jetzt kommt noch die Rekursion
 
-	if(node->triangles.size() != leftTris.size() && leftTris.size() > 50)
+	if(rightTris.size() > 50 && leftTris.size() > 50){
 		node->left = build(leftTris,depth+1);
-	else{
+		node->right = build(rightTris,depth+1);
+	}else{
 		node->left = new KDNode();
 		node->left->triangles = std::vector<Triangle>();
-	}
-
-	if(node->triangles.size() != rightTris.size() && rightTris.size() > 50)
-		node->right = build(rightTris,depth+1);
-	else{
-		
 		node->right = new KDNode();
 		node->right->triangles = std::vector<Triangle>();
 	}
+
+	
 
 	return node;
 
@@ -113,14 +114,15 @@ bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, Ray
 		// Wir sind in ienem Blatt
 			for(int i = 0; i < node->triangles.size(); i++){
 				//Treffen wir in diesem Blatt ein Triangle
-				if(hit_ray_tr(ray, node->triangles[i],time1, time0)){
+				if(hit_ray_tr(ray, node->triangles[i],time1, time0, rtHelper)){
 					hit_tr = true;
-					time0 = time1;
+					//time0 = time1;
 					hit_pt = hitPt_ray_tr(ray, node->triangles[i]);
 					normal = hitNr_ray_tr(ray.dir, node->triangles[i]);
 				}
 			}
 			if(hit_tr){//Wir haben gerade ein Triangle getroffen und geben jetzt die wichtigen Dinge zurück
+				//rtHelper.time = time0;
 				rtHelper.intersectionPoint = hit_pt;
 				rtHelper.normalAtIntSec = normal;
 				return true;
@@ -145,7 +147,7 @@ bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, Ray
 
 //Hat der Ray in der BBox auch dieses Dreieck getroffen?
 //TODO: wozu t und tmin?
-bool KDNode::hit_ray_tr(Ray ray, Triangle tri, float tmax, float tmin){
+bool KDNode::hit_ray_tr(Ray ray, Triangle tri, float tmax, float tmin, RayTraceHelper rth){
 	bool res = false;
 	
 	glm::vec3 first,second,third, s, e1, e2, p, q;
@@ -165,6 +167,9 @@ bool KDNode::hit_ray_tr(Ray ray, Triangle tri, float tmax, float tmin){
 	float v = mul*glm::dot(q,ray.dir);
 
 	if( u >= 0 && v >= 0 && u+v<=1 && t <= tmax && t >= tmin){
+
+		rth.time = t;
+
 		this->hitPoint.x = (1-u-v)*first.x + u*second.x + v*third.x;
 		this->hitPoint.y = (1-u-v)*first.y + u*second.y + v*third.y;
 		this->hitPoint.z = (1-u-v)*first.z + u*second.z + v*third.z;

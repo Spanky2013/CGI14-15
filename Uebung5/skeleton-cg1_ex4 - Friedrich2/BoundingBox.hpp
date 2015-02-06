@@ -21,7 +21,7 @@ public:
 
 	glm::vec2 get_times(Ray ray) const;
 	int get_longest_axis() const;
-	bool hit_it(Ray ray, float time0, float time1) const;
+	bool hit_it(Ray ray, float& time0, float& time1) const;
 	static BoundingBox get_bounding_box(std::vector<Triangle> triangles);
 };
 

@@ -26,18 +26,18 @@ BoundingBox::BoundingBox( glm::vec3 boundingBoxMin, glm::vec3 boundingBoxMax){
 
 // 0 = x-axis, 1 = y-Axis, 2 = z-axis
 int BoundingBox::get_longest_axis() const{
-	float x = abs(this->bBoxMax.x - this->bBoxMin.x);
-	float y = abs(this->bBoxMax.y - this->bBoxMin.y);
-	float z = abs(this->bBoxMax.z - this->bBoxMin.z);
+	float x = abs(this->bBoxMin.x-this->bBoxMax.x);
+	float y = abs(this->bBoxMin.y-this->bBoxMax.y);
+	float z = abs(this->bBoxMin.z-this->bBoxMax.z);
 
-	if(x > y){
-		if(x>z){
+	if(x >= y){
+		if(x>=z){
 			return 0;
 		}else{
 			return 2;
 		}
 	}else{
-		if(y > z){
+		if(y >= z){
 			return 1;
 		}else{
 			return 2;
@@ -116,7 +116,7 @@ BoundingBox BoundingBox::get_bounding_box(std::vector<Triangle> triangles){
  *      Journal of graphics tools, 10(1):49-54, 2005
  *
  */
-bool BoundingBox::hit_it(Ray ray, float time0, float time1) const{
+bool BoundingBox::hit_it(Ray ray, float& time0, float& time1) const{
 
 	if(bBoxMax == bBoxMin)
 		return false;
@@ -152,7 +152,14 @@ bool BoundingBox::hit_it(Ray ray, float time0, float time1) const{
 	if (tzmax < txmax)
 		txmax = tzmax;
 
-	return ( (txmin < time1) && (txmax > time0) );
+	bool result = ( (txmin < time1) && (txmax > time0) );
+
+	/*if(result){
+		time0 = txmin;
+		time1 = txmax;
+	}*/
+
+	return result;
 
 }
 
