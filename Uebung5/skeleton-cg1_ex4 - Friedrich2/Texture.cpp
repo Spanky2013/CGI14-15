@@ -654,8 +654,8 @@ void World::menu(int value){
 	case 4: 
 	  rayTraceMode = true;
 	  tstart = clock();
-	  //raytrace(50,50,2);
-	  raytrace(screen.x,screen.y,2);
+	  raytrace(50,50,2);
+	  //raytrace(screen.x,screen.y,2);
 	  cout << "end raytrace2 after " << ((clock() - tstart)/CLOCKS_PER_SEC) << endl;	  
 	  drawRect = true;
 	  break;
@@ -764,7 +764,7 @@ void World::setLight(){
   //lightSource.specular= vec4(1,1,1,1);
   lightSources.push_back(lightSource);
 
-   lightSource.position= vec4(-1.f,0.2f,1.f,1.f);
+  lightSource.position= vec4(-1.f,0.2f,1.f,1.f);
   lightSource.ambient= vec4(0.1f,0.1f,0.1f,1.f);
   lightSource.diffuse= vec4(0.5f,1.f,0.f,1.f);
   //lightSource.specular= vec4(1,1,1,1);
@@ -806,11 +806,11 @@ void World::raytrace(float x, float y, float subsampler){
 	for(int i = 0; i < rays.size(); i++){		
 			//cout << i;
 			RayTraceHelper rth = RayTraceHelper();
-			float time0 = 0;
-			float time1 = std::numeric_limits<float>::max();
 			
-			color = rayTracer(rays[i], 0, rth, subQ);
-					
+			
+			color += rayTracer(rays[i], 0, rth, subQ);
+
+			intPts.push_back(rth.intersectionPoint);		
 			
 			if((i+1) % (int)subQ == 0){
 
@@ -833,21 +833,15 @@ void World::raytrace(float x, float y, float subsampler){
 };
 
 glm::vec4 World::rayTracer(Ray ray, int depth, RayTraceHelper& rth, float subSqu){
-	
+	float time0 = 0;
+	float time1 = std::numeric_limits<float>::max();
+
 	if(intersectTriangle(kdTree.triangles, ray, rth)){
-	//if(kdTree.hit_a_tr(&kdTree, rays[i], time1, time0, rth)){
+	//if(kdTree.hit_a_tr(&kdTree, ray, time1, time0, rth)){
 		glm::vec4 result;
 		float bias = 0.005;
 		//Aufgabe 6
-		if(rekDepth-depth == 0){
-			
-			intPts.push_back(rth.intersectionPoint);
-				
-			/*glColor3f(1.0,1.0,1.0);	
-			glPointSize(1);
-			glBegin(GL_POINTS);  
-			glVertex3f(rth.intersectionPoint.x, rth.intersectionPoint.y, rth.intersectionPoint.z);
-			glEnd();*/			   
+		if(rekDepth-depth == 0){					   
 			//Wir treffen ein Triangle in der BBox, rth ist jetzt aktualisiert und hat den genauen Punkt und die Normale
 			// hier mürde es dann mit der Rekusrion irgendwie losgehen
 
@@ -879,7 +873,7 @@ glm::vec4 World::rayTracer(Ray ray, int depth, RayTraceHelper& rth, float subSqu
 			// ENDE AUfgabe 4
 
 		}else{
-			//TODO Rekusrion
+			
 			for(int j = 0; j < lightSources.size();j++){
 					result += lightSources[j].ambient*material.ambient;
 			}
@@ -999,15 +993,7 @@ Ray World::getRay(int x, int y, float xPixel, float yPixel){
 	float left, right, bottom, top;
 	float tan = glm::tan((fov/180)/(2));
 	//cout << tan << endl;
-	/*left = -(xPixel-1)/2.f;
-	//cout << left << endl;
-	right = (xPixel-1)/2.f;
-	//cout << right << endl;
-	top = -(yPixel-1)/2.f;
-	//cout << top << endl;
-	bottom = (yPixel-1)/2.f;
-	//cout << bottom << endl;
-	*/
+
 	left = -tan;
 	//cout << left << endl;
 	right = tan;

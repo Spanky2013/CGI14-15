@@ -115,7 +115,7 @@ bool KDNode::hit_a_tr(KDNode* node, const Ray ray, float time1, float time0, Ray
 				//Treffen wir in diesem Blatt ein Triangle
 				if(hit_ray_tr(ray, node->triangles[i],time1, time0)){
 					hit_tr = true;
-					//time0 = time1;
+					time0 = time1;
 					hit_pt = hitPt_ray_tr(ray, node->triangles[i]);
 					normal = hitNr_ray_tr(ray.dir, node->triangles[i]);
 				}
@@ -164,7 +164,7 @@ bool KDNode::hit_ray_tr(Ray ray, Triangle tri, float tmax, float tmin){
 	float u = mul*glm::dot(p,s);
 	float v = mul*glm::dot(q,ray.dir);
 
-		if( u >= 0 && v >= 0 && u+v<=1 && t > 0){
+	if( u >= 0 && v >= 0 && u+v<=1 && t <= tmax && t >= tmin){
 		this->hitPoint.x = (1-u-v)*first.x + u*second.x + v*third.x;
 		this->hitPoint.y = (1-u-v)*first.y + u*second.y + v*third.y;
 		this->hitPoint.z = (1-u-v)*first.z + u*second.z + v*third.z;
