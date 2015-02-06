@@ -74,6 +74,9 @@ public:
   inline int getHeight() const {
 	  return height;
   }
+
+    void writePPM(const std::string& filename);
+
 protected:
 
   // image data
@@ -95,4 +98,5 @@ protected:
 
   // parse ppm format
   void loadPPM(const std::string& filename);
+
 };

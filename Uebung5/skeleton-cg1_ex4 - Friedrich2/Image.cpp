@@ -305,3 +305,33 @@ void Image::save(const std::string &filename){
  
   cout << "File saved.";
 }
+
+
+void Image::writePPM(const std::string& filename) {
+	ofstream file;//(filename.c_str(), ios::binary);
+	file.open(filename);
+	if(!file.is_open()) {
+	cerr << "opening file " << filename << " failed" << endl;
+	cout << "File open err" <<endl;
+	return;
+	}
+
+	cout << "File open" << endl;
+	// Write the header
+	file << "P3" << endl;
+	// Write the width and height
+	file << width << " " << height << endl;
+	// Write the max value
+	file << 255 << endl;
+	// Write the file data
+	for(int y = height - 1; y >= 0; y--) {
+		for(int x = 0; x < width; x++) {
+			vec4 p = get(x, y);
+			p *= 255.0f;
+			file << (int) p.x << " " << (int) p.y << " " << (int) p.z << " ";
+			}
+		file << std::endl;
+	}
+	file.close();
+	cout << "Image saved" << endl;
+}

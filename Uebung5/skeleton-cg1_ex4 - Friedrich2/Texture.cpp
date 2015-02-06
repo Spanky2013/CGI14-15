@@ -401,10 +401,10 @@ void Texture::menu(int value){
 //			   "    Texture Coordinate Correction on/off  ", "    Texture Mode (WRAP/CLAMP) ", "    Environment mapping on/off", "    Move object/environment", "    SilhouetteRendering"};
 //
 //int World::numOptions= sizeof(World::menuOptions)/sizeof(World::menuOptions[0]);
-int World::menuOptions[]= {0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17};
+int World::menuOptions[]= {0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19};
 string World::menuText[]= {"Draw Objects","Draw None", "KD-Calc", "Raytrace, 1Ray/Pixel", "Raytrace, 4Ray/Pixel","Raytrace, 9Ray/Pixel","Raytrace, 16Ray/Pixel", 
 	"Voreinstellungen:", "    rekursion 0", "    rekursion 1", "    rekursion 2", "    rekursion 3", 
-	"    Lighting on/off", "    Texture on/off", "    Coordinate System on/off", "    Origin on/off","Points on/off", "Draw Lights"};
+	"    Lighting on/off", "    Texture on/off", "    Coordinate System on/off", "    Origin on/off","Points on/off", "Draw Lights","Motion Blur","Save Image"};
 			      // Texture Coordinate Correction on/off  ", "    Texture Mode (WRAP/CLAMP) ", "    Environment mapping on/off", "    Move object/environment", "    SilhouetteRendering"};
 
 int World::numOptions= sizeof(World::menuOptions)/sizeof(World::menuOptions[0]);
@@ -459,7 +459,7 @@ void World::display(void){
   glEnable(GL_DEPTH_TEST);
 
   // shift object
-  glTranslatef(shift.x, shift.y, shift.z);
+  //glTranslatef(shift.x, shift.y, shift.z);
 
   // rotate Object
   glMultMatrixf(&rotation[0][0]);
@@ -514,7 +514,7 @@ void World::display(void){
 	}
   }
 
-  glScalef(scaling, scaling, scaling);
+ // glScalef(scaling, scaling, scaling);
 	
      if(!drawMesh){
      glutSwapBuffers();
@@ -590,13 +590,13 @@ Context::displayWorldWindow();
 void World::mouseDragged(int x, int y){
 
   vec2 v= (vec2(x,y) - previousMouse) / screen;
-  
+  cout << "Maus "<< previousMouse.x << " " << previousMouse.y << endl;
 	switch(drag){
 	case ROTATE:
 	  if(length(v)==0) break;
 	  rotation= rotate(mat4(1), RADIANS(180 * length(v)), normalize(vec3(v.y, v.x, 0))) * rotation;
 		break;
-	case SHIFT_XY:
+	/*case SHIFT_XY:
 	  if(false){
 	    shift.x+= 3.3f*v.x;
 	    shift.y-= 3.3f*v.y;	
@@ -608,7 +608,7 @@ void World::mouseDragged(int x, int y){
 		break;
 	case SHIFT_Z:
 	 shift.z+= 3.3f*sign(dot(v, vec2(1,1))) * length(v);
-	  break;
+	  break;*/
 	default:
 	  break;
 	}
@@ -716,29 +716,35 @@ void World::menu(int value){
   case 17:
 	 showLights = !showLights;
 	 break;
+  //case 18:
+  //  mesh.correctTexture(textureCorrection);
+  //    if(models[value] == "data/bunny2.off" || models[value] == "data/cow.off" || models[value] == "data/cone.off"){ mesh.setWinding(TriMesh::CCW); }
+  //  else mesh.setWinding(TriMesh::CW);
+  //  mesh.loadOff(models[value]);
+  //  mesh.center();
+  //  mesh.unitize();
+  //  mesh.computeNormals();
+  //  mesh.computeSphereUVs();
+  //  drawRect= false;
+  //  drawMesh= true;
+  //  break;
   case 18:
-    mesh.correctTexture(textureCorrection);
-      if(models[value] == "data/bunny2.off" || models[value] == "data/cow.off" || models[value] == "data/cone.off"){ mesh.setWinding(TriMesh::CCW); }
-    else mesh.setWinding(TriMesh::CW);
-    mesh.loadOff(models[value]);
-    mesh.center();
-    mesh.unitize();
-    mesh.computeNormals();
-    mesh.computeSphereUVs();
-    drawRect= false;
-    drawMesh= true;
-    break;
+	  //raytrace(screen.x,screen.y,1); 
+	  drag = ROTATE;
+	World::mouseDragged(260,270);
+  //case 19:
+  //  textureCorrection= !textureCorrection;
+  //  // enable/disable texture correction in Image (not obligatory, but useful for debugging)
+  //  textureCorrection= !textureCorrection;
+  //  mesh.correctTexture(textureCorrection);
+  //  mesh.reload();
+  //  mesh.center();
+  //  mesh.unitize();
+  //  mesh.computeNormals();
+  //  mesh.computeSphereUVs();
+  //  break;
   case 19:
-    textureCorrection= !textureCorrection;
-    // enable/disable texture correction in Image (not obligatory, but useful for debugging)
-    textureCorrection= !textureCorrection;
-    mesh.correctTexture(textureCorrection);
-    mesh.reload();
-    mesh.center();
-    mesh.unitize();
-    mesh.computeNormals();
-    mesh.computeSphereUVs();
-    break;
+	  rayTexture.writePPM("saveFile.ppm");
   case 20:
     // set texture wrapping in Image (not obligatory, but useful for debugging)
     if(wrap==GL_REPEAT) wrap= GL_CLAMP_TO_BORDER;
